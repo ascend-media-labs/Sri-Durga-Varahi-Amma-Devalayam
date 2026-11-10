@@ -160,6 +160,13 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    text-align: justify;
+    text-justify: inter-word;
+  }
+
+  p {
+    text-align: justify;
+    text-justify: inter-word;
   }
 }
 
@@ -177,6 +184,7 @@ body {
 section[id] { scroll-margin-top: 5rem; }
 
 @utility bg-saffron { background-image: var(--gradient-saffron); }
+@utility text-justify { text-align: justify; text-justify: inter-word; }
 @utility shadow-temple { box-shadow: var(--shadow-temple); }
 @utility temple-border {
   border-top: 3px double var(--gold);

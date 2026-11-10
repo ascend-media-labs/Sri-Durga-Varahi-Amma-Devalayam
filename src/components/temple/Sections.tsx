@@ -78,7 +78,7 @@ export function About() {
               <span className="h-1.5 w-1.5 rotate-45 bg-primary" />
               <span className="h-0.5 w-6 bg-gold/60" />
             </div>
-            <p className="font-serif text-sm sm:text-base lg:text-lg leading-relaxed text-foreground/90">
+            <p className="font-serif text-sm sm:text-base lg:text-lg leading-relaxed text-foreground/90 text-justify">
               {t.aboutText}
             </p>
             <ul className="mt-3.5 space-y-2 text-xs sm:text-sm lg:text-base font-medium text-foreground/85">
@@ -108,7 +108,7 @@ export function History() {
           {t.history.map((h) => (
             <div key={h.year} className="temple-border rounded-xl bg-card p-3.5 sm:p-4 text-center shadow-temple">
               <p className="font-display text-base sm:text-lg font-bold text-primary">{h.year}</p>
-              <p className="mt-1.5 text-xs sm:text-sm text-muted-foreground leading-relaxed">{h.text}</p>
+              <p className="mt-1.5 text-xs sm:text-sm text-muted-foreground leading-relaxed text-justify">{h.text}</p>
             </div>
           ))}
         </div>
@@ -266,7 +266,7 @@ export function Pujas() {
                 <Clock className="h-3 w-3 text-gold" />
                 {p.time}
               </p>
-              <p className="mt-1 flex-1 text-xs leading-relaxed text-muted-foreground">{p.desc}</p>
+              <p className="mt-1 flex-1 text-xs leading-relaxed text-muted-foreground text-justify">{p.desc}</p>
               <a
                 href="#contact"
                 className="mt-3 rounded-full border border-primary py-1 text-center text-xs font-semibold text-primary transition group-hover:bg-primary group-hover:text-primary-foreground"
@@ -412,7 +412,7 @@ export function Prasadam() {
             />
           </div>
           <div>
-            <p className="font-serif text-sm sm:text-base lg:text-lg leading-relaxed text-foreground">{t.prasadamText}</p>
+            <p className="font-serif text-sm sm:text-base lg:text-lg leading-relaxed text-foreground text-justify">{t.prasadamText}</p>
             <div className="mt-4 grid grid-cols-2 gap-2.5">
               {t.prasadams.map(([n, d]) => (
                 <div key={n} className="rounded-lg border-l-4 border-primary bg-card p-3 shadow-xs">
@@ -439,7 +439,7 @@ export function Slokhas() {
             <div key={s.title} className="temple-border rounded-xl bg-card p-4 sm:p-5 text-center">
               <p className="font-display text-xs sm:text-sm font-bold uppercase tracking-wider text-primary">{s.title}</p>
               <p className="mt-2.5 font-serif text-base sm:text-lg italic leading-relaxed">“{s.text}”</p>
-              <p className="mt-2.5 text-xs text-muted-foreground">{s.meaning}</p>
+              <p className="mt-2.5 text-xs text-muted-foreground text-justify">{s.meaning}</p>
             </div>
           ))}
         </div>
@@ -513,7 +513,7 @@ export function Contact() {
                   <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-secondary text-primary border border-gold/30 shadow-xs">
                     <MessageSquare className="h-4.5 w-4.5 text-primary" />
                   </span>
-                  <p className="text-xs sm:text-sm text-muted-foreground pt-1.5 leading-relaxed">
+                  <p className="text-xs sm:text-sm text-muted-foreground pt-1.5 leading-relaxed text-justify">
                     {c.friendlyTeam}
                   </p>
                 </div>
