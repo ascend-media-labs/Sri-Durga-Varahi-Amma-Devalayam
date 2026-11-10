@@ -58,9 +58,9 @@
   --color-ring: var(--ring);
   --color-gold: var(--gold);
   --color-maroon: var(--maroon);
-  --font-display: "Cinzel", "Noto Serif Telugu", serif;
-  --font-serif: "Cormorant Garamond", "Noto Serif Telugu", serif;
-  --font-sans: "Mukta", "Noto Sans Telugu", sans-serif;
+  --font-display: "Inter", "Noto Sans Telugu", sans-serif;
+  --font-serif: "Inter", "Noto Sans Telugu", sans-serif;
+  --font-sans: "Inter", "Noto Sans Telugu", sans-serif;
   --color-ring-offset-background: var(--background);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
