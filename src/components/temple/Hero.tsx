@@ -18,7 +18,7 @@ export function Hero() {
   }, [n]);
 
   return (
-    <section id="home" className="relative h-[78vh] sm:h-[82vh] md:h-[85vh] min-h-[480px] sm:min-h-[520px] max-h-[850px] overflow-hidden">
+    <section id="home" className="relative h-[82vh] sm:h-[86vh] md:h-[90vh] min-h-[500px] sm:min-h-[540px] max-h-[880px] overflow-hidden">
       {images.map((src, idx) => (
         <img
           key={src}
@@ -26,11 +26,11 @@ export function Hero() {
           alt={t.slides[idx]?.title}
           width={1920}
           height={1088}
-          className={`absolute inset-0 h-full w-full object-cover transition-all duration-[1500ms] ${idx === i ? "scale-100 opacity-100" : "scale-108 opacity-0"}`}
+          className={`absolute inset-0 h-full w-full object-cover object-top origin-top transition-all duration-[1500ms] ${idx === i ? "scale-100 opacity-100" : "scale-105 opacity-0"}`}
         />
       ))}
-      <div className="absolute inset-0 bg-gradient-to-t from-maroon/90 via-maroon/40 to-maroon/20" />
-      <div key={i} className="relative z-10 mx-auto flex h-full max-w-5xl flex-col items-center justify-center px-4 sm:px-6 text-center text-primary-foreground">
+      <div className="absolute inset-0 bg-gradient-to-t from-maroon/95 via-maroon/30 to-maroon/10" />
+      <div key={i} className="relative z-10 mx-auto flex h-full max-w-5xl flex-col items-center justify-end pb-12 sm:pb-16 md:pb-20 px-4 sm:px-6 text-center text-primary-foreground">
         <p className="fade-up text-sm sm:text-base md:text-lg tracking-wider text-gold font-medium">ॐ श्री वाराह्यै नमः</p>
         <h1 className="fade-up mt-2 sm:mt-3 md:mt-4 font-display text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold drop-shadow-lg leading-tight">
           {t.slides[i]?.title}
