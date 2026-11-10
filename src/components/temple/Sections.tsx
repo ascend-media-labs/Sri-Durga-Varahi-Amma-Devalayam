@@ -104,7 +104,7 @@ export function History() {
     <section id="history" className="bg-secondary py-5 md:py-6">
       <div className="mx-auto max-w-6xl lg:max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionTitle className="mb-3 sm:mb-4">{t.historyTitle}</SectionTitle>
-        <div className="grid gap-3 sm:gap-4 md:grid-cols-4">
+        <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
           {t.history.map((h) => (
             <div key={h.year} className="temple-border rounded-xl bg-card p-3.5 sm:p-4 text-center shadow-temple">
               <p className="font-display text-base sm:text-lg font-bold text-primary">{h.year}</p>
@@ -434,7 +434,7 @@ export function Slokhas() {
     <section id="info" className="bg-secondary py-5 md:py-7">
       <div className="mx-auto max-w-6xl lg:max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionTitle className="mb-3 sm:mb-4">{t.slokhaTitle}</SectionTitle>
-        <div className="grid gap-3.5 sm:gap-4 md:grid-cols-3">
+        <div className="grid gap-3.5 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {t.slokhas.map((s) => (
             <div key={s.title} className="temple-border rounded-xl bg-card p-4 sm:p-5 text-center">
               <p className="font-display text-xs sm:text-sm font-bold uppercase tracking-wider text-primary">{s.title}</p>

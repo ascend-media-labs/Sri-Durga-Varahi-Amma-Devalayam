@@ -109,15 +109,15 @@ export function Navbar({ onLogin }: { onLogin: () => void }) {
           </div>
         </a>
 
-        {/* Desktop Navigation Links */}
-        <nav className="hidden items-center gap-1.5 lg:flex xl:gap-2">
+        {/* Desktop Navigation Links - Responsive for 13", 14", 15", 16", 17"+ screens */}
+        <nav className="hidden items-center gap-1 lg:flex xl:gap-2">
           {navItems.map(([k, id]) => {
             const isActive = active === id;
             return (
               <a
                 key={k}
                 href={`#${id}`}
-                className={`relative rounded-full px-3 py-1.5 text-xs xl:text-sm font-medium transition-all duration-200 ${
+                className={`relative rounded-full px-2.5 py-1 text-xs xl:px-3.5 xl:py-1.5 xl:text-sm font-medium transition-all duration-200 whitespace-nowrap ${
                   isActive
                     ? "bg-primary/10 text-primary font-semibold ring-1 ring-gold/50 shadow-xs"
                     : "text-foreground/80 hover:bg-gold/15 hover:text-primary"
@@ -130,17 +130,17 @@ export function Navbar({ onLogin }: { onLogin: () => void }) {
         </nav>
 
         {/* Right CTA / Language & Login */}
-        <div className="hidden items-center gap-2 lg:flex shrink-0">
+        <div className="hidden items-center gap-1.5 lg:flex xl:gap-2 shrink-0">
           <button
             onClick={toggle}
-            className="flex items-center gap-1.5 rounded-full border border-primary/30 px-3 py-1.5 text-xs xl:text-sm font-medium text-primary transition-colors hover:bg-secondary"
+            className="flex items-center gap-1 rounded-full border border-primary/30 px-2.5 py-1 text-xs xl:px-3.5 xl:py-1.5 xl:text-sm font-medium text-primary transition-colors hover:bg-secondary"
           >
             <Languages className="h-3.5 w-3.5 text-gold" />
             <span>{t.langLabel}</span>
           </button>
           <button
             onClick={onLogin}
-            className="flex items-center gap-1.5 rounded-full bg-saffron px-4 py-1.5 text-xs xl:text-sm font-semibold text-primary-foreground shadow-temple transition-all hover:brightness-105"
+            className="flex items-center gap-1 rounded-full bg-saffron px-3 py-1 text-xs xl:px-4 xl:py-1.5 xl:text-sm font-semibold text-primary-foreground shadow-temple transition-all hover:brightness-105"
           >
             <User className="h-3.5 w-3.5" />
             <span>{t.login}</span>
