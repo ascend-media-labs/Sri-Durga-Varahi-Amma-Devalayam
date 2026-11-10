@@ -18,7 +18,7 @@ export function Hero() {
   }, [n]);
 
   return (
-    <section id="home" className="relative h-[82vh] sm:h-[86vh] md:h-[90vh] min-h-[500px] sm:min-h-[540px] max-h-[880px] overflow-hidden">
+    <section id="home" className="relative h-[76vh] sm:h-[80vh] md:h-[84vh] lg:h-[88vh] min-h-[480px] sm:min-h-[520px] max-h-[840px] overflow-hidden">
       {images.map((src, idx) => (
         <img
           key={src}
@@ -30,20 +30,20 @@ export function Hero() {
         />
       ))}
       <div className="absolute inset-0 bg-gradient-to-t from-maroon/95 via-maroon/30 to-maroon/10" />
-      <div key={i} className="relative z-10 mx-auto flex h-full max-w-5xl flex-col items-center justify-end pb-12 sm:pb-16 md:pb-20 px-4 sm:px-6 text-center text-primary-foreground">
-        <p className="fade-up text-sm sm:text-base md:text-lg tracking-wider text-gold font-medium">ॐ श्री वाराह्यै नमः</p>
-        <h1 className="fade-up mt-2 sm:mt-3 md:mt-4 font-display text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold drop-shadow-lg leading-tight">
+      <div key={i} className="relative z-10 mx-auto flex h-full max-w-5xl flex-col items-center justify-end pb-8 sm:pb-10 md:pb-12 lg:pb-14 xl:pb-16 px-4 sm:px-6 text-center text-primary-foreground">
+        <p className="fade-up text-xs sm:text-sm md:text-base lg:text-lg tracking-wider text-gold font-medium">ॐ श्री वाराह्यै नमः</p>
+        <h1 className="fade-up mt-1.5 sm:mt-2.5 md:mt-3 font-display text-xl sm:text-2xl md:text-4xl lg:text-5xl xl:text-6xl font-bold drop-shadow-lg leading-tight">
           {t.slides[i]?.title}
         </h1>
-        <div className="fade-up my-3 sm:my-4 md:my-5 h-px w-28 sm:w-36 md:w-44 bg-gold" />
-        <p className="fade-up font-serif text-base sm:text-lg md:text-xl lg:text-2xl italic max-w-3xl leading-relaxed">
+        <div className="fade-up my-2.5 sm:my-3.5 md:my-4 h-px w-24 sm:w-32 md:w-40 bg-gold" />
+        <p className="fade-up font-serif text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl italic max-w-3xl leading-relaxed">
           {t.slides[i]?.tag}
         </p>
-        <div className="fade-up mt-5 sm:mt-7 md:mt-8 flex flex-wrap justify-center gap-3 sm:gap-4">
-          <a href="#puja" className="rounded-full bg-saffron px-5 py-2.5 sm:px-7 sm:py-3 text-sm sm:text-base font-semibold shadow-temple ring-2 ring-gold/70 hover:opacity-90 transition-opacity">
+        <div className="fade-up mt-4 sm:mt-6 md:mt-7 flex flex-wrap justify-center gap-2.5 sm:gap-3.5">
+          <a href="#puja" className="rounded-full bg-saffron px-4 py-2 sm:px-6 sm:py-2.5 md:px-7 md:py-3 text-xs sm:text-sm md:text-base font-semibold shadow-temple ring-2 ring-gold/70 hover:opacity-90 transition-opacity">
             {t.bookPuja}
           </a>
-          <a href="#gallery" className="rounded-full border-2 border-gold px-5 py-2.5 sm:px-7 sm:py-3 text-sm sm:text-base font-semibold text-gold hover:bg-gold hover:text-maroon transition-colors">
+          <a href="#gallery" className="rounded-full border-2 border-gold px-4 py-2 sm:px-6 sm:py-2.5 md:px-7 md:py-3 text-xs sm:text-sm md:text-base font-semibold text-gold hover:bg-gold hover:text-maroon transition-colors">
             {t.explore}
           </a>
         </div>

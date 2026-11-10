@@ -51,11 +51,11 @@ export function About() {
   const { t } = useLang();
   return (
     <section id="about" className="kolam-bg py-5 md:py-6 border-b border-border/60">
-      <div className="mx-auto max-w-6xl lg:max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid items-center gap-6 sm:gap-8 md:grid-cols-12 md:gap-8 lg:gap-12">
-          {/* Left Column: Compact Arch Image */}
+      <div className="mx-auto max-w-7xl xl:max-w-[1360px] 2xl:max-w-[1520px] px-4 sm:px-6 md:px-8 lg:px-10">
+        <div className="grid items-center gap-6 sm:gap-8 md:grid-cols-12 md:gap-8 lg:gap-12 xl:gap-16">
+          {/* Left Column: Responsive Sacred Arch Image */}
           <div className="md:col-span-5 flex justify-center md:justify-start">
-            <div className="relative w-full max-w-[250px] sm:max-w-[280px] md:max-w-[310px]">
+            <div className="relative w-full max-w-[240px] sm:max-w-[270px] md:max-w-[290px] lg:max-w-[340px] xl:max-w-[380px]">
               <div className="absolute -inset-2 rounded-t-full border-2 border-gold/80 shadow-xs" />
               <img
                 src={varahiMain}
@@ -63,14 +63,14 @@ export function About() {
                 loading="lazy"
                 width={600}
                 height={750}
-                className="relative aspect-[3.8/5] max-h-[350px] w-full rounded-t-full object-cover object-center shadow-temple"
+                className="relative aspect-[3.8/5] max-h-[340px] lg:max-h-[390px] xl:max-h-[440px] w-full rounded-t-full object-cover object-center shadow-temple"
               />
             </div>
           </div>
 
-          {/* Right Column: Information & Points (Screen-fitted) */}
+          {/* Right Column: Information & Points (Screen-fitted for all display sizes) */}
           <div className="md:col-span-7 flex flex-col justify-center">
-            <h2 className="font-display text-xl sm:text-2xl lg:text-3xl font-bold text-primary tracking-wide">
+            <h2 className="font-display text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-primary tracking-wide">
               {t.aboutTitle}
             </h2>
             <div className="my-2 sm:my-2.5 flex items-center gap-1.5">
@@ -78,10 +78,10 @@ export function About() {
               <span className="h-1.5 w-1.5 rotate-45 bg-primary" />
               <span className="h-0.5 w-6 bg-gold/60" />
             </div>
-            <p className="font-serif text-sm sm:text-base leading-relaxed text-foreground/90">
+            <p className="font-serif text-sm sm:text-base lg:text-lg leading-relaxed text-foreground/90">
               {t.aboutText}
             </p>
-            <ul className="mt-3.5 space-y-2 text-xs sm:text-sm font-medium text-foreground/85">
+            <ul className="mt-3.5 space-y-2 text-xs sm:text-sm lg:text-base font-medium text-foreground/85">
               {t.aboutPoints.map((p) => (
                 <li key={p} className="flex items-center gap-2.5">
                   <span className="grid h-5 w-5 place-items-center rounded-full bg-gold/15 text-gold shrink-0">
@@ -102,9 +102,9 @@ export function History() {
   const { t } = useLang();
   return (
     <section id="history" className="bg-secondary py-5 md:py-6">
-      <div className="mx-auto max-w-6xl lg:max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl xl:max-w-[1360px] 2xl:max-w-[1520px] px-4 sm:px-6 md:px-8 lg:px-10">
         <SectionTitle className="mb-3 sm:mb-4">{t.historyTitle}</SectionTitle>
-        <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-3 sm:gap-4 md:gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
           {t.history.map((h) => (
             <div key={h.year} className="temple-border rounded-xl bg-card p-3.5 sm:p-4 text-center shadow-temple">
               <p className="font-display text-base sm:text-lg font-bold text-primary">{h.year}</p>
@@ -123,7 +123,7 @@ export function Pujas() {
 
   return (
     <section id="puja" className="py-5 md:py-7">
-      <div className="mx-auto max-w-6xl lg:max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl xl:max-w-[1360px] 2xl:max-w-[1520px] px-4 sm:px-6 md:px-8 lg:px-10">
         <SectionTitle size="sm" className="mb-3 sm:mb-4">{t.pujaTitle}</SectionTitle>
 
         {/* Featured Navaratri Festival Banner & Bilingual Details Card */}
@@ -303,7 +303,7 @@ export function Gallery() {
 
   return (
     <section id="gallery" className="bg-maroon py-6 md:py-8 text-primary-foreground">
-      <div className="mx-auto max-w-6xl lg:max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl xl:max-w-[1360px] 2xl:max-w-[1520px] px-4 sm:px-6 md:px-8 lg:px-10">
         <div className="mb-4 sm:mb-5 text-center">
           <Flower2 className="mx-auto h-5 w-5 text-gold" />
           <h2 className="mt-1 font-display text-xl sm:text-2xl md:text-3xl font-bold text-gold">{t.templeTitle}</h2>
@@ -314,7 +314,7 @@ export function Gallery() {
         </div>
 
         {/* Gallery Grid - 12 Sacred Temple Photos */}
-        <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3.5 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3.5 md:grid-cols-4 md:gap-4 xl:gap-5">
           {galleryList.map((item, i) => (
             <div
               key={i}
@@ -398,21 +398,21 @@ export function Prasadam() {
   const { t } = useLang();
   return (
     <section id="prasadam" className="kolam-bg py-5 md:py-7">
-      <div className="mx-auto max-w-6xl lg:max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl xl:max-w-[1360px] 2xl:max-w-[1520px] px-4 sm:px-6 md:px-8 lg:px-10">
         <SectionTitle size="sm" className="mb-3 sm:mb-4">{t.prasadamTitle}</SectionTitle>
         <div className="grid items-center gap-6 md:grid-cols-2 md:gap-8 lg:gap-10">
-          <div className="mx-auto w-full max-w-md">
+          <div className="mx-auto w-full max-w-md lg:max-w-lg">
             <img
               src={prasadam}
               alt="Prasadam"
               loading="lazy"
               width={1280}
               height={960}
-              className="aspect-[4/3] w-full rounded-xl border-2 border-gold/60 object-cover shadow-temple max-h-[300px]"
+              className="aspect-[4/3] w-full rounded-xl border-2 border-gold/60 object-cover shadow-temple max-h-[300px] lg:max-h-[360px]"
             />
           </div>
           <div>
-            <p className="font-serif text-sm sm:text-base leading-relaxed text-foreground">{t.prasadamText}</p>
+            <p className="font-serif text-sm sm:text-base lg:text-lg leading-relaxed text-foreground">{t.prasadamText}</p>
             <div className="mt-4 grid grid-cols-2 gap-2.5">
               {t.prasadams.map(([n, d]) => (
                 <div key={n} className="rounded-lg border-l-4 border-primary bg-card p-3 shadow-xs">
@@ -432,9 +432,9 @@ export function Slokhas() {
   const { t } = useLang();
   return (
     <section id="info" className="bg-secondary py-5 md:py-7">
-      <div className="mx-auto max-w-6xl lg:max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl xl:max-w-[1360px] 2xl:max-w-[1520px] px-4 sm:px-6 md:px-8 lg:px-10">
         <SectionTitle className="mb-3 sm:mb-4">{t.slokhaTitle}</SectionTitle>
-        <div className="grid gap-3.5 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-3.5 sm:gap-4 lg:gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {t.slokhas.map((s) => (
             <div key={s.title} className="temple-border rounded-xl bg-card p-4 sm:p-5 text-center">
               <p className="font-display text-xs sm:text-sm font-bold uppercase tracking-wider text-primary">{s.title}</p>
@@ -455,8 +455,8 @@ export function Contact() {
 
   return (
     <section id="contact" className="py-6 md:py-8 kolam-bg">
-      <div className="mx-auto max-w-6xl lg:max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-6 lg:grid-cols-12 items-stretch">
+      <div className="mx-auto max-w-7xl xl:max-w-[1360px] 2xl:max-w-[1520px] px-4 sm:px-6 md:px-8 lg:px-10">
+        <div className="grid gap-6 lg:gap-8 lg:grid-cols-12 items-stretch">
           {/* Left Card: Get in touch */}
           <div className="lg:col-span-5 relative overflow-hidden rounded-2xl border border-border bg-card p-6 sm:p-7 shadow-sm flex flex-col justify-between">
             {/* Watermark ॐ */}

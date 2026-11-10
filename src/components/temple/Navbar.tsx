@@ -88,36 +88,36 @@ export function Navbar({ onLogin }: { onLogin: () => void }) {
 
       {/* Main Sticky Navbar */}
       <header className="sticky top-0 z-50 border-b-2 border-gold/60 bg-background/95 backdrop-blur-md shadow-xs">
-        <div className="mx-auto flex h-18 max-w-7xl items-center justify-between gap-3 px-4 py-3">
+        <div className="mx-auto flex h-18 max-w-7xl xl:max-w-[1360px] 2xl:max-w-[1520px] items-center justify-between gap-2 sm:gap-3 px-3 sm:px-4 md:px-6 lg:px-8 py-2.5">
         {/* Logo / Sacred Temple Branding (Vijayawada Devasthanam Style) */}
-        <a href="#home" className="flex items-center gap-2.5 sm:gap-3 shrink-0 transition-opacity hover:opacity-95">
-          <span className="grid h-11 w-11 sm:h-12 sm:w-12 place-items-center rounded-full bg-saffron font-display text-xl sm:text-2xl text-primary-foreground shadow-temple ring-2 ring-gold/70 shrink-0">
+        <a href="#home" className="flex items-center gap-2 sm:gap-2.5 lg:gap-3 shrink-0 transition-opacity hover:opacity-95">
+          <span className="grid h-10 w-10 sm:h-11 sm:w-11 lg:h-12 lg:w-12 place-items-center rounded-full bg-saffron font-display text-lg sm:text-xl lg:text-2xl text-primary-foreground shadow-temple ring-2 ring-gold/70 shrink-0">
             ॐ
           </span>
           <div className="flex flex-col text-left">
-            <span className="font-serif text-[10px] sm:text-[11px] font-bold tracking-[0.14em] text-amber-700 dark:text-gold uppercase leading-tight">
+            <span className="font-serif text-[9px] sm:text-[10px] lg:text-[11px] font-bold tracking-[0.14em] text-amber-700 dark:text-gold uppercase leading-tight">
               {t.templeLine1}
             </span>
-            <span className="font-display text-sm sm:text-base font-extrabold tracking-wider text-primary uppercase leading-tight mt-0.5">
+            <span className="font-display text-xs sm:text-sm lg:text-base font-extrabold tracking-wider text-primary uppercase leading-tight mt-0.5">
               {t.templeLine2}
             </span>
-            <div className="flex items-center gap-1 text-[8.5px] sm:text-[9.5px] font-semibold tracking-[0.14em] text-amber-800/80 dark:text-gold/90 uppercase leading-none mt-0.5">
-              <span className="h-px w-2.5 sm:w-3 bg-gold/80" />
+            <div className="flex items-center gap-1 text-[7.5px] sm:text-[8.5px] lg:text-[9.5px] font-semibold tracking-[0.14em] text-amber-800/80 dark:text-gold/90 uppercase leading-none mt-0.5">
+              <span className="h-px w-2 sm:w-2.5 lg:w-3 bg-gold/80" />
               <span>{t.templeLocation}</span>
-              <span className="h-px w-2.5 sm:w-3 bg-gold/80" />
+              <span className="h-px w-2 sm:w-2.5 lg:w-3 bg-gold/80" />
             </div>
           </div>
         </a>
 
         {/* Desktop Navigation Links - Responsive for 13", 14", 15", 16", 17"+ screens */}
-        <nav className="hidden items-center gap-1 lg:flex xl:gap-2">
+        <nav className="hidden items-center gap-0.5 lg:flex xl:gap-1.5 2xl:gap-2">
           {navItems.map(([k, id]) => {
             const isActive = active === id;
             return (
               <a
                 key={k}
                 href={`#${id}`}
-                className={`relative rounded-full px-2.5 py-1 text-xs xl:px-3.5 xl:py-1.5 xl:text-sm font-medium transition-all duration-200 whitespace-nowrap ${
+                className={`relative rounded-full px-2 py-1 text-xs lg:px-2.5 lg:py-1 xl:px-3.5 xl:py-1.5 xl:text-sm font-medium transition-all duration-200 whitespace-nowrap ${
                   isActive
                     ? "bg-primary/10 text-primary font-semibold ring-1 ring-gold/50 shadow-xs"
                     : "text-foreground/80 hover:bg-gold/15 hover:text-primary"
@@ -133,14 +133,14 @@ export function Navbar({ onLogin }: { onLogin: () => void }) {
         <div className="hidden items-center gap-1.5 lg:flex xl:gap-2 shrink-0">
           <button
             onClick={toggle}
-            className="flex items-center gap-1 rounded-full border border-primary/30 px-2.5 py-1 text-xs xl:px-3.5 xl:py-1.5 xl:text-sm font-medium text-primary transition-colors hover:bg-secondary"
+            className="flex items-center gap-1 rounded-full border border-primary/30 px-2 py-1 text-xs sm:px-2.5 xl:px-3.5 xl:py-1.5 xl:text-sm font-medium text-primary transition-colors hover:bg-secondary"
           >
             <Languages className="h-3.5 w-3.5 text-gold" />
             <span>{t.langLabel}</span>
           </button>
           <button
             onClick={onLogin}
-            className="flex items-center gap-1 rounded-full bg-saffron px-3 py-1 text-xs xl:px-4 xl:py-1.5 xl:text-sm font-semibold text-primary-foreground shadow-temple transition-all hover:brightness-105"
+            className="flex items-center gap-1 rounded-full bg-saffron px-2.5 py-1 text-xs sm:px-3 xl:px-4 xl:py-1.5 xl:text-sm font-semibold text-primary-foreground shadow-temple transition-all hover:brightness-105"
           >
             <User className="h-3.5 w-3.5" />
             <span>{t.login}</span>
