@@ -9,7 +9,6 @@ import {
   Menu,
   PhoneCall,
   Sparkles,
-  User,
   UtensilsCrossed,
   X,
 } from "lucide-react";
@@ -35,7 +34,7 @@ const navIcons = {
   contact: PhoneCall,
 };
 
-export function Navbar({ onLogin }: { onLogin: () => void }) {
+export function Navbar() {
   const { t, toggle } = useLang();
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<string>("home");
@@ -129,21 +128,14 @@ export function Navbar({ onLogin }: { onLogin: () => void }) {
           })}
         </nav>
 
-        {/* Right CTA / Language & Login */}
-        <div className="hidden items-center gap-1.5 lg:flex xl:gap-2 shrink-0">
+        {/* Right CTA / Language Toggle */}
+        <div className="hidden items-center lg:flex shrink-0">
           <button
             onClick={toggle}
-            className="flex items-center gap-1 rounded-full border border-primary/30 px-2 py-1 text-xs sm:px-2.5 xl:px-3.5 xl:py-1.5 xl:text-sm font-medium text-primary transition-colors hover:bg-secondary"
+            className="flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/5 px-3 py-1.5 text-xs xl:px-4 xl:py-1.5 xl:text-sm font-semibold text-primary transition-all hover:bg-primary/10 hover:border-primary/50 shadow-xs"
           >
             <Languages className="h-3.5 w-3.5 text-gold" />
             <span>{t.langLabel}</span>
-          </button>
-          <button
-            onClick={onLogin}
-            className="flex items-center gap-1 rounded-full bg-saffron px-2.5 py-1 text-xs sm:px-3 xl:px-4 xl:py-1.5 xl:text-sm font-semibold text-primary-foreground shadow-temple transition-all hover:brightness-105"
-          >
-            <User className="h-3.5 w-3.5" />
-            <span>{t.login}</span>
           </button>
         </div>
 
@@ -184,23 +176,13 @@ export function Navbar({ onLogin }: { onLogin: () => void }) {
             })}
           </div>
 
-          <div className="mt-4 flex gap-2 border-t border-border pt-3">
+          <div className="mt-4 border-t border-border pt-3">
             <button
               onClick={toggle}
-              className="flex flex-1 items-center justify-center gap-1.5 rounded-full border border-primary/40 py-2 text-sm font-medium text-primary hover:bg-secondary"
+              className="flex w-full items-center justify-center gap-2 rounded-full border border-primary/40 bg-primary/5 py-2.5 text-sm font-semibold text-primary hover:bg-primary/10"
             >
               <Languages className="h-4 w-4 text-gold" />
               <span>{t.langLabel}</span>
-            </button>
-            <button
-              onClick={() => {
-                setOpen(false);
-                onLogin();
-              }}
-              className="flex flex-1 items-center justify-center gap-1.5 rounded-full bg-saffron py-2 text-sm font-semibold text-primary-foreground shadow-temple"
-            >
-              <User className="h-4 w-4" />
-              <span>{t.login}</span>
             </button>
           </div>
         </div>

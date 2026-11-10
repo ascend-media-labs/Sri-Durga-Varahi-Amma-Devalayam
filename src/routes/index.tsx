@@ -1,6 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import { User, X } from "lucide-react";
 import { LangProvider, useLang } from "@/lib/i18n";
 import { Navbar } from "@/components/temple/Navbar";
 import { Hero } from "@/components/temple/Hero";
@@ -26,11 +24,10 @@ export const Route = createFileRoute("/")({
 });
 
 function Page() {
-  const { t, lang } = useLang();
-  const [login, setLogin] = useState(false);
+  const { lang } = useLang();
   return (
     <div lang={lang} className="min-h-screen bg-background">
-      <Navbar onLogin={() => setLogin(true)} />
+      <Navbar />
       <main>
         <Hero />
         <About />
@@ -42,17 +39,6 @@ function Page() {
         <Contact />
       </main>
       <Footer />
-      {login && (
-        <div className="fixed inset-0 z-[60] grid place-items-center bg-maroon/70 p-4" onClick={() => setLogin(false)}>
-          <div className="fade-up w-full max-w-sm rounded-2xl border-2 border-gold bg-card p-8 text-center" onClick={(e) => e.stopPropagation()}>
-            <button onClick={() => setLogin(false)} aria-label={t.close} className="float-right text-muted-foreground"><X /></button>
-            <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-saffron text-primary-foreground"><User /></span>
-            <h3 className="mt-4 font-display text-xl font-bold text-primary">{t.loginTitle}</h3>
-            <p className="mt-3 text-sm text-muted-foreground">{t.loginNote}</p>
-            <a href="#contact" onClick={() => setLogin(false)} className="mt-6 inline-block rounded-full bg-saffron px-6 py-2 font-semibold text-primary-foreground">{t.contact}</a>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
