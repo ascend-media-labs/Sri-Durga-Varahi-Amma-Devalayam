@@ -11,6 +11,7 @@ import {
 import type { ReactNode } from "react";
 import { TempleStoreProvider } from "@/lib/templeStore";
 import { LangProvider } from "@/lib/i18n";
+import { NavProvider } from "@/lib/navContext";
 
 import appCss from "../styles.css?url";
 
@@ -128,8 +129,10 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <LangProvider>
         <TempleStoreProvider>
-          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-          <Outlet />
+          <NavProvider>
+            {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+            <Outlet />
+          </NavProvider>
         </TempleStoreProvider>
       </LangProvider>
     </QueryClientProvider>

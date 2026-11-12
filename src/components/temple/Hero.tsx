@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useLang } from "@/lib/i18n";
+import { useNav } from "@/lib/navContext";
 import varahiMain from "@/assets/hero-varahi-main.jpg";
 import goddess from "@/assets/hero-varahi-green.jpg";
 import temple from "@/assets/hero-temple.jpg";
@@ -10,6 +11,7 @@ const images = [varahiMain, goddess, temple, aarti];
 
 export function Hero() {
   const { t } = useLang();
+  const { setActiveTab } = useNav();
   const [i, setI] = useState(0);
   const n = images.length;
   useEffect(() => {
@@ -40,12 +42,20 @@ export function Hero() {
           {t.slides[i]?.tag}
         </p>
         <div className="fade-up mt-4 sm:mt-6 md:mt-7 flex flex-wrap justify-center gap-2.5 sm:gap-3.5">
-          <a href="#puja" className="rounded-full bg-saffron px-4 py-2 sm:px-6 sm:py-2.5 md:px-7 md:py-3 text-xs sm:text-sm md:text-base font-semibold shadow-temple ring-2 ring-gold/70 hover:opacity-90 transition-opacity">
+          <button
+            type="button"
+            onClick={() => setActiveTab("puja")}
+            className="rounded-full bg-saffron px-4 py-2 sm:px-6 sm:py-2.5 md:px-7 md:py-3 text-xs sm:text-sm md:text-base font-semibold shadow-temple ring-2 ring-gold/70 hover:opacity-90 transition-opacity cursor-pointer"
+          >
             {t.bookPuja}
-          </a>
-          <a href="#gallery" className="rounded-full border-2 border-gold px-4 py-2 sm:px-6 sm:py-2.5 md:px-7 md:py-3 text-xs sm:text-sm md:text-base font-semibold text-gold hover:bg-gold hover:text-maroon transition-colors">
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("gallery")}
+            className="rounded-full border-2 border-gold px-4 py-2 sm:px-6 sm:py-2.5 md:px-7 md:py-3 text-xs sm:text-sm md:text-base font-semibold text-gold hover:bg-gold hover:text-maroon transition-colors cursor-pointer"
+          >
             {t.explore}
-          </a>
+          </button>
         </div>
       </div>
       <button aria-label="Previous" onClick={() => setI((i - 1 + n) % n)} className="absolute left-4 top-1/2 z-10 -translate-y-1/2 rounded-full border border-gold/60 bg-maroon/40 p-3 text-gold hover:bg-primary">

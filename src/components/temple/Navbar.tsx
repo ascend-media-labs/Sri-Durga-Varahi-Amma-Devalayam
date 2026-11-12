@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   BookOpen,
   CalendarDays,
@@ -13,6 +13,7 @@ import {
   X,
 } from "lucide-react";
 import { useLang } from "@/lib/i18n";
+import { useNav, type NavSection } from "@/lib/navContext";
 
 export const navItems = [
   ["home", "home"],
@@ -36,28 +37,8 @@ const navIcons = {
 
 export function Navbar() {
   const { t, lang, setLang } = useLang();
+  const { activeTab, setActiveTab } = useNav();
   const [open, setOpen] = useState(false);
-  const [active, setActive] = useState<string>("home");
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPos = window.scrollY + 140;
-      for (let i = navItems.length - 1; i >= 0; i--) {
-        const item = navItems[i];
-        if (!item) continue;
-        const [, id] = item;
-        const el = document.getElementById(id);
-        if (el && scrollPos >= el.offsetTop) {
-          setActive(id);
-          break;
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   return (
     <>
@@ -89,7 +70,11 @@ export function Navbar() {
       <header className="sticky top-0 z-50 border-b-2 border-gold/60 bg-background/95 backdrop-blur-md shadow-xs">
         <div className="mx-auto flex h-18 max-w-7xl xl:max-w-[1360px] 2xl:max-w-[1520px] items-center justify-between gap-2 sm:gap-3 px-3 sm:px-4 md:px-6 lg:px-8 py-2.5">
         {/* Logo / Sacred Temple Branding (Vijayawada Devasthanam Style) */}
-        <a href="#home" className="flex items-center gap-2 sm:gap-2.5 lg:gap-3 shrink-0 transition-opacity hover:opacity-95">
+        <button
+          type="button"
+          onClick={() => setActiveTab("home")}
+          className="flex items-center gap-2 sm:gap-2.5 lg:gap-3 shrink-0 transition-opacity hover:opacity-95 text-left cursor-pointer"
+        >
           <span className="grid h-10 w-10 sm:h-11 sm:w-11 lg:h-12 lg:w-12 place-items-center rounded-full bg-saffron font-display text-lg sm:text-xl lg:text-2xl text-primary-foreground shadow-temple ring-2 ring-gold/70 shrink-0">
             ॐ
           </span>
@@ -106,24 +91,25 @@ export function Navbar() {
               <span className="h-px w-2 sm:w-2.5 lg:w-3 bg-gold/80" />
             </div>
           </div>
-        </a>
+        </button>
 
         {/* Desktop Navigation Links - Responsive for 13", 14", 15", 16", 17"+ screens */}
         <nav className="hidden items-center gap-0.5 lg:flex xl:gap-1.5 2xl:gap-2">
           {navItems.map(([k, id]) => {
-            const isActive = active === id;
+            const isActive = activeTab === id;
             return (
-              <a
+              <button
                 key={k}
-                href={`#${id}`}
-                className={`relative rounded-full px-2 py-1 text-xs lg:px-2.5 lg:py-1 xl:px-3.5 xl:py-1.5 xl:text-sm font-medium transition-all duration-200 whitespace-nowrap ${
+                type="button"
+                onClick={() => setActiveTab(id as NavSection)}
+                className={`relative rounded-full px-2.5 py-1 text-xs lg:px-3 lg:py-1.5 xl:px-4 xl:py-1.5 xl:text-sm font-semibold transition-all duration-200 whitespace-nowrap cursor-pointer ${
                   isActive
-                    ? "bg-primary/10 text-primary font-semibold ring-1 ring-gold/50 shadow-xs"
-                    : "text-foreground/80 hover:bg-gold/15 hover:text-primary"
+                    ? "bg-primary text-primary-foreground font-bold shadow-md ring-1 ring-gold/70 scale-102"
+                    : "text-foreground/85 hover:bg-gold/15 hover:text-primary"
                 }`}
               >
                 {t.nav[k]}
-              </a>
+              </button>
             );
           })}
         </nav>
@@ -183,23 +169,26 @@ export function Navbar() {
           <div className="space-y-1">
             {navItems.map(([k, id]) => {
               const Icon = navIcons[k];
-              const isActive = active === id;
+              const isActive = activeTab === id;
               return (
-                <a
+                <button
                   key={k}
-                  href={`#${id}`}
-                  onClick={() => setOpen(false)}
-                  className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all ${
+                  type="button"
+                  onClick={() => {
+                    setActiveTab(id as NavSection);
+                    setOpen(false);
+                  }}
+                  className={`w-full flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all cursor-pointer ${
                     isActive
-                      ? "bg-primary/10 text-primary font-semibold border-l-4 border-primary pl-2.5"
+                      ? "bg-primary text-primary-foreground font-semibold shadow-xs"
                       : "text-foreground/80 hover:bg-gold/10 hover:text-primary"
                   }`}
                 >
-                  <span className={`grid h-8 w-8 place-items-center rounded-lg ${isActive ? "bg-primary/20 text-primary" : "bg-muted text-muted-foreground"}`}>
+                  <span className={`grid h-8 w-8 place-items-center rounded-lg ${isActive ? "bg-white/20 text-white" : "bg-muted text-muted-foreground"}`}>
                     <Icon className="h-4 w-4" />
                   </span>
                   <span>{t.nav[k]}</span>
-                </a>
+                </button>
               );
             })}
           </div>

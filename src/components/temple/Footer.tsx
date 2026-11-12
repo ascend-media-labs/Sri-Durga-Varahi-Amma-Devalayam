@@ -1,5 +1,6 @@
 import { Mail, MapPin, Phone, ShieldCheck } from "lucide-react";
 import { useLang } from "@/lib/i18n";
+import { useNav, type NavSection } from "@/lib/navContext";
 import { navItems } from "./Navbar";
 
 function FacebookIcon({ className = "h-5 w-5" }: { className?: string }) {
@@ -38,11 +39,16 @@ function XIcon({ className = "h-4.5 w-4.5" }: { className?: string }) {
 
 export function Footer() {
   const { t } = useLang();
+  const { setActiveTab } = useNav();
   return (
     <footer className="border-t-4 border-gold bg-maroon text-primary-foreground">
       <div className="mx-auto grid max-w-7xl xl:max-w-[1360px] 2xl:max-w-[1520px] gap-6 sm:gap-8 lg:gap-10 px-4 sm:px-6 md:px-8 lg:px-10 py-8 md:py-10 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={() => setActiveTab("home")}
+            className="flex items-center gap-3 text-left cursor-pointer"
+          >
             <span className="grid h-12 w-12 place-items-center rounded-full bg-saffron font-display text-2xl text-primary-foreground shadow-temple ring-2 ring-gold/70 shrink-0">
               ॐ
             </span>
@@ -59,14 +65,22 @@ export function Footer() {
                 <span className="h-px w-3 bg-gold/70" />
               </div>
             </div>
-          </div>
+          </button>
           <p className="mt-4 font-serif text-base italic text-gold/95">{t.footerTag}</p>
         </div>
         <div>
           <h4 className="font-display text-gold">{t.quick}</h4>
           <ul className="mt-4 space-y-2 text-sm">
             {navItems.map(([k, id]) => (
-              <li key={k}><a href={`#${id}`} className="opacity-85 hover:text-gold">{t.nav[k]}</a></li>
+              <li key={k}>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab(id as NavSection)}
+                  className="opacity-85 hover:text-gold cursor-pointer text-left transition-colors"
+                >
+                  {t.nav[k]}
+                </button>
+              </li>
             ))}
           </ul>
         </div>
