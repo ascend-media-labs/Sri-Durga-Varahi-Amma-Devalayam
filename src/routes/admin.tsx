@@ -107,6 +107,13 @@ const adminI18n = {
     editSchemeBtn: "Edit Scheme Details",
     saveSchemeBtn: "Save Scheme Changes",
     cancelBtn: "Cancel",
+    editItem: "Edit",
+    editPrasadamModalTitle: "Edit Prasadam Item",
+    updatePrasadamBtn: "Save Changes",
+    editPujaModalTitle: "Edit Puja / Event Details",
+    updatePujaBtn: "Save Changes",
+    editGalleryModalTitle: "Edit Gallery Photo Details",
+    updateGalleryBtn: "Save Changes",
   },
   te: {
     backToSite: "భక్తుల పోర్టల్‌కి తిరిగి వెళ్ళండి (Back to Public Site)",
@@ -174,6 +181,13 @@ const adminI18n = {
     editSchemeBtn: "వివరాలు మార్చండి (Edit)",
     saveSchemeBtn: "సేవ్ చేయండి (Save)",
     cancelBtn: "రద్దు చేయండి (Cancel)",
+    editItem: "సవరించండి (Edit)",
+    editPrasadamModalTitle: "ప్రసాదం వివరాలు సవరించండి (Edit Prasadam)",
+    updatePrasadamBtn: "మార్పులను సేవ్ చేయండి (Save Changes)",
+    editPujaModalTitle: "పూజా వివరాలు సవరించండి (Edit Puja)",
+    updatePujaBtn: "మార్పులను సేవ్ చేయండి (Save Changes)",
+    editGalleryModalTitle: "ఫొటో వివరాలు సవరించండి (Edit Photo)",
+    updateGalleryBtn: "మార్పులను సేవ్ చేయండి (Save Changes)",
   },
 };
 
@@ -460,6 +474,130 @@ function AdminPage() {
   const [isEditingAnnadanam, setIsEditingAnnadanam] = useState(false);
   const [annaCount, setAnnaCount] = useState(annadanamInfo.dailyCount);
   const [annaTime, setAnnaTime] = useState(annadanamInfo.timing);
+
+  // Edit Prasadam State & Handlers
+  const [editingPrasadam, setEditingPrasadam] = useState<PrasadamItem | null>(null);
+  const [editPrasName, setEditPrasName] = useState("");
+  const [editPrasNameTe, setEditPrasNameTe] = useState("");
+  const [editPrasTiming, setEditPrasTiming] = useState("");
+  const [editPrasPrice, setEditPrasPrice] = useState("");
+  const [editPrasDesc, setEditPrasDesc] = useState("");
+  const [editPrasDescTe, setEditPrasDescTe] = useState("");
+  const [editPrasCategory, setEditPrasCategory] = useState<"daily" | "special_prasadam" | "annadanam">("daily");
+
+  const handleOpenEditPrasadam = (p: PrasadamItem) => {
+    setEditingPrasadam(p);
+    setEditPrasName(p.name);
+    setEditPrasNameTe(p.nameTe || p.name);
+    setEditPrasTiming(p.timing || "");
+    setEditPrasPrice(p.price || "");
+    setEditPrasDesc(p.desc || "");
+    setEditPrasDescTe(p.descTe || p.desc || "");
+    setEditPrasCategory(p.category);
+  };
+
+  const handleUpdatePrasadam = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingPrasadam) return;
+    updatePrasadam(editingPrasadam.id, {
+      name: editPrasName,
+      nameTe: editPrasNameTe,
+      timing: editPrasTiming,
+      price: editPrasPrice,
+      desc: editPrasDesc,
+      descTe: editPrasDescTe,
+      category: editPrasCategory,
+    });
+    setEditingPrasadam(null);
+    showToast(lang === "te" ? "ప్రసాదం వివరాలు అప్‌డేట్ చేయబడ్డాయి! Updated successfully." : "Prasadam item updated successfully.");
+  };
+
+  // Edit Puja State & Handlers
+  const [editingPuja, setEditingPuja] = useState<PujaEventItem | null>(null);
+  const [editPujaName, setEditPujaName] = useState("");
+  const [editPujaNameTe, setEditPujaNameTe] = useState("");
+  const [editPujaTime, setEditPujaTime] = useState("");
+  const [editPujaDakshina, setEditPujaDakshina] = useState("");
+  const [editPujaDesc, setEditPujaDesc] = useState("");
+  const [editPujaDescTe, setEditPujaDescTe] = useState("");
+  const [editPujaType, setEditPujaType] = useState<"puja" | "event">("puja");
+
+  const handleOpenEditPuja = (p: PujaEventItem) => {
+    setEditingPuja(p);
+    setEditPujaName(p.name);
+    setEditPujaNameTe(p.nameTe || p.name);
+    setEditPujaTime(p.time || "");
+    setEditPujaDakshina(p.dakshina || "");
+    setEditPujaDesc(p.desc || "");
+    setEditPujaDescTe(p.descTe || p.desc || "");
+    setEditPujaType(p.type);
+  };
+
+  const handleUpdatePuja = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingPuja) return;
+    updatePuja(editingPuja.id, {
+      name: editPujaName,
+      nameTe: editPujaNameTe,
+      time: editPujaTime,
+      dakshina: editPujaDakshina,
+      desc: editPujaDesc,
+      descTe: editPujaDescTe,
+      type: editPujaType,
+    });
+    setEditingPuja(null);
+    showToast(lang === "te" ? "పూజా వివరాలు అప్‌డేట్ చేయబడ్డాయి! Updated successfully." : "Puja details updated successfully.");
+  };
+
+  // Edit Gallery State & Handlers
+  const [editingGallery, setEditingGallery] = useState<GalleryItem | null>(null);
+  const [editGalTitle, setEditGalTitle] = useState("");
+  const [editGalTitleTe, setEditGalTitleTe] = useState("");
+  const [editGalDesc, setEditGalDesc] = useState("");
+  const [editGalDescTe, setEditGalDescTe] = useState("");
+  const [editGalCategory, setEditGalCategory] = useState("Alankaram");
+  const [editGalUrl, setEditGalUrl] = useState("");
+  const [editPreviewImage, setEditPreviewImage] = useState<string | null>(null);
+  const editFileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleOpenEditGallery = (item: GalleryItem) => {
+    setEditingGallery(item);
+    setEditGalTitle(item.title);
+    setEditGalTitleTe(item.titleTe || item.title);
+    setEditGalDesc(item.desc || "");
+    setEditGalDescTe(item.descTe || item.desc || "");
+    setEditGalCategory(item.category || "Alankaram");
+    setEditGalUrl(item.src || "");
+    setEditPreviewImage(item.src || null);
+  };
+
+  const handleEditImageFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const result = reader.result as string;
+        setEditPreviewImage(result);
+        setEditGalUrl(result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleUpdateGallery = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingGallery) return;
+    updateGalleryItem(editingGallery.id, {
+      title: editGalTitle,
+      titleTe: editGalTitleTe,
+      desc: editGalDesc,
+      descTe: editGalDescTe,
+      category: editGalCategory,
+      src: editGalUrl || editPreviewImage || editingGallery.src,
+    });
+    setEditingGallery(null);
+    showToast(lang === "te" ? "ఫొటో వివరాలు అప్‌డేట్ చేయబడ్డాయి! Updated successfully." : "Gallery photo updated successfully.");
+  };
 
   // If not logged in, render the secure authentication gate
   if (!isAuthenticated) {
@@ -903,18 +1041,27 @@ function AdminPage() {
 
                     <div className="mt-3 pt-2.5 border-t border-border/80 flex items-center justify-between text-xs">
                       <span className="text-[10px] text-muted-foreground">{item.dateAdded}</span>
-                      <button
-                        onClick={() => {
-                          if (confirm(`${tAdmin.deletePhotoConfirm} "${item.title}"?`)) {
-                            deleteGalleryItem(item.id);
-                            showToast(tAdmin.photoDeletedToast);
-                          }
-                        }}
-                        className="text-destructive hover:bg-destructive/10 p-1.5 rounded-md transition-colors cursor-pointer"
-                        title="Delete photo"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </button>
+                      <div className="flex items-center gap-1">
+                        <button
+                          onClick={() => handleOpenEditGallery(item)}
+                          className="text-primary hover:bg-primary/10 p-1.5 rounded-md transition-colors cursor-pointer"
+                          title={lang === "te" ? "ఫొటో వివరాలు మార్చండి (Edit Photo)" : "Edit Photo"}
+                        >
+                          <Edit3 className="h-4 w-4" />
+                        </button>
+                        <button
+                          onClick={() => {
+                            if (confirm(`${tAdmin.deletePhotoConfirm} "${item.title}"?`)) {
+                              deleteGalleryItem(item.id);
+                              showToast(tAdmin.photoDeletedToast);
+                            }
+                          }}
+                          className="text-destructive hover:bg-destructive/10 p-1.5 rounded-md transition-colors cursor-pointer"
+                          title="Delete photo"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -994,18 +1141,27 @@ function AdminPage() {
                       {p.active ? tAdmin.activeOnWebsite : tAdmin.hiddenOnWebsite}
                     </button>
 
-                    <button
-                      onClick={() => {
-                        if (confirm(`${tAdmin.deletePujaConfirm} "${p.name}"?`)) {
-                          deletePuja(p.id);
-                          showToast(tAdmin.pujaDeletedToast);
-                        }
-                      }}
-                      className="text-destructive hover:bg-destructive/10 p-1.5 rounded-md transition-colors cursor-pointer"
-                      title="Delete Puja"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </button>
+                    <div className="flex items-center gap-1">
+                      <button
+                        onClick={() => handleOpenEditPuja(p)}
+                        className="text-primary hover:bg-primary/10 p-1.5 rounded-md transition-colors cursor-pointer"
+                        title={lang === "te" ? "పూజ వివరాలు మార్చండి (Edit Puja)" : "Edit Puja"}
+                      >
+                        <Edit3 className="h-4 w-4" />
+                      </button>
+                      <button
+                        onClick={() => {
+                          if (confirm(`${tAdmin.deletePujaConfirm} "${p.name}"?`)) {
+                            deletePuja(p.id);
+                            showToast(tAdmin.pujaDeletedToast);
+                          }
+                        }}
+                        className="text-destructive hover:bg-destructive/10 p-1.5 rounded-md transition-colors cursor-pointer"
+                        title="Delete Puja"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -1160,18 +1316,27 @@ function AdminPage() {
                       {p.isAvailable ? tAdmin.activeOnWebsite : tAdmin.hiddenOnWebsite}
                     </button>
 
-                    <button
-                      onClick={() => {
-                        if (confirm(`${tAdmin.deletePrasadamConfirm} "${p.name}"?`)) {
-                          deletePrasadam(p.id);
-                          showToast(tAdmin.prasadamDeletedToast);
-                        }
-                      }}
-                      className="text-destructive hover:bg-destructive/10 p-1.5 rounded-md transition-colors cursor-pointer"
-                      title="Delete Prasadam"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </button>
+                    <div className="flex items-center gap-1">
+                      <button
+                        onClick={() => handleOpenEditPrasadam(p)}
+                        className="text-primary hover:bg-primary/10 p-1.5 rounded-md transition-colors cursor-pointer"
+                        title={lang === "te" ? "ప్రసాదం వివరాలు మార్చండి (Edit Prasadam)" : "Edit Prasadam"}
+                      >
+                        <Edit3 className="h-4 w-4" />
+                      </button>
+                      <button
+                        onClick={() => {
+                          if (confirm(`${tAdmin.deletePrasadamConfirm} "${p.name}"?`)) {
+                            deletePrasadam(p.id);
+                            showToast(tAdmin.prasadamDeletedToast);
+                          }
+                        }}
+                        className="text-destructive hover:bg-destructive/10 p-1.5 rounded-md transition-colors cursor-pointer"
+                        title="Delete Prasadam"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -1569,6 +1734,386 @@ function AdminPage() {
                   className="rounded-lg bg-primary text-primary-foreground px-5 py-2 text-xs font-bold shadow-temple hover:brightness-110 cursor-pointer"
                 >
                   ప్రసాదాన్ని చేర్చండి (Save Prasadam)
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ================= MODAL: EDIT PRASADAM ================= */}
+      {editingPrasadam && (
+        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs grid place-items-center p-4 animate-in fade-in">
+          <div className="bg-card text-foreground max-w-lg w-full rounded-2xl border-2 border-gold shadow-2xl p-6 relative max-h-[90vh] overflow-y-auto">
+            <button
+              onClick={() => setEditingPrasadam(null)}
+              className="absolute top-4 right-4 text-muted-foreground hover:text-foreground cursor-pointer"
+            >
+              <X className="h-5 w-5" />
+            </button>
+
+            <h3 className="font-display text-xl font-bold text-primary flex items-center gap-2">
+              <Edit3 className="h-5 w-5 text-gold" />
+              <span>{tAdmin.editPrasadamModalTitle}</span>
+            </h3>
+            <p className="text-xs text-muted-foreground mt-1">
+              {lang === "te" ? "ప్రసాదం పేరు, విభాగం, సమయం మరియు ధర వివరాలను సవరించండి." : "Update prasadam name, category, timing and contribution details."}
+            </p>
+
+            <form onSubmit={handleUpdatePrasadam} className="mt-5 space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold mb-1">Prasadam Name (English) *</label>
+                  <input
+                    required
+                    value={editPrasName}
+                    onChange={(e) => setEditPrasName(e.target.value)}
+                    className="w-full rounded-lg border border-input bg-background px-3 py-2 text-xs"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold mb-1">ప్రసాదం పేరు (తెలుగు) *</label>
+                  <input
+                    required
+                    value={editPrasNameTe}
+                    onChange={(e) => setEditPrasNameTe(e.target.value)}
+                    className="w-full rounded-lg border border-input bg-background px-3 py-2 text-xs"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold mb-1">Category (విభాగం)</label>
+                  <select
+                    value={editPrasCategory}
+                    onChange={(e) => setEditPrasCategory(e.target.value as any)}
+                    className="w-full rounded-lg border border-input bg-background px-3 py-2 text-xs"
+                  >
+                    <option value="daily">Daily Counter Prasadam</option>
+                    <option value="annadanam">Maha Annadanam Item</option>
+                    <option value="special_prasadam">Festival Special</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold mb-1">ధర / Contribution (Price)</label>
+                  <input
+                    value={editPrasPrice}
+                    onChange={(e) => setEditPrasPrice(e.target.value)}
+                    className="w-full rounded-lg border border-input bg-background px-3 py-2 text-xs"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold mb-1">లభ్యత సమయం (Timing)</label>
+                <input
+                  value={editPrasTiming}
+                  onChange={(e) => setEditPrasTiming(e.target.value)}
+                  className="w-full rounded-lg border border-input bg-background px-3 py-2 text-xs"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold mb-1">Description (English)</label>
+                <textarea
+                  rows={2}
+                  value={editPrasDesc}
+                  onChange={(e) => setEditPrasDesc(e.target.value)}
+                  className="w-full rounded-lg border border-input bg-background px-3 py-2 text-xs"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold mb-1">వివరణ (తెలుగు)</label>
+                <textarea
+                  rows={2}
+                  value={editPrasDescTe}
+                  onChange={(e) => setEditPrasDescTe(e.target.value)}
+                  className="w-full rounded-lg border border-input bg-background px-3 py-2 text-xs"
+                />
+              </div>
+
+              <div className="flex justify-end gap-2 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setEditingPrasadam(null)}
+                  className="rounded-lg border border-border px-4 py-2 text-xs font-bold hover:bg-muted cursor-pointer"
+                >
+                  {tAdmin.cancelBtn}
+                </button>
+                <button
+                  type="submit"
+                  className="rounded-lg bg-primary text-primary-foreground px-5 py-2 text-xs font-bold shadow-temple hover:brightness-110 cursor-pointer"
+                >
+                  {tAdmin.updatePrasadamBtn}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ================= MODAL: EDIT PUJA / EVENT ================= */}
+      {editingPuja && (
+        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs grid place-items-center p-4 animate-in fade-in">
+          <div className="bg-card text-foreground max-w-lg w-full rounded-2xl border-2 border-gold shadow-2xl p-6 relative max-h-[90vh] overflow-y-auto">
+            <button
+              onClick={() => setEditingPuja(null)}
+              className="absolute top-4 right-4 text-muted-foreground hover:text-foreground cursor-pointer"
+            >
+              <X className="h-5 w-5" />
+            </button>
+
+            <h3 className="font-display text-xl font-bold text-primary flex items-center gap-2">
+              <Edit3 className="h-5 w-5 text-gold" />
+              <span>{tAdmin.editPujaModalTitle}</span>
+            </h3>
+            <p className="text-xs text-muted-foreground mt-1">
+              {lang === "te" ? "పూజ పేరు, సమయం, దక్షిణ మరియు వివరణ వివరాలను సవరించండి." : "Update puja name, timings, dakshina and ritual descriptions."}
+            </p>
+
+            <form onSubmit={handleUpdatePuja} className="mt-5 space-y-4">
+              <div>
+                <label className="block text-xs font-semibold mb-1">రకం (Type) *</label>
+                <div className="flex gap-4">
+                  <label className="flex items-center gap-1.5 text-xs font-medium cursor-pointer">
+                    <input
+                      type="radio"
+                      name="editpujatype"
+                      checked={editPujaType === "puja"}
+                      onChange={() => setEditPujaType("puja")}
+                    />
+                    <span>నిత్య పూజ / సేవ (Regular Daily Puja)</span>
+                  </label>
+                  <label className="flex items-center gap-1.5 text-xs font-medium cursor-pointer">
+                    <input
+                      type="radio"
+                      name="editpujatype"
+                      checked={editPujaType === "event"}
+                      onChange={() => setEditPujaType("event")}
+                    />
+                    <span>విశేష ఉత్సవం (Grand Festival Event)</span>
+                  </label>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold mb-1">Puja Name (English) *</label>
+                  <input
+                    required
+                    value={editPujaName}
+                    onChange={(e) => setEditPujaName(e.target.value)}
+                    className="w-full rounded-lg border border-input bg-background px-3 py-2 text-xs"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold mb-1">పూజ పేరు (తెలుగు) *</label>
+                  <input
+                    required
+                    value={editPujaNameTe}
+                    onChange={(e) => setEditPujaNameTe(e.target.value)}
+                    className="w-full rounded-lg border border-input bg-background px-3 py-2 text-xs"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold mb-1">సమయం (Timing) *</label>
+                  <input
+                    required
+                    value={editPujaTime}
+                    onChange={(e) => setEditPujaTime(e.target.value)}
+                    className="w-full rounded-lg border border-input bg-background px-3 py-2 text-xs"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold mb-1">దక్షిణ / రుసుము (Dakshina)</label>
+                  <input
+                    value={editPujaDakshina}
+                    onChange={(e) => setEditPujaDakshina(e.target.value)}
+                    className="w-full rounded-lg border border-input bg-background px-3 py-2 text-xs"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold mb-1">Description (English)</label>
+                <textarea
+                  rows={2}
+                  value={editPujaDesc}
+                  onChange={(e) => setEditPujaDesc(e.target.value)}
+                  className="w-full rounded-lg border border-input bg-background px-3 py-2 text-xs"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold mb-1">వివరణ (తెలుగు)</label>
+                <textarea
+                  rows={2}
+                  value={editPujaDescTe}
+                  onChange={(e) => setEditPujaDescTe(e.target.value)}
+                  className="w-full rounded-lg border border-input bg-background px-3 py-2 text-xs"
+                />
+              </div>
+
+              <div className="flex justify-end gap-2 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setEditingPuja(null)}
+                  className="rounded-lg border border-border px-4 py-2 text-xs font-bold hover:bg-muted cursor-pointer"
+                >
+                  {tAdmin.cancelBtn}
+                </button>
+                <button
+                  type="submit"
+                  className="rounded-lg bg-primary text-primary-foreground px-5 py-2 text-xs font-bold shadow-temple hover:brightness-110 cursor-pointer"
+                >
+                  {tAdmin.updatePujaBtn}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ================= MODAL: EDIT GALLERY PHOTO ================= */}
+      {editingGallery && (
+        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs grid place-items-center p-4 animate-in fade-in">
+          <div className="bg-card text-foreground max-w-lg w-full rounded-2xl border-2 border-gold shadow-2xl p-6 relative max-h-[90vh] overflow-y-auto">
+            <button
+              onClick={() => setEditingGallery(null)}
+              className="absolute top-4 right-4 text-muted-foreground hover:text-foreground cursor-pointer"
+            >
+              <X className="h-5 w-5" />
+            </button>
+
+            <h3 className="font-display text-xl font-bold text-primary flex items-center gap-2">
+              <Edit3 className="h-5 w-5 text-gold" />
+              <span>{tAdmin.editGalleryModalTitle}</span>
+            </h3>
+            <p className="text-xs text-muted-foreground mt-1">
+              {lang === "te" ? "ఫొటో శీర్షిక, విభాగం మరియు వివరణ వివరాలను సవరించండి." : "Update photo title, category and sacred description."}
+            </p>
+
+            <form onSubmit={handleUpdateGallery} className="mt-5 space-y-4">
+              {/* Photo preview / change */}
+              <div>
+                <label className="block text-xs font-bold mb-1.5">
+                  ఫొటో ప్రివ్యూ (Photo Preview / Change)
+                </label>
+                <div
+                  onClick={() => editFileInputRef.current?.click()}
+                  className="border-2 border-dashed border-gold/60 rounded-xl p-3 text-center cursor-pointer hover:bg-muted/40 transition-colors flex flex-col items-center justify-center min-h-[100px]"
+                >
+                  <input
+                    type="file"
+                    ref={editFileInputRef}
+                    accept="image/*"
+                    onChange={handleEditImageFileChange}
+                    className="hidden"
+                  />
+                  {editPreviewImage || editGalUrl ? (
+                    <div>
+                      <img
+                        src={editPreviewImage || editGalUrl}
+                        alt="Preview"
+                        className="max-h-32 rounded-lg object-contain mx-auto shadow-md"
+                      />
+                      <span className="text-[11px] text-primary font-bold mt-1.5 block">Click to replace photo</span>
+                    </div>
+                  ) : (
+                    <div className="space-y-1">
+                      <Upload className="h-6 w-6 text-gold mx-auto" />
+                      <p className="text-xs font-semibold text-foreground">Click to upload new photo</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold mb-1">Image URL</label>
+                <input
+                  type="url"
+                  placeholder="https://example.com/photo.jpg"
+                  value={editGalUrl}
+                  onChange={(e) => {
+                    setEditGalUrl(e.target.value);
+                    if (e.target.value) setEditPreviewImage(e.target.value);
+                  }}
+                  className="w-full rounded-xl border border-input bg-background px-3.5 py-2 text-xs outline-none focus:border-primary"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold mb-1">Title (English) *</label>
+                  <input
+                    required
+                    value={editGalTitle}
+                    onChange={(e) => setEditGalTitle(e.target.value)}
+                    className="w-full rounded-lg border border-input bg-background px-3 py-2 text-xs"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold mb-1">శీర్షిక (తెలుగు Title)</label>
+                  <input
+                    value={editGalTitleTe}
+                    onChange={(e) => setEditGalTitleTe(e.target.value)}
+                    className="w-full rounded-lg border border-input bg-background px-3 py-2 text-xs"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold mb-1">విభాగం (Category)</label>
+                <select
+                  value={editGalCategory}
+                  onChange={(e) => setEditGalCategory(e.target.value)}
+                  className="w-full rounded-lg border border-input bg-background px-3 py-2 text-xs"
+                >
+                  <option value="Sanctum">Sanctum (గర్భగుడి దర్శనం)</option>
+                  <option value="Alankaram">Alankaram (విశేష అలంకారం)</option>
+                  <option value="Utsavam">Utsavam (ఉత్సవాలు & ఊరేగింపు)</option>
+                  <option value="Devotees">Devotees (భక్తులు & పూజలు)</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold mb-1">Description (English)</label>
+                <textarea
+                  rows={2}
+                  value={editGalDesc}
+                  onChange={(e) => setEditGalDesc(e.target.value)}
+                  className="w-full rounded-lg border border-input bg-background px-3 py-2 text-xs"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold mb-1">వివరణ (తెలుగు)</label>
+                <textarea
+                  rows={2}
+                  value={editGalDescTe}
+                  onChange={(e) => setEditGalDescTe(e.target.value)}
+                  className="w-full rounded-lg border border-input bg-background px-3 py-2 text-xs"
+                />
+              </div>
+
+              <div className="flex justify-end gap-2 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setEditingGallery(null)}
+                  className="rounded-lg border border-border px-4 py-2 text-xs font-bold hover:bg-muted cursor-pointer"
+                >
+                  {tAdmin.cancelBtn}
+                </button>
+                <button
+                  type="submit"
+                  className="rounded-lg bg-primary text-primary-foreground px-5 py-2 text-xs font-bold shadow-temple hover:brightness-110 cursor-pointer"
+                >
+                  {tAdmin.updateGalleryBtn}
                 </button>
               </div>
             </form>
