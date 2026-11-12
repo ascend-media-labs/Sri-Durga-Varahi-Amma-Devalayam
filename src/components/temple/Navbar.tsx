@@ -73,9 +73,9 @@ export function Navbar() {
         <button
           type="button"
           onClick={() => setActiveTab("home")}
-          className="flex items-center gap-2 sm:gap-2.5 lg:gap-3 shrink-0 transition-opacity hover:opacity-95 text-left cursor-pointer"
+          className="group flex items-center gap-2 sm:gap-2.5 lg:gap-3 shrink-0 transition-all duration-200 hover:scale-[1.02] active:scale-95 text-left cursor-pointer"
         >
-          <span className="grid h-10 w-10 sm:h-11 sm:w-11 lg:h-12 lg:w-12 place-items-center rounded-full bg-saffron font-display text-lg sm:text-xl lg:text-2xl text-primary-foreground shadow-temple ring-2 ring-gold/70 shrink-0">
+          <span className="grid h-10 w-10 sm:h-11 sm:w-11 lg:h-12 lg:w-12 place-items-center rounded-full bg-saffron font-display text-lg sm:text-xl lg:text-2xl text-primary-foreground shadow-temple ring-2 ring-gold/70 shrink-0 transition-all duration-300 group-hover:rotate-6 group-hover:shadow-[0_0_20px_rgba(234,179,8,0.4)]">
             ॐ
           </span>
           <div className="flex flex-col text-left">
@@ -102,10 +102,10 @@ export function Navbar() {
                 key={k}
                 type="button"
                 onClick={() => setActiveTab(id as NavSection)}
-                className={`relative rounded-full px-2.5 py-1 text-xs lg:px-3 lg:py-1.5 xl:px-4 xl:py-1.5 xl:text-sm font-semibold transition-all duration-200 whitespace-nowrap cursor-pointer ${
+                className={`relative rounded-full px-2.5 py-1 text-xs lg:px-3 lg:py-1.5 xl:px-4 xl:py-1.5 xl:text-sm font-semibold transition-all duration-300 ease-out whitespace-nowrap cursor-pointer active:scale-95 ${
                   isActive
-                    ? "bg-primary text-primary-foreground font-bold shadow-md ring-1 ring-gold/70 scale-102"
-                    : "text-foreground/85 hover:bg-gold/15 hover:text-primary"
+                    ? "bg-primary text-primary-foreground font-bold shadow-md ring-2 ring-gold/80 scale-105 shadow-gold/25"
+                    : "text-foreground/85 hover:bg-gold/15 hover:text-primary hover:scale-105"
                 }`}
               >
                 {t.nav[k]}
@@ -128,9 +128,9 @@ export function Navbar() {
               type="button"
               onClick={() => setLang("en")}
               aria-pressed={lang === "en"}
-              className={`rounded-full px-3 py-1 text-xs font-bold transition-all cursor-pointer ${
+              className={`rounded-full px-3 py-1 text-xs font-bold transition-all duration-200 active:scale-95 cursor-pointer ${
                 lang === "en"
-                  ? "bg-primary text-primary-foreground shadow-xs font-extrabold"
+                  ? "bg-primary text-primary-foreground shadow-xs font-extrabold scale-102"
                   : "text-foreground/75 hover:text-primary hover:bg-primary/10"
               }`}
               title="Switch to English"
@@ -141,9 +141,9 @@ export function Navbar() {
               type="button"
               onClick={() => setLang("te")}
               aria-pressed={lang === "te"}
-              className={`rounded-full px-3 py-1 text-xs font-bold transition-all cursor-pointer ${
+              className={`rounded-full px-3 py-1 text-xs font-bold transition-all duration-200 active:scale-95 cursor-pointer ${
                 lang === "te"
-                  ? "bg-primary text-primary-foreground shadow-xs font-extrabold"
+                  ? "bg-primary text-primary-foreground shadow-xs font-extrabold scale-102"
                   : "text-foreground/75 hover:text-primary hover:bg-primary/10"
               }`}
               title="తెలుగు భాషలోకి మార్చండి"
@@ -155,7 +155,7 @@ export function Navbar() {
 
         {/* Mobile Hamburger Button */}
         <button
-          className="grid h-10 w-10 place-items-center rounded-lg border border-border text-primary transition-colors hover:bg-secondary lg:hidden"
+          className="grid h-10 w-10 place-items-center rounded-lg border border-border text-primary transition-all duration-200 hover:bg-secondary active:scale-90 lg:hidden cursor-pointer"
           onClick={() => setOpen(!open)}
           aria-label="Menu"
         >
@@ -165,7 +165,7 @@ export function Navbar() {
 
       {/* Mobile Dropdown Menu */}
       {open && (
-        <div className="border-t border-border/80 bg-background/98 px-4 py-3 backdrop-blur-lg lg:hidden animate-in fade-in slide-in-from-top-2 duration-200 shadow-lg">
+        <div className="border-t border-border/80 bg-background/98 px-4 py-3 backdrop-blur-lg lg:hidden animate-in fade-in slide-in-from-top-3 duration-300 shadow-xl">
           <div className="space-y-1">
             {navItems.map(([k, id]) => {
               const Icon = navIcons[k];
@@ -178,7 +178,7 @@ export function Navbar() {
                     setActiveTab(id as NavSection);
                     setOpen(false);
                   }}
-                  className={`w-full flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all cursor-pointer ${
+                  className={`w-full flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200 active:scale-98 cursor-pointer ${
                     isActive
                       ? "bg-primary text-primary-foreground font-semibold shadow-xs"
                       : "text-foreground/80 hover:bg-gold/10 hover:text-primary"
@@ -203,7 +203,7 @@ export function Navbar() {
                 <button
                   type="button"
                   onClick={() => setLang("en")}
-                  className={`rounded-full px-3 py-1.5 text-xs font-bold transition-all cursor-pointer ${
+                  className={`rounded-full px-3 py-1.5 text-xs font-bold transition-all duration-200 active:scale-95 cursor-pointer ${
                     lang === "en" ? "bg-primary text-primary-foreground shadow-xs font-extrabold" : "text-foreground/70"
                   }`}
                 >
@@ -212,7 +212,7 @@ export function Navbar() {
                 <button
                   type="button"
                   onClick={() => setLang("te")}
-                  className={`rounded-full px-3 py-1.5 text-xs font-bold transition-all cursor-pointer ${
+                  className={`rounded-full px-3 py-1.5 text-xs font-bold transition-all duration-200 active:scale-95 cursor-pointer ${
                     lang === "te" ? "bg-primary text-primary-foreground shadow-xs font-extrabold" : "text-foreground/70"
                   }`}
                 >

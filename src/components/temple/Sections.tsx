@@ -262,10 +262,10 @@ export function Pujas() {
             return (
               <div
                 key={p.id}
-                className="group flex flex-col rounded-xl border border-border bg-card p-3 sm:p-4 transition hover:-translate-y-0.5 hover:shadow-temple"
+                className="group flex flex-col rounded-xl border border-border bg-card p-3 sm:p-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-temple hover:border-gold/60"
               >
                 <div className="flex items-center justify-between">
-                  <span className="grid h-8 w-8 place-items-center rounded-full bg-saffron text-primary-foreground">
+                  <span className="grid h-8 w-8 place-items-center rounded-full bg-saffron text-primary-foreground shadow-xs">
                     <CalendarDays className="h-3.5 w-3.5" />
                   </span>
                   {p.dakshina && (
@@ -282,7 +282,7 @@ export function Pujas() {
                 <p className="mt-1 flex-1 text-xs leading-relaxed text-muted-foreground text-justify">{displayDesc}</p>
                 <a
                   href="#contact"
-                  className="mt-3 rounded-full border border-primary py-1 text-center text-xs font-semibold text-primary transition group-hover:bg-primary group-hover:text-primary-foreground"
+                  className="mt-3 rounded-full border border-primary py-1 text-center text-xs font-bold text-primary transition-all duration-200 group-hover:bg-primary group-hover:text-primary-foreground group-hover:shadow-sm active:scale-95 cursor-pointer"
                 >
                   {t.bookNow}
                 </a>
@@ -324,14 +324,14 @@ export function Gallery() {
             <div
               key={i}
               onClick={() => setActiveImg(item)}
-              className="group relative cursor-pointer overflow-hidden rounded-xl border border-gold/40 bg-card/10 shadow-md transition-all duration-300 hover:border-gold hover:shadow-xl hover:-translate-y-0.5"
+              className="group relative cursor-pointer overflow-hidden rounded-xl border border-gold/40 bg-card/10 shadow-md transition-all duration-300 hover:border-gold hover:shadow-2xl hover:scale-[1.02] hover:-translate-y-1 active:scale-98"
             >
               <div className="aspect-[3/4] w-full overflow-hidden">
                 <img
                   src={item.src}
                   alt={item.title}
                   loading="lazy"
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-108"
+                  className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                 />
               </div>
 
@@ -365,23 +365,23 @@ export function Gallery() {
         </div>
       </div>
 
-      {/* Lightbox Modal */}
+      {/* Lightbox Modal with Premium Open Transition */}
       {activeImg && (
         <div
-          className="fixed inset-0 z-50 grid place-items-center bg-black/85 p-4 backdrop-blur-sm animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 grid place-items-center bg-black/85 p-4 backdrop-blur-md animate-in fade-in duration-200"
           onClick={() => setActiveImg(null)}
         >
           <div
-            className="relative max-w-2xl w-full rounded-2xl border-2 border-gold/80 bg-maroon p-4 text-center shadow-2xl"
+            className="relative max-w-2xl w-full rounded-2xl border-2 border-gold/80 bg-maroon p-4 text-center shadow-2xl animate-modal-in"
             onClick={(e) => e.stopPropagation()}
           >
             <button
               onClick={() => setActiveImg(null)}
-              className="absolute top-3 right-3 grid h-9 w-9 place-items-center rounded-full bg-black/60 text-gold hover:bg-gold hover:text-maroon transition-colors"
+              className="absolute top-3 right-3 grid h-9 w-9 place-items-center rounded-full bg-black/60 text-gold hover:bg-gold hover:text-maroon transition-all duration-200 hover:scale-110 active:scale-90 cursor-pointer shadow-md"
             >
               <X className="h-5 w-5" />
             </button>
-            <div className="overflow-hidden rounded-xl border border-gold/40 max-h-[75vh] flex items-center justify-center bg-black/40">
+            <div className="overflow-hidden rounded-xl border border-gold/40 max-h-[75vh] flex items-center justify-center bg-black/40 shadow-inner">
               <img
                 src={activeImg.src}
                 alt={activeImg.title}
@@ -418,7 +418,7 @@ export function Prasadam() {
               loading="lazy"
               width={1280}
               height={960}
-              className="aspect-[4/3] w-full rounded-xl border-2 border-gold/60 object-cover shadow-temple max-h-[300px] lg:max-h-[360px]"
+              className="aspect-[4/3] w-full rounded-xl border-2 border-gold/60 object-cover shadow-temple max-h-[300px] lg:max-h-[360px] transition-transform duration-500 hover:scale-[1.02]"
             />
           </div>
           <div>
@@ -428,7 +428,7 @@ export function Prasadam() {
                 const displayName = lang === "te" ? (p.nameTe || p.name) : p.name;
                 const displayDesc = lang === "te" ? (p.descTe || p.desc) : p.desc;
                 return (
-                  <div key={p.id} className="rounded-lg border-l-4 border-primary bg-card p-3 shadow-xs">
+                  <div key={p.id} className="rounded-lg border-l-4 border-primary bg-card p-3 shadow-xs transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md hover:border-gold">
                     <p className="font-display text-xs sm:text-sm font-bold text-primary">{displayName}</p>
                     <p className="mt-0.5 text-[11px] text-muted-foreground">{displayDesc}</p>
                     {p.price && (
@@ -455,7 +455,7 @@ export function Slokhas() {
         <SectionTitle className="mb-3 sm:mb-4">{t.slokhaTitle}</SectionTitle>
         <div className="grid gap-3.5 sm:gap-4 lg:gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {t.slokhas.map((s) => (
-            <div key={s.title} className="temple-border rounded-xl bg-card p-4 sm:p-5 text-center">
+            <div key={s.title} className="temple-border rounded-xl bg-card p-4 sm:p-5 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:border-gold">
               <p className="font-display text-xs sm:text-sm font-bold uppercase tracking-wider text-primary">{s.title}</p>
               <p className="mt-2.5 font-serif text-base sm:text-lg italic leading-relaxed">“{s.text}”</p>
               <p className="mt-2.5 text-xs text-muted-foreground text-justify">{s.meaning}</p>
@@ -503,7 +503,7 @@ export function Contact() {
                       href="https://maps.google.com/?q=Pisini+Ranasthalam+Srikakulam"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-2.5 inline-block rounded-md border border-primary/50 px-3 py-1 text-xs font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground shadow-2xs"
+                      className="mt-2.5 inline-block rounded-md border border-primary/50 px-3.5 py-1 text-xs font-semibold text-primary transition-all duration-200 hover:bg-primary hover:text-primary-foreground hover:scale-105 active:scale-95 shadow-2xs cursor-pointer"
                     >
                       {c.getDirections}
                     </a>
@@ -696,7 +696,7 @@ export function Contact() {
                   </div>
                   <button
                     type="submit"
-                    className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-2.5 text-sm font-bold text-primary-foreground shadow-temple transition hover:brightness-110 active:scale-95"
+                    className="inline-flex items-center gap-2 rounded-lg bg-primary px-7 py-3 text-sm font-bold text-primary-foreground shadow-temple transition-all duration-300 hover:brightness-110 hover:scale-102 hover:shadow-[0_0_24px_rgba(180,83,9,0.45)] active:scale-95 cursor-pointer"
                   >
                     <span>{c.sendMessage}</span>
                     <Send className="h-4 w-4" />

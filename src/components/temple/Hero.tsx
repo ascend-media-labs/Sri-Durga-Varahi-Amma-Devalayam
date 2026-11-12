@@ -45,24 +45,24 @@ export function Hero() {
           <button
             type="button"
             onClick={() => setActiveTab("puja")}
-            className="rounded-full bg-saffron px-4 py-2 sm:px-6 sm:py-2.5 md:px-7 md:py-3 text-xs sm:text-sm md:text-base font-semibold shadow-temple ring-2 ring-gold/70 hover:opacity-90 transition-opacity cursor-pointer"
+            className="rounded-full bg-saffron px-5 py-2.5 sm:px-7 sm:py-3 text-xs sm:text-sm md:text-base font-bold shadow-temple ring-2 ring-gold/80 hover:scale-105 active:scale-95 transition-all duration-300 hover:shadow-[0_0_28px_rgba(234,179,8,0.5)] cursor-pointer"
           >
             {t.bookPuja}
           </button>
           <button
             type="button"
             onClick={() => setActiveTab("gallery")}
-            className="rounded-full border-2 border-gold px-4 py-2 sm:px-6 sm:py-2.5 md:px-7 md:py-3 text-xs sm:text-sm md:text-base font-semibold text-gold hover:bg-gold hover:text-maroon transition-colors cursor-pointer"
+            className="rounded-full border-2 border-gold bg-black/20 backdrop-blur-xs px-5 py-2.5 sm:px-7 sm:py-3 text-xs sm:text-sm md:text-base font-bold text-gold hover:bg-gold hover:text-maroon hover:scale-105 active:scale-95 transition-all duration-300 hover:shadow-[0_0_28px_rgba(234,179,8,0.5)] cursor-pointer"
           >
             {t.explore}
           </button>
         </div>
       </div>
-      <button aria-label="Previous" onClick={() => setI((i - 1 + n) % n)} className="absolute left-4 top-1/2 z-10 -translate-y-1/2 rounded-full border border-gold/60 bg-maroon/40 p-3 text-gold hover:bg-primary">
-        <ChevronLeft />
+      <button aria-label="Previous" onClick={() => setI((i - 1 + n) % n)} className="absolute left-4 top-1/2 z-10 -translate-y-1/2 rounded-full border border-gold/70 bg-maroon/60 backdrop-blur-xs p-3 text-gold hover:bg-gold hover:text-maroon hover:scale-110 active:scale-90 transition-all duration-200 cursor-pointer shadow-lg">
+        <ChevronLeft className="h-5 w-5" />
       </button>
-      <button aria-label="Next" onClick={() => setI((i + 1) % n)} className="absolute right-4 top-1/2 z-10 -translate-y-1/2 rounded-full border border-gold/60 bg-maroon/40 p-3 text-gold hover:bg-primary">
-        <ChevronRight />
+      <button aria-label="Next" onClick={() => setI((i + 1) % n)} className="absolute right-4 top-1/2 z-10 -translate-y-1/2 rounded-full border border-gold/70 bg-maroon/60 backdrop-blur-xs p-3 text-gold hover:bg-gold hover:text-maroon hover:scale-110 active:scale-90 transition-all duration-200 cursor-pointer shadow-lg">
+        <ChevronRight className="h-5 w-5" />
       </button>
       <div className="absolute bottom-6 left-1/2 z-10 flex -translate-x-1/2 gap-2">
         {images.map((_, idx) => (

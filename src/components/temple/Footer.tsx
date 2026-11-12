@@ -47,9 +47,9 @@ export function Footer() {
           <button
             type="button"
             onClick={() => setActiveTab("home")}
-            className="flex items-center gap-3 text-left cursor-pointer"
+            className="group flex items-center gap-3 text-left cursor-pointer transition-transform duration-200 hover:scale-[1.02] active:scale-95"
           >
-            <span className="grid h-12 w-12 place-items-center rounded-full bg-saffron font-display text-2xl text-primary-foreground shadow-temple ring-2 ring-gold/70 shrink-0">
+            <span className="grid h-12 w-12 place-items-center rounded-full bg-saffron font-display text-2xl text-primary-foreground shadow-temple ring-2 ring-gold/70 shrink-0 transition-transform duration-300 group-hover:rotate-6">
               ॐ
             </span>
             <div className="flex flex-col text-left">
@@ -69,14 +69,14 @@ export function Footer() {
           <p className="mt-4 font-serif text-base italic text-gold/95">{t.footerTag}</p>
         </div>
         <div>
-          <h4 className="font-display text-gold">{t.quick}</h4>
+          <h4 className="font-display text-gold font-bold">{t.quick}</h4>
           <ul className="mt-4 space-y-2 text-sm">
             {navItems.map(([k, id]) => (
               <li key={k}>
                 <button
                   type="button"
                   onClick={() => setActiveTab(id as NavSection)}
-                  className="opacity-85 hover:text-gold cursor-pointer text-left transition-colors"
+                  className="opacity-85 hover:opacity-100 hover:text-gold hover:translate-x-1.5 cursor-pointer text-left transition-all duration-200 inline-block"
                 >
                   {t.nav[k]}
                 </button>

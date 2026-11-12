@@ -31,9 +31,9 @@ function SectionBreadcrumb({ currentTitle }: { currentTitle: string }) {
         <button
           type="button"
           onClick={() => setActiveTab("home")}
-          className="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-primary hover:text-amber-700 transition-colors cursor-pointer"
+          className="group flex items-center gap-1.5 text-xs sm:text-sm font-bold text-primary hover:text-amber-700 transition-all duration-200 hover:-translate-x-0.5 active:scale-95 cursor-pointer"
         >
-          <ChevronLeft className="h-4 w-4" />
+          <ChevronLeft className="h-4 w-4 transition-transform duration-200 group-hover:-translate-x-1" />
           <span>{lang === "te" ? "ముఖ్య పేజీకి (Back to Home)" : "Back to Home"}</span>
         </button>
 
@@ -63,7 +63,7 @@ function SectionNavFooter() {
         <button
           type="button"
           onClick={() => setActiveTab("home")}
-          className="rounded-full bg-primary text-primary-foreground px-5 py-2 text-xs sm:text-sm font-bold shadow-sm hover:brightness-110 cursor-pointer flex items-center gap-1.5"
+          className="rounded-full bg-primary text-primary-foreground px-5 py-2.5 text-xs sm:text-sm font-bold shadow-md hover:shadow-lg hover:brightness-110 active:scale-95 transition-all duration-200 cursor-pointer flex items-center gap-1.5"
         >
           <span>{lang === "te" ? "← ముఖ్య పేజీకి వెళ్ళండి (Home)" : "← Back to Home"}</span>
         </button>
@@ -74,7 +74,7 @@ function SectionNavFooter() {
               key={id}
               type="button"
               onClick={() => setActiveTab(id as NavSection)}
-              className="rounded-full border border-primary/30 bg-card px-3 py-1.5 text-xs font-semibold text-foreground hover:bg-gold/15 hover:text-primary transition-colors cursor-pointer"
+              className="rounded-full border border-primary/30 bg-card px-3.5 py-1.5 text-xs font-semibold text-foreground hover:bg-gold/15 hover:border-gold hover:text-primary hover:scale-105 active:scale-95 transition-all duration-200 shadow-2xs hover:shadow-xs cursor-pointer"
             >
               {t.nav[k]} →
             </button>
@@ -94,66 +94,68 @@ function Page() {
       <div>
         <Navbar />
         <main className="transition-all duration-300">
-          {activeTab === "home" && (
-            <div className="animate-in fade-in duration-300">
-              <Hero />
-              <About />
-              <History />
-              <Pujas />
-              <Gallery />
-              <Prasadam />
-              <Slokhas />
-              <Contact />
-            </div>
-          )}
+          <div key={activeTab} className="animate-section-in">
+            {activeTab === "home" && (
+              <div>
+                <Hero />
+                <About />
+                <History />
+                <Pujas />
+                <Gallery />
+                <Prasadam />
+                <Slokhas />
+                <Contact />
+              </div>
+            )}
 
-          {activeTab === "history" && (
-            <div className="animate-in fade-in duration-300">
-              <SectionBreadcrumb currentTitle={t.nav.history} />
-              <History />
-              <SectionNavFooter />
-            </div>
-          )}
+            {activeTab === "history" && (
+              <div>
+                <SectionBreadcrumb currentTitle={t.nav.history} />
+                <History />
+                <SectionNavFooter />
+              </div>
+            )}
 
-          {activeTab === "puja" && (
-            <div className="animate-in fade-in duration-300">
-              <SectionBreadcrumb currentTitle={t.nav.puja} />
-              <Pujas />
-              <SectionNavFooter />
-            </div>
-          )}
+            {activeTab === "puja" && (
+              <div>
+                <SectionBreadcrumb currentTitle={t.nav.puja} />
+                <Pujas />
+                <SectionNavFooter />
+              </div>
+            )}
 
-          {activeTab === "gallery" && (
-            <div className="animate-in fade-in duration-300">
-              <SectionBreadcrumb currentTitle={t.nav.gallery} />
-              <Gallery />
-              <SectionNavFooter />
-            </div>
-          )}
+            {activeTab === "gallery" && (
+              <div>
+                <SectionBreadcrumb currentTitle={t.nav.gallery} />
+                <Gallery />
+                <SectionNavFooter />
+              </div>
+            )}
 
-          {activeTab === "prasadam" && (
-            <div className="animate-in fade-in duration-300">
-              <SectionBreadcrumb currentTitle={t.nav.prasadam} />
-              <Prasadam />
-              <SectionNavFooter />
-            </div>
-          )}
+            {activeTab === "prasadam" && (
+              <div>
+                <SectionBreadcrumb currentTitle={t.nav.prasadam} />
+                <Prasadam />
+                <SectionNavFooter />
+              </div>
+            )}
 
-          {activeTab === "info" && (
-            <div className="animate-in fade-in duration-300">
-              <SectionBreadcrumb currentTitle={t.nav.info} />
-              <Slokhas />
-              <SectionNavFooter />
-            </div>
-          )}
+            {activeTab === "info" && (
+              <div>
+                <SectionBreadcrumb currentTitle={t.nav.info} />
+                <Slokhas />
+                <SectionNavFooter />
+              </div>
+            )}
 
-          {activeTab === "contact" && (
-            <div className="animate-in fade-in duration-300">
-              <SectionBreadcrumb currentTitle={t.nav.contact} />
-              <Contact />
-              <SectionNavFooter />
-            </div>
-          )}
+            {activeTab === "contact" && (
+              <div>
+                <SectionBreadcrumb currentTitle={t.nav.contact} />
+                <Contact />
+                <SectionNavFooter />
+              </div>
+            )}
+          </div>
         </main>
       </div>
       <Footer />

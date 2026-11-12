@@ -198,6 +198,63 @@ section[id] { scroll-margin-top: 5rem; }
 @utility fade-up { animation: fadeUp 0.9s ease both; }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
 
+/* Premium Section & Modal Open Transitions */
+@keyframes sectionIn {
+  0% {
+    opacity: 0;
+    transform: translateY(18px) scale(0.992);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes modalIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.93) translateY(14px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes goldPulse {
+  0%, 100% {
+    box-shadow: 0 0 16px -2px rgba(217, 119, 6, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 28px 2px rgba(217, 119, 6, 0.55);
+  }
+}
+
+@utility animate-section-in {
+  animation: sectionIn 0.38s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@utility animate-modal-in {
+  animation: modalIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@utility gold-pulse {
+  animation: goldPulse 3s ease-in-out infinite;
+}
+
+/* Premium Button & Interactive Transitions */
+.btn-premium {
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, box-shadow;
+}
+.btn-premium:hover {
+  transform: translateY(-1.5px) scale(1.025);
+  box-shadow: 0 10px 25px -8px rgba(180, 83, 9, 0.45);
+}
+.btn-premium:active {
+  transform: translateY(0) scale(0.97);
+}
+
 @keyframes marquee {
   0% { transform: translateX(0%); }
   100% { transform: translateX(-33.333333%); }
