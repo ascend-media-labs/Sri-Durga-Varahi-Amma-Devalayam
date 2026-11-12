@@ -221,22 +221,36 @@ export function Pujas() {
                   <div>
                     <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">{ev.organizerLabel}</p>
                     <p className="mt-0.5 text-xs sm:text-sm font-bold text-foreground">{ev.organizer}</p>
-                    <p className="text-xs text-primary font-semibold mt-0.5">సెల్ / Phone: {ev.phone}</p>
+                    <p className="text-xs text-primary font-semibold mt-0.5 flex flex-wrap items-center gap-1">
+                      <span>సెల్ / Phone:</span>
+                      <a href="tel:8919418447" className="hover:underline font-bold">+91 89194 18447</a>
+                      <span className="text-muted-foreground">,</span>
+                      <a href="tel:9642749187" className="hover:underline font-bold">+91 96427 49187</a>
+                    </p>
                   </div>
                 </div>
 
                 {/* Call & Book Buttons */}
                 <div className="pt-1 flex flex-wrap gap-2">
                   <a
-                    href={`tel:${ev.phone}`}
-                    className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-full bg-primary py-1.5 px-3.5 text-center text-xs font-semibold text-primary-foreground transition hover:opacity-95 shadow-sm"
+                    href="tel:8919418447"
+                    className="flex-1 min-w-[110px] inline-flex items-center justify-center gap-1.5 rounded-full bg-primary py-1.5 px-3 text-center text-xs font-semibold text-primary-foreground transition hover:opacity-95 shadow-xs"
+                    title="Call 8919418447"
                   >
                     <Phone className="h-3.5 w-3.5" />
-                    <span>{ev.callButton}</span>
+                    <span>89194 18447</span>
+                  </a>
+                  <a
+                    href="tel:9642749187"
+                    className="flex-1 min-w-[110px] inline-flex items-center justify-center gap-1.5 rounded-full bg-primary py-1.5 px-3 text-center text-xs font-semibold text-primary-foreground transition hover:opacity-95 shadow-xs"
+                    title="Call 9642749187"
+                  >
+                    <Phone className="h-3.5 w-3.5" />
+                    <span>96427 49187</span>
                   </a>
                   <a
                     href="#contact"
-                    className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-full border border-primary py-1.5 px-3.5 text-center text-xs font-semibold text-primary transition hover:bg-primary/10"
+                    className="w-full sm:w-auto sm:flex-1 inline-flex items-center justify-center gap-1.5 rounded-full border border-primary py-1.5 px-3.5 text-center text-xs font-semibold text-primary transition hover:bg-primary/10"
                   >
                     <span>{ev.enquireButton}</span>
                   </a>
@@ -517,9 +531,13 @@ export function Contact() {
                   </span>
                   <div className="text-xs sm:text-sm">
                     <p className="text-muted-foreground">{c.queriesText}</p>
-                    <p className="mt-1 font-bold text-foreground tracking-wide">
-                      <a href="tel:8919418447" className="hover:text-primary transition-colors">
-                        {c.phoneNumbers}
+                    <p className="mt-1 font-bold text-foreground tracking-wide flex flex-wrap items-center gap-1.5">
+                      <a href="tel:8919418447" className="hover:text-primary transition-colors underline decoration-gold/50 underline-offset-2">
+                        +91 89194 18447
+                      </a>
+                      <span className="text-muted-foreground font-normal">/</span>
+                      <a href="tel:9642749187" className="hover:text-primary transition-colors underline decoration-gold/50 underline-offset-2">
+                        +91 96427 49187
                       </a>
                     </p>
                     <p className="text-muted-foreground mt-0.5 font-medium">{c.fax}</p>

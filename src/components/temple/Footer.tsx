@@ -88,7 +88,18 @@ export function Footer() {
           <h4 className="font-display text-gold">{t.contact}</h4>
           <ul className="mt-4 space-y-3 text-sm opacity-90">
             <li className="flex gap-2"><MapPin className="h-4 w-4 shrink-0 text-gold" />{t.address}</li>
-            <li className="flex gap-2"><Phone className="h-4 w-4 text-gold" /><a href="tel:8919418447">+91 89194 18447</a></li>
+            <li className="flex gap-2">
+              <Phone className="h-4 w-4 shrink-0 text-gold mt-0.5" />
+              <div className="flex flex-wrap items-center gap-1.5">
+                <a href="tel:8919418447" className="hover:text-gold transition-colors underline decoration-gold/40 underline-offset-2">
+                  +91 89194 18447
+                </a>
+                <span className="text-gold/60">/</span>
+                <a href="tel:9642749187" className="hover:text-gold transition-colors underline decoration-gold/40 underline-offset-2">
+                  +91 96427 49187
+                </a>
+              </div>
+            </li>
             <li className="flex gap-2"><Mail className="h-4 w-4 text-gold" /><a href="mailto:info@varahiammatemple.org">info@varahiammatemple.org</a></li>
           </ul>
         </div>
