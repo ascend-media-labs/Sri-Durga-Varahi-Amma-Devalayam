@@ -6,7 +6,8 @@ This module documents the administrative backend architecture and data managemen
 
 The Admin Portal is accessible at:
 - **URL**: `http://localhost:8080/admin`
-- **Default Master Passkey**: `varahi2026` (or `admin`)
+- **Admin Email**: `admin@varahiammatemple.org`
+- **Admin Password**: `Varahi@2026` (also accepts `varahi2026` or `admin123`)
 
 ### 1. Gallery Manager
 - **Capabilities**:
@@ -37,3 +38,4 @@ The Admin Portal is accessible at:
 - Syncs seamlessly to `localStorage` across page reloads and browser sessions.
 - React Context reactive architecture triggers automatic zero-latency UI re-renders on both `/` and `/admin`.
 - Factory reset option available to restore canonical temple defaults at any time.
+

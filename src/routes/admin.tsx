@@ -9,11 +9,13 @@ import {
   Edit3,
   ExternalLink,
   Eye,
+  EyeOff,
   Filter,
   Image as ImageIcon,
   Layers,
   Lock,
   LogOut,
+  Mail,
   Plus,
   RefreshCw,
   Search,
@@ -60,13 +62,18 @@ function AdminPage() {
     resetAll,
   } = useTempleStore();
 
-  // Auth State
+  // Auth State (Email & Password)
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
     if (typeof window === "undefined") return false;
     return sessionStorage.getItem("varahi_admin_auth") === "true";
   });
-  const [passkeyInput, setPasskeyInput] = useState("");
-  const [authError, setAuthError] = useState(false);
+  const [adminEmail, setAdminEmail] = useState(() => {
+    if (typeof window === "undefined") return "admin@varahiammatemple.org";
+    return localStorage.getItem("varahi_saved_admin_email") || "admin@varahiammatemple.org";
+  });
+  const [adminPassword, setAdminPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [authError, setAuthError] = useState<string | null>(null);
 
   // Active Tab
   const [activeTab, setActiveTab] = useState<"overview" | "gallery" | "pujas" | "prasadam">("overview");
@@ -81,21 +88,37 @@ function AdminPage() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // Default master passkey for temple administration
-    if (passkeyInput === "varahi2026" || passkeyInput === "admin") {
+    const cleanEmail = adminEmail.trim().toLowerCase();
+    const cleanPassword = adminPassword.trim();
+
+    // Check credentials:
+    // Accept valid temple admin emails:
+    // admin@varahiammatemple.org, admin@gmail.com, or any valid email
+    // Password: Varahi@2026, varahi2026, admin123, or admin
+    const isEmailValid = cleanEmail.length > 3 && (cleanEmail.includes("@") || cleanEmail === "admin");
+    const isPasswordValid =
+      cleanPassword === "Varahi@2026" ||
+      cleanPassword === "varahi2026" ||
+      cleanPassword === "admin123" ||
+      cleanPassword === "admin";
+
+    if (isEmailValid && isPasswordValid) {
       setIsAuthenticated(true);
       sessionStorage.setItem("varahi_admin_auth", "true");
-      setAuthError(false);
-      showToast("స్వాగతం! Welcome to Sri Durga Varahi Amma Devalayam Admin Portal");
+      sessionStorage.setItem("varahi_admin_email", cleanEmail);
+      localStorage.setItem("varahi_saved_admin_email", cleanEmail);
+      setAuthError(null);
+      showToast(`స్వాగతం! Welcome, ${cleanEmail}`);
     } else {
-      setAuthError(true);
+      setAuthError("ఈమెయిల్ లేదా పాస్‌వర్డ్ సరైనది కాదు! Invalid Email or Password. (Check default credentials below)");
     }
   };
 
   const handleLogout = () => {
     setIsAuthenticated(false);
     sessionStorage.removeItem("varahi_admin_auth");
-    setPasskeyInput("");
+    sessionStorage.removeItem("varahi_admin_email");
+    setAdminPassword("");
   };
 
   // Modals
@@ -250,38 +273,86 @@ function AdminPage() {
           </div>
 
           <form onSubmit={handleLogin} className="mt-6 space-y-4">
+            {/* Quick credentials hint */}
+            <div className="rounded-xl border border-gold/40 bg-gold/10 p-3 text-xs text-amber-950 dark:text-gold flex items-start gap-2.5">
+              <Sparkles className="h-4 w-4 text-gold shrink-0 mt-0.5" />
+              <div className="flex-1">
+                <span className="font-bold block text-primary">అడ్మిన్ లాగిన్ వివరాలు (Admin Credentials):</span>
+                <p className="mt-1 text-[11.5px] font-mono leading-relaxed">
+                  Email: <b className="text-foreground">admin@varahiammatemple.org</b><br />
+                  Password: <b className="text-foreground">Varahi@2026</b>
+                </p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setAdminEmail("admin@varahiammatemple.org");
+                    setAdminPassword("Varahi@2026");
+                  }}
+                  className="mt-1.5 text-[11px] font-bold text-primary hover:underline flex items-center gap-1 cursor-pointer"
+                >
+                  <span>⚡ ఆటోమేటిక్‌గా నింపండి (Click to Auto-fill)</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Email Field */}
             <div>
-              <label className="block text-xs font-semibold text-foreground mb-1.5 flex items-center justify-between">
-                <span>అడ్మిన్ పాస్‌కీ (Admin Passkey)</span>
-                <span className="text-[11px] text-primary font-normal cursor-pointer hover:underline" onClick={() => setPasskeyInput("varahi2026")}>
-                  Use Default: <code className="bg-muted px-1 rounded font-bold">varahi2026</code>
-                </span>
+              <label className="block text-xs font-semibold text-foreground mb-1.5">
+                ఈమెయిల్ అడ్రస్ (Admin Email) *
               </label>
               <div className="relative">
                 <input
-                  type="password"
+                  type="email"
                   required
-                  value={passkeyInput}
-                  onChange={(e) => setPasskeyInput(e.target.value)}
-                  placeholder="Enter administrator passkey..."
-                  className="w-full rounded-xl border border-input bg-background px-4 py-3 pl-11 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
+                  value={adminEmail}
+                  onChange={(e) => setAdminEmail(e.target.value)}
+                  placeholder="admin@varahiammatemple.org"
+                  className="w-full rounded-xl border border-input bg-background px-4 py-3 pl-11 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20 font-medium"
+                />
+                <Mail className="absolute left-3.5 top-3.5 h-4 w-4 text-muted-foreground" />
+              </div>
+            </div>
+
+            {/* Password Field */}
+            <div>
+              <label className="block text-xs font-semibold text-foreground mb-1.5">
+                పాస్‌వర్డ్ (Admin Password) *
+              </label>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  required
+                  value={adminPassword}
+                  onChange={(e) => setAdminPassword(e.target.value)}
+                  placeholder="Enter admin password..."
+                  className="w-full rounded-xl border border-input bg-background px-4 py-3 pl-11 pr-11 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20 font-medium"
                 />
                 <Lock className="absolute left-3.5 top-3.5 h-4 w-4 text-muted-foreground" />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3.5 top-3.5 text-muted-foreground hover:text-foreground cursor-pointer"
+                  title={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
               </div>
-              {authError && (
-                <p className="mt-2 text-xs text-destructive font-medium flex items-center gap-1.5 animate-in fade-in">
-                  <AlertCircle className="h-3.5 w-3.5 shrink-0" />
-                  <span>తప్పు పాస్‌కీ! Incorrect passkey. (Hint: varahi2026)</span>
-                </p>
-              )}
             </div>
+
+            {/* Error Message */}
+            {authError && (
+              <div className="rounded-lg bg-destructive/10 border border-destructive/30 p-2.5 text-xs text-destructive font-medium flex items-center gap-2 animate-in fade-in">
+                <AlertCircle className="h-4 w-4 shrink-0" />
+                <span>{authError}</span>
+              </div>
+            )}
 
             <button
               type="submit"
-              className="w-full rounded-xl bg-primary hover:brightness-110 text-primary-foreground py-3 text-sm font-bold shadow-temple transition-all flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full rounded-xl bg-primary hover:brightness-110 text-primary-foreground py-3 text-sm font-bold shadow-temple transition-all flex items-center justify-center gap-2 cursor-pointer mt-2"
             >
               <ShieldCheck className="h-4 w-4" />
-              <span>లాగిన్ అవ్వండి (Enter Admin Console)</span>
+              <span>లాగిన్ అవ్వండి (Login to Admin Dashboard)</span>
             </button>
           </form>
 
@@ -334,6 +405,11 @@ function AdminPage() {
 
           {/* Quick Actions */}
           <div className="flex items-center gap-2 sm:gap-3">
+            <div className="hidden lg:flex items-center gap-1.5 bg-gold/15 border border-gold/40 rounded-full px-3 py-1 text-xs text-gold font-medium">
+              <Mail className="h-3 w-3 text-gold" />
+              <span className="truncate max-w-[200px]">{adminEmail || "admin@varahiammatemple.org"}</span>
+            </div>
+
             <Link
               to="/"
               target="_blank"
@@ -1263,3 +1339,4 @@ function AdminPage() {
     </div>
   );
 }
+
