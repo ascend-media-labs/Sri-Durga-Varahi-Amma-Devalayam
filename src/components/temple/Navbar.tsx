@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   BookOpen,
   CalendarDays,
@@ -39,6 +39,45 @@ export function Navbar() {
   const { t, lang, setLang } = useLang();
   const { activeTab, setActiveTab } = useNav();
   const [open, setOpen] = useState(false);
+
+  const navRef = useRef<HTMLElement>(null);
+  const buttonRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+  const [bubbleStyle, setBubbleStyle] = useState<{
+    left: number;
+    top: number;
+    width: number;
+    height: number;
+    opacity: number;
+  }>({
+    left: 0,
+    top: 0,
+    width: 0,
+    height: 0,
+    opacity: 0,
+  });
+
+  useEffect(() => {
+    const updateBubble = () => {
+      const activeBtn = buttonRefs.current[activeTab];
+      if (activeBtn) {
+        setBubbleStyle({
+          left: activeBtn.offsetLeft,
+          top: activeBtn.offsetTop,
+          width: activeBtn.offsetWidth,
+          height: activeBtn.offsetHeight,
+          opacity: 1,
+        });
+      }
+    };
+
+    updateBubble();
+    const timer = setTimeout(updateBubble, 60);
+    window.addEventListener("resize", updateBubble);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("resize", updateBubble);
+    };
+  }, [activeTab, lang]);
 
   return (
     <>
@@ -93,19 +132,36 @@ export function Navbar() {
           </div>
         </button>
 
-        {/* Desktop Navigation Links - Responsive for 1024px Laptop, 13", 14", 15", 16", 17"+ screens */}
-        <nav className="hidden items-center gap-0.5 lg:flex xl:gap-1 2xl:gap-1.5 shrink min-w-0">
+        {/* Desktop Navigation Links - Responsive with Animated Sliding Pill Bubble */}
+        <nav
+          ref={navRef}
+          className="relative hidden items-center gap-0.5 lg:flex xl:gap-1 2xl:gap-1.5 shrink min-w-0"
+        >
+          {/* Animated Moving Bubble */}
+          <div
+            className="pointer-events-none absolute rounded-full bg-primary shadow-md ring-1 ring-gold/80 shadow-gold/25 transition-all duration-300 ease-out"
+            style={{
+              transform: `translate3d(${bubbleStyle.left}px, ${bubbleStyle.top}px, 0px)`,
+              width: `${bubbleStyle.width}px`,
+              height: `${bubbleStyle.height}px`,
+              opacity: bubbleStyle.opacity,
+            }}
+          />
+
           {navItems.map(([k, id]) => {
             const isActive = activeTab === id;
             return (
               <button
                 key={k}
+                ref={(el) => {
+                  buttonRefs.current[id] = el;
+                }}
                 type="button"
                 onClick={() => setActiveTab(id as NavSection)}
-                className={`relative rounded-full px-2 py-1 text-xs lg:px-1.5 lg:py-1 lg:text-[11px] xl:px-3 xl:py-1.5 xl:text-xs 2xl:px-4 2xl:py-1.5 2xl:text-sm font-semibold transition-all duration-200 whitespace-nowrap cursor-pointer active:scale-95 ${
+                className={`relative z-10 rounded-full px-2 py-1 text-xs lg:px-1.5 lg:py-1 lg:text-[11px] xl:px-3 xl:py-1.5 xl:text-xs 2xl:px-4 2xl:py-1.5 2xl:text-sm font-semibold transition-colors duration-200 whitespace-nowrap cursor-pointer active:scale-95 ${
                   isActive
-                    ? "bg-primary text-primary-foreground font-bold shadow-md ring-1 ring-gold/80 scale-[1.02] xl:scale-105 shadow-gold/25"
-                    : "text-foreground/85 hover:bg-gold/15 hover:text-primary hover:scale-[1.02] xl:hover:scale-105"
+                    ? "text-primary-foreground font-bold"
+                    : "text-foreground/80 hover:text-primary"
                 }`}
               >
                 {t.nav[k]}
