@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from "react";
 import { CalendarDays, Clock, Flower2, Mail, MapPin, MessageSquare, Phone, Send, Sparkles, X } from "lucide-react";
 import { useLang } from "@/lib/i18n";
+import { useTempleStore } from "@/lib/templeStore";
 import temple from "@/assets/hero-temple.jpg";
 import goddess from "@/assets/hero-goddess.jpg";
 import aarti from "@/assets/hero-aarti.jpg";
@@ -118,8 +119,10 @@ export function History() {
 }
 
 export function Pujas() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
+  const { pujas } = useTempleStore();
   const ev = t.navaratriEvent;
+  const regularPujas = pujas.filter((p) => p.type === "puja" && p.active);
 
   return (
     <section id="puja" className="py-5 md:py-7">
@@ -253,28 +256,39 @@ export function Pujas() {
         </div>
 
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {t.pujas.map((p) => (
-            <div
-              key={p.name}
-              className="group flex flex-col rounded-xl border border-border bg-card p-3 sm:p-4 transition hover:-translate-y-0.5 hover:shadow-temple"
-            >
-              <span className="grid h-8 w-8 place-items-center rounded-full bg-saffron text-primary-foreground">
-                <CalendarDays className="h-3.5 w-3.5" />
-              </span>
-              <h3 className="mt-2 font-display text-sm sm:text-base font-bold text-primary">{p.name}</h3>
-              <p className="mt-1 flex items-center gap-1 text-[11px] sm:text-xs font-semibold text-accent-foreground">
-                <Clock className="h-3 w-3 text-gold" />
-                {p.time}
-              </p>
-              <p className="mt-1 flex-1 text-xs leading-relaxed text-muted-foreground text-justify">{p.desc}</p>
-              <a
-                href="#contact"
-                className="mt-3 rounded-full border border-primary py-1 text-center text-xs font-semibold text-primary transition group-hover:bg-primary group-hover:text-primary-foreground"
+          {regularPujas.map((p) => {
+            const displayName = lang === "te" ? (p.nameTe || p.name) : p.name;
+            const displayDesc = lang === "te" ? (p.descTe || p.desc) : p.desc;
+            return (
+              <div
+                key={p.id}
+                className="group flex flex-col rounded-xl border border-border bg-card p-3 sm:p-4 transition hover:-translate-y-0.5 hover:shadow-temple"
               >
-                {t.bookNow}
-              </a>
-            </div>
-          ))}
+                <div className="flex items-center justify-between">
+                  <span className="grid h-8 w-8 place-items-center rounded-full bg-saffron text-primary-foreground">
+                    <CalendarDays className="h-3.5 w-3.5" />
+                  </span>
+                  {p.dakshina && (
+                    <span className="rounded-full bg-primary/10 border border-primary/30 px-2 py-0.5 text-[11px] font-bold text-primary">
+                      {p.dakshina}
+                    </span>
+                  )}
+                </div>
+                <h3 className="mt-2 font-display text-sm sm:text-base font-bold text-primary">{displayName}</h3>
+                <p className="mt-1 flex items-center gap-1 text-[11px] sm:text-xs font-semibold text-accent-foreground">
+                  <Clock className="h-3 w-3 text-gold" />
+                  {p.time}
+                </p>
+                <p className="mt-1 flex-1 text-xs leading-relaxed text-muted-foreground text-justify">{displayDesc}</p>
+                <a
+                  href="#contact"
+                  className="mt-3 rounded-full border border-primary py-1 text-center text-xs font-semibold text-primary transition group-hover:bg-primary group-hover:text-primary-foreground"
+                >
+                  {t.bookNow}
+                </a>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -282,24 +296,15 @@ export function Pujas() {
 }
 
 export function Gallery() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
+  const { gallery } = useTempleStore();
   const [activeImg, setActiveImg] = useState<{ src: string; title: string; desc: string } | null>(null);
 
-  const items = t.galleryItems ?? [];
-  const galleryList = [
-    { src: gallery1, title: items[0]?.title ?? "", desc: items[0]?.desc ?? "" },
-    { src: gallery2, title: items[1]?.title ?? "", desc: items[1]?.desc ?? "" },
-    { src: gallery3, title: items[2]?.title ?? "", desc: items[2]?.desc ?? "" },
-    { src: gallery4, title: items[3]?.title ?? "", desc: items[3]?.desc ?? "" },
-    { src: gallery5, title: items[4]?.title ?? "", desc: items[4]?.desc ?? "" },
-    { src: gallery6, title: items[5]?.title ?? "", desc: items[5]?.desc ?? "" },
-    { src: gallery7, title: items[6]?.title ?? "", desc: items[6]?.desc ?? "" },
-    { src: gallery8, title: items[7]?.title ?? "", desc: items[7]?.desc ?? "" },
-    { src: gallery9, title: items[8]?.title ?? "", desc: items[8]?.desc ?? "" },
-    { src: gallery10, title: items[9]?.title ?? "", desc: items[9]?.desc ?? "" },
-    { src: varahiMain, title: items[10]?.title ?? "", desc: items[10]?.desc ?? "" },
-    { src: varahiGreen, title: items[11]?.title ?? "", desc: items[11]?.desc ?? "" },
-  ];
+  const galleryList = gallery.map((item) => ({
+    src: item.src,
+    title: lang === "te" ? (item.titleTe || item.title) : item.title,
+    desc: lang === "te" ? (item.descTe || item.desc) : item.desc,
+  }));
 
   return (
     <section id="gallery" className="bg-maroon py-6 md:py-8 text-primary-foreground">
@@ -395,7 +400,12 @@ export function Gallery() {
 }
 
 export function Prasadam() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
+  const { prasadams, annadanamInfo } = useTempleStore();
+  const availablePrasadams = prasadams.filter((p) => p.isAvailable);
+
+  const mainPrasadamText = lang === "te" ? (annadanamInfo.descTe || t.prasadamText) : (annadanamInfo.desc || t.prasadamText);
+
   return (
     <section id="prasadam" className="kolam-bg py-5 md:py-7">
       <div className="mx-auto max-w-7xl xl:max-w-[1360px] 2xl:max-w-[1520px] px-4 sm:px-6 md:px-8 lg:px-10">
@@ -412,14 +422,23 @@ export function Prasadam() {
             />
           </div>
           <div>
-            <p className="font-serif text-sm sm:text-base lg:text-lg leading-relaxed text-foreground text-justify">{t.prasadamText}</p>
+            <p className="font-serif text-sm sm:text-base lg:text-lg leading-relaxed text-foreground text-justify">{mainPrasadamText}</p>
             <div className="mt-4 grid grid-cols-2 gap-2.5">
-              {t.prasadams.map(([n, d]) => (
-                <div key={n} className="rounded-lg border-l-4 border-primary bg-card p-3 shadow-xs">
-                  <p className="font-display text-xs sm:text-sm font-bold text-primary">{n}</p>
-                  <p className="mt-0.5 text-[11px] text-muted-foreground">{d}</p>
-                </div>
-              ))}
+              {availablePrasadams.map((p) => {
+                const displayName = lang === "te" ? (p.nameTe || p.name) : p.name;
+                const displayDesc = lang === "te" ? (p.descTe || p.desc) : p.desc;
+                return (
+                  <div key={p.id} className="rounded-lg border-l-4 border-primary bg-card p-3 shadow-xs">
+                    <p className="font-display text-xs sm:text-sm font-bold text-primary">{displayName}</p>
+                    <p className="mt-0.5 text-[11px] text-muted-foreground">{displayDesc}</p>
+                    {p.price && (
+                      <span className="mt-1 inline-block text-[10px] font-bold text-gold">
+                        {p.price}
+                      </span>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

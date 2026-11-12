@@ -1,4 +1,4 @@
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin, Phone, ShieldCheck } from "lucide-react";
 import { useLang } from "@/lib/i18n";
 import { navItems } from "./Navbar";
 
@@ -131,8 +131,19 @@ export function Footer() {
           </div>
         </div>
       </div>
-      <div className="border-t border-gold/30 py-5 text-center text-sm opacity-80">
-        © {new Date().getFullYear()} {t.templeName}. {t.rights}
+      <div className="border-t border-gold/30 py-5 px-4 text-center text-xs sm:text-sm opacity-90 flex flex-col sm:flex-row items-center justify-between max-w-7xl mx-auto gap-3">
+        <div>
+          © {new Date().getFullYear()} {t.templeName}. {t.rights}
+        </div>
+        <div>
+          <a
+            href="/admin"
+            className="inline-flex items-center gap-1.5 text-gold hover:text-white text-xs font-semibold px-3 py-1.5 rounded-full bg-gold/15 hover:bg-gold/25 border border-gold/40 transition-colors shadow-2xs"
+          >
+            <ShieldCheck className="h-3.5 w-3.5" />
+            <span>ఆలయ పరిపాలన (Admin Portal)</span>
+          </a>
+        </div>
       </div>
     </footer>
   );
