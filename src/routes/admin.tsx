@@ -1012,11 +1012,11 @@ function AdminPage() {
                   key={item.id}
                   className="group rounded-xl border border-border bg-card overflow-hidden shadow-xs hover:border-gold hover:shadow-md transition-all flex flex-col justify-between"
                 >
-                  <div className="relative aspect-[4/3] bg-muted overflow-hidden">
+                  <div className="relative aspect-[3/4] bg-muted/60 overflow-hidden">
                     <img
                       src={item.src}
                       alt={item.title}
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="h-full w-full object-cover object-top origin-top transition-transform duration-500 group-hover:scale-105"
                     />
                     <div className="absolute top-2 left-2 bg-maroon/90 text-gold px-2 py-0.5 rounded text-[10px] font-bold border border-gold/40">
                       #{idx + 1}

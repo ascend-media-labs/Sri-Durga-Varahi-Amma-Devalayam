@@ -64,7 +64,7 @@ export function About() {
                 loading="lazy"
                 width={600}
                 height={750}
-                className="relative aspect-[3.8/5] max-h-[340px] lg:max-h-[390px] xl:max-h-[440px] w-full rounded-t-full object-cover object-center shadow-temple"
+                className="relative aspect-[3.8/5] max-h-[340px] lg:max-h-[390px] xl:max-h-[440px] w-full rounded-t-full object-cover object-top shadow-temple"
               />
             </div>
           </div>
@@ -326,12 +326,12 @@ export function Gallery() {
               onClick={() => setActiveImg(item)}
               className="group relative cursor-pointer overflow-hidden rounded-xl border border-gold/40 bg-card/10 shadow-md transition-all duration-300 hover:border-gold hover:shadow-2xl hover:scale-[1.02] hover:-translate-y-1 active:scale-98"
             >
-              <div className="aspect-[3/4] w-full overflow-hidden">
+              <div className="aspect-[3/4] w-full overflow-hidden bg-black/20">
                 <img
                   src={item.src}
                   alt={item.title}
                   loading="lazy"
-                  className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                  className="h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-108 origin-top"
                 />
               </div>
 
