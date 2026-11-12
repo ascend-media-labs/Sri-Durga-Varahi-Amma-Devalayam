@@ -604,7 +604,7 @@ function AdminPage() {
     return (
       <div className="min-h-screen bg-linear-to-b from-maroon via-maroon/90 to-black text-primary-foreground flex flex-col justify-between p-4 sm:p-6">
         {/* Header bar */}
-        <div className="flex flex-wrap items-center justify-between max-w-5xl mx-auto w-full pt-4 gap-3 px-2">
+        <div className="flex flex-wrap items-center justify-between w-full max-w-[1920px] mx-auto pt-4 gap-3 px-3 sm:px-6 lg:px-8 xl:px-10">
           <Link to="/" className="flex items-center gap-2 text-gold hover:underline text-sm font-medium">
             <ChevronRight className="h-4 w-4 rotate-180" />
             <span>{tAdmin.backToSite}</span>
@@ -748,29 +748,29 @@ function AdminPage() {
 
       {/* Top Admin Header Bar */}
       <header className="sticky top-0 z-40 bg-maroon text-primary-foreground border-b-2 border-gold shadow-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+        <div className="w-full max-w-[1920px] mx-auto px-3 sm:px-4 md:px-6 lg:px-8 xl:px-10 2xl:px-12 h-16 flex items-center justify-between gap-2 sm:gap-4">
           {/* Logo & Portal Identity */}
-          <div className="flex items-center gap-3">
-            <span className="grid h-10 w-10 place-items-center rounded-full bg-saffron text-primary-foreground font-display text-xl shadow-temple ring-2 ring-gold/70 shrink-0">
+          <div className="flex items-center gap-2.5 sm:gap-3 shrink-0 min-w-0">
+            <span className="grid h-9 w-9 sm:h-10 sm:w-10 place-items-center rounded-full bg-saffron text-primary-foreground font-display text-lg sm:text-xl shadow-temple ring-2 ring-gold/70 shrink-0">
               ॐ
             </span>
-            <div>
+            <div className="min-w-0">
               <div className="flex items-center gap-2">
-                <h1 className="font-display text-sm sm:text-base font-bold text-gold tracking-wide leading-none">
+                <h1 className="font-display text-xs sm:text-sm md:text-base font-bold text-gold tracking-wide leading-none truncate">
                   SRI DURGA VARAHI DEVALAYAM
                 </h1>
-                <span className="hidden sm:inline-block text-[10px] bg-gold/20 text-gold px-2 py-0.5 rounded font-bold border border-gold/40">
+                <span className="hidden sm:inline-block text-[9px] sm:text-[10px] bg-gold/20 text-gold px-2 py-0.5 rounded font-bold border border-gold/40 shrink-0">
                   ADMIN PORTAL
                 </span>
               </div>
-              <p className="text-[11px] text-gold/80 mt-0.5 hidden sm:block">
+              <p className="text-[10px] sm:text-[11px] text-gold/80 mt-0.5 hidden md:block truncate">
                 {lang === "te" ? "పిసిని దేవస్థానం – అడ్మినిస్ట్రేటివ్ మేనేజ్‌మెంట్ కన్సోల్" : "Pisini Devasthanam – Administrative Management Console"}
               </p>
             </div>
           </div>
 
           {/* Quick Actions */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-2.5 md:gap-3 shrink-0">
             {/* Dual Language Switcher */}
             <AdminLanguageSwitcher />
 
@@ -782,7 +782,7 @@ function AdminPage() {
             <Link
               to="/"
               target="_blank"
-              className="flex items-center gap-1.5 rounded-full border border-gold/60 bg-gold/10 hover:bg-gold hover:text-maroon px-3 py-1.5 text-xs font-semibold text-gold transition-colors shadow-2xs"
+              className="flex items-center gap-1.5 rounded-full border border-gold/60 bg-gold/10 hover:bg-gold hover:text-maroon px-2.5 sm:px-3 py-1.5 text-xs font-semibold text-gold transition-colors shadow-2xs"
             >
               <ExternalLink className="h-3.5 w-3.5" />
               <span className="hidden sm:inline">{tAdmin.viewLiveSite}</span>
@@ -791,7 +791,7 @@ function AdminPage() {
 
             <button
               onClick={handleLogout}
-              className="flex items-center gap-1 rounded-full bg-destructive/80 hover:bg-destructive px-3 py-1.5 text-xs font-semibold text-destructive-foreground transition-colors shadow-2xs cursor-pointer"
+              className="flex items-center gap-1 rounded-full bg-destructive/80 hover:bg-destructive px-2.5 sm:px-3 py-1.5 text-xs font-semibold text-destructive-foreground transition-colors shadow-2xs cursor-pointer"
               title="Logout"
             >
               <LogOut className="h-3.5 w-3.5" />
@@ -801,10 +801,10 @@ function AdminPage() {
         </div>
 
         {/* Dashboard Navigation Tabs */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex overflow-x-auto gap-2 border-t border-gold/30 bg-maroon/90 text-xs font-semibold">
+        <div className="w-full max-w-[1920px] mx-auto px-3 sm:px-4 md:px-6 lg:px-8 xl:px-10 2xl:px-12 flex overflow-x-auto gap-1 sm:gap-2 border-t border-gold/30 bg-maroon/90 text-xs font-semibold scrollbar-none">
           <button
             onClick={() => setActiveTab("overview")}
-            className={`py-2.5 px-4 flex items-center gap-2 border-b-2 whitespace-nowrap transition-all cursor-pointer ${
+            className={`py-2.5 px-3 sm:px-4 flex items-center gap-1.5 sm:gap-2 border-b-2 whitespace-nowrap transition-all cursor-pointer ${
               activeTab === "overview"
                 ? "border-gold text-gold font-bold bg-gold/10"
                 : "border-transparent text-primary-foreground/75 hover:text-gold"
@@ -816,7 +816,7 @@ function AdminPage() {
 
           <button
             onClick={() => setActiveTab("gallery")}
-            className={`py-2.5 px-4 flex items-center gap-2 border-b-2 whitespace-nowrap transition-all cursor-pointer ${
+            className={`py-2.5 px-3 sm:px-4 flex items-center gap-1.5 sm:gap-2 border-b-2 whitespace-nowrap transition-all cursor-pointer ${
               activeTab === "gallery"
                 ? "border-gold text-gold font-bold bg-gold/10"
                 : "border-transparent text-primary-foreground/75 hover:text-gold"
@@ -828,7 +828,7 @@ function AdminPage() {
 
           <button
             onClick={() => setActiveTab("pujas")}
-            className={`py-2.5 px-4 flex items-center gap-2 border-b-2 whitespace-nowrap transition-all cursor-pointer ${
+            className={`py-2.5 px-3 sm:px-4 flex items-center gap-1.5 sm:gap-2 border-b-2 whitespace-nowrap transition-all cursor-pointer ${
               activeTab === "pujas"
                 ? "border-gold text-gold font-bold bg-gold/10"
                 : "border-transparent text-primary-foreground/75 hover:text-gold"
@@ -840,7 +840,7 @@ function AdminPage() {
 
           <button
             onClick={() => setActiveTab("prasadam")}
-            className={`py-2.5 px-4 flex items-center gap-2 border-b-2 whitespace-nowrap transition-all cursor-pointer ${
+            className={`py-2.5 px-3 sm:px-4 flex items-center gap-1.5 sm:gap-2 border-b-2 whitespace-nowrap transition-all cursor-pointer ${
               activeTab === "prasadam"
                 ? "border-gold text-gold font-bold bg-gold/10"
                 : "border-transparent text-primary-foreground/75 hover:text-gold"
@@ -853,7 +853,7 @@ function AdminPage() {
       </header>
 
       {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+      <main className="flex-1 w-full max-w-[1920px] mx-auto px-3 sm:px-4 md:px-6 lg:px-8 xl:px-10 2xl:px-12 py-4 sm:py-6 lg:py-8">
         {/* ================= OVERVIEW TAB ================= */}
         {activeTab === "overview" && (
           <div className="space-y-6">
@@ -906,7 +906,7 @@ function AdminPage() {
             </div>
 
             {/* Metrics Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 xl:gap-5">
               <div
                 onClick={() => setActiveTab("gallery")}
                 className="rounded-xl border border-border bg-card p-5 shadow-xs hover:border-gold cursor-pointer transition-all hover:-translate-y-0.5"
@@ -1005,8 +1005,8 @@ function AdminPage() {
               </button>
             </div>
 
-            {/* Gallery Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {/* Gallery Grid - Responsive across 12", 13", 14", 15", 16", 17"+ screens */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-3.5 sm:gap-4 lg:gap-5">
               {gallery.map((item, idx) => (
                 <div
                   key={item.id}
@@ -1091,7 +1091,8 @@ function AdminPage() {
               </button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {/* Pujas & Events Grid - Responsive across all screen sizes */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3.5 sm:gap-4 lg:gap-5">
               {pujas.map((p) => (
                 <div
                   key={p.id}
@@ -1265,8 +1266,8 @@ function AdminPage() {
               )}
             </div>
 
-            {/* Prasadam Items Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {/* Prasadam Items Cards - Responsive across all screen sizes */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3.5 sm:gap-4 lg:gap-5">
               {prasadams.map((p) => (
                 <div
                   key={p.id}
