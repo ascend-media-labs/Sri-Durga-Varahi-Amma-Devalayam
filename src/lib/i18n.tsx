@@ -318,12 +318,35 @@ const dict = {
 };
 
 export type Dict = (typeof dict)["en"];
-const Ctx = createContext<{ lang: Lang; t: Dict; toggle: () => void }>({ lang: "en", t: dict.en, toggle: () => {} });
+const Ctx = createContext<{
+  lang: Lang;
+  t: Dict;
+  toggle: () => void;
+  setLang: (l: Lang) => void;
+}>({
+  lang: "en",
+  t: dict.en,
+  toggle: () => {},
+  setLang: () => {},
+});
 
 export function LangProvider({ children }: { children: ReactNode }) {
-  const [lang, setLang] = useState<Lang>("en");
+  const [lang, setLangState] = useState<Lang>(() => {
+    if (typeof window === "undefined") return "en";
+    return (localStorage.getItem("varahi_temple_lang") as Lang) || "en";
+  });
+
+  const setLang = (l: Lang) => {
+    setLangState(l);
+    try {
+      localStorage.setItem("varahi_temple_lang", l);
+    } catch {}
+  };
+
+  const toggle = () => setLang(lang === "en" ? "te" : "en");
+
   return (
-    <Ctx.Provider value={{ lang, t: dict[lang] as Dict, toggle: () => setLang((l) => (l === "en" ? "te" : "en")) }}>
+    <Ctx.Provider value={{ lang, t: dict[lang] as Dict, toggle, setLang }}>
       {children}
     </Ctx.Provider>
   );

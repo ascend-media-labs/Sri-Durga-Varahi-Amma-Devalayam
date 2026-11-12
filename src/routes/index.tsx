@@ -16,11 +16,7 @@ export const Route = createFileRoute("/")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: () => (
-    <LangProvider>
-      <Page />
-    </LangProvider>
-  ),
+  component: Page,
 });
 
 function Page() {

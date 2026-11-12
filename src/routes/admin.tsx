@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState, useRef, type ChangeEvent } from "react";
+import { useState, useRef, useEffect, type ChangeEvent } from "react";
 import {
   AlertCircle,
   CalendarDays,
@@ -12,6 +12,7 @@ import {
   EyeOff,
   Filter,
   Image as ImageIcon,
+  Languages,
   Layers,
   Lock,
   LogOut,
@@ -27,7 +28,7 @@ import {
   X,
 } from "lucide-react";
 import { useTempleStore, type GalleryItem, type PujaEventItem, type PrasadamItem } from "@/lib/templeStore";
-import { useLang } from "@/lib/i18n";
+import { useLang, type Lang } from "@/lib/i18n";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -39,8 +40,228 @@ export const Route = createFileRoute("/admin")({
   component: AdminPage,
 });
 
+const adminI18n = {
+  en: {
+    backToSite: "Back to Public Site",
+    securePortalBadge: "Secure Admin Portal v2.0",
+    templeTitle: "Sri Durga Varahi Amma Devalayam",
+    adminDashboardTitle: "ADMIN DASHBOARD",
+    adminSubtitle: "Pisini Sri Durga Varahi Temple Management Portal",
+    credsTitle: "Admin Login Credentials:",
+    autoFillBtn: "⚡ Auto-fill Credentials",
+    emailLabel: "Admin Email *",
+    passwordLabel: "Admin Password *",
+    passwordPlaceholder: "Enter admin password...",
+    loginButton: "Login to Admin Dashboard",
+    invalidCreds: "Invalid Email or Password! (Please check default credentials above)",
+    welcomeToast: "Welcome, Temple Administrator!",
+    loginSuccessToast: "Welcome, ",
+    logoutToast: "Logged out successfully.",
+    logoutBtn: "Logout",
+    viewLiveSite: "View Live Site",
+    overviewTab: "Overview",
+    galleryTab: "Gallery Photos",
+    pujasTab: "Pujas & Events",
+    prasadamTab: "Anna Prasadam",
+    badgeAdministration: "Temple Administration Console",
+    bannerHeading: "Sri Durga Varahi Amma Devalayam Admin Dashboard",
+    bannerDesc: "Manage sacred temple gallery photos, daily sevas, Navaratri festival events, and daily Maha Annadanam distribution. Changes made here automatically update on the public website in real time.",
+    addPhotoQuick: "Add Gallery Photo",
+    addPujaQuick: "Add Puja / Event",
+    addPrasadamQuick: "Add Prasadam Item",
+    cardGalleryTitle: "Gallery Photos",
+    cardGalleryDesc: "High-resolution sacred temple photos",
+    cardPujasTitle: "Pujas & Festivals",
+    cardPujasDesc: "Daily sevas, festivals and special rituals",
+    cardPrasadamTitle: "Anna Prasadam",
+    cardPrasadamDesc: "Maha Annadanam and sacred recipes",
+    cardSystemTitle: "System Status",
+    cardSystemDesc: "Real-time sync to public devotee site",
+    activeSyncedBadge: "Active & Synced",
+    resetFactoryBtn: "Reset to Factory Defaults",
+    resetFactoryConfirm: "Are you sure you want to reset all temple data to initial defaults?",
+    resetSuccessToast: "All temple records have been reset to factory defaults.",
+    galleryHeading: "Temple Photo Gallery Management",
+    galleryCountText: "photos registered. You can upload new photos or remove existing ones.",
+    addNewPhotoBtn: "Add New Photo",
+    deletePhotoConfirm: "Are you sure you want to delete this photo?",
+    photoDeletedToast: "Photo deleted successfully.",
+    pujasHeading: "Pujas, Sevas & Festival Events Management",
+    pujasCountText: "pujas and festival events registered. Manage timings, dakshina and display state.",
+    addNewPujaBtn: "Add New Puja / Event",
+    deletePujaConfirm: "Are you sure you want to delete this puja?",
+    pujaDeletedToast: "Puja deleted successfully.",
+    activeOnWebsite: "Active on Website",
+    hiddenOnWebsite: "Hidden",
+    prasadamHeading: "Anna Prasadam & Seva Management",
+    prasadamCountText: "prasadam items registered. Manage timings, distribution and daily counts.",
+    addNewPrasadamBtn: "Add New Prasadam",
+    deletePrasadamConfirm: "Are you sure you want to delete this prasadam item?",
+    prasadamDeletedToast: "Prasadam item deleted successfully.",
+    dailyAnnadanamHeading: "Daily Maha Annadanam Program",
+    dailyAnnadanamSub: "Sacred free meal distribution conducted daily for all pilgrims and devotees at Pisini Temple.",
+    devoteesPerDay: "Devotees Served Daily",
+    annadanamTiming: "Annadanam Timing",
+    specialOccasions: "Special Days / Festivals",
+    dailyFreeMeals: "Daily Free Meals",
+    editSchemeBtn: "Edit Scheme Details",
+    saveSchemeBtn: "Save Scheme Changes",
+    cancelBtn: "Cancel",
+  },
+  te: {
+    backToSite: "భక్తుల పోర్టల్‌కి తిరిగి వెళ్ళండి (Back to Public Site)",
+    securePortalBadge: "సురక్షిత అడ్మిన్ పోర్టల్ v2.0",
+    templeTitle: "శ్రీ దుర్గా వారాహి అమ్మవారి దేవస్థానం",
+    adminDashboardTitle: "అడ్మిన్ డాష్‌బోర్డ్ (ADMIN DASHBOARD)",
+    adminSubtitle: "పిసిని శ్రీ దుర్గా వారాహి ఆలయ నిర్వహణ పోర్టల్",
+    credsTitle: "అడ్మిన్ లాగిన్ వివరాలు (Admin Credentials):",
+    autoFillBtn: "⚡ ఆటోమేటిక్‌గా నింపండి (Click to Auto-fill)",
+    emailLabel: "ఈమెయిల్ అడ్రస్ (Admin Email) *",
+    passwordLabel: "పాస్‌వర్డ్ (Admin Password) *",
+    passwordPlaceholder: "అడ్మిన్ పాస్‌వర్డ్ నమోదు చేయండి...",
+    loginButton: "లాగిన్ అవ్వండి (Login to Admin Dashboard)",
+    invalidCreds: "ఈమెయిల్ లేదా పాస్‌వర్డ్ సరైనది కాదు! (పై వివరాలు సరిచూసుకోండి)",
+    welcomeToast: "స్వాగతం! ఆలయ నిర్వహణ విభాగానికి స్వాగతం.",
+    loginSuccessToast: "స్వాగతం! Welcome, ",
+    logoutToast: "లాగౌట్ విజయవంతమైంది.",
+    logoutBtn: "లాగౌట్ (Logout)",
+    viewLiveSite: "భక్తుల సైట్ చూడండి (Live Site)",
+    overviewTab: "ఓవర్‌వ్యూ (Overview)",
+    galleryTab: "గ్యాలరీ ఫొటోస్ (Gallery)",
+    pujasTab: "పూజలు & ఉత్సవాలు (Pujas & Events)",
+    prasadamTab: "అన్న ప్రసాదం (Anna Prasadam)",
+    badgeAdministration: "ఆలయ పరిపాలనా విభాగం (Administration)",
+    bannerHeading: "శ్రీ దుర్గా వారాహి అమ్మవారి దేవస్థానం డాష్‌బోర్డ్",
+    bannerDesc: "ఆలయ గ్యాలరీ చిత్రాలు, నిత్య పూజలు, దసరా నవరాత్రులు & విశేష ఉత్సవాలు మరియు నిత్య అన్నప్రసాద వివరాలను నిర్వహించండి. ఇక్కడ చేసే మార్పులు భక్తుల వెబ్‌సైట్‌లో వెంటనే అప్‌డేట్ అవుతాయి.",
+    addPhotoQuick: "ఫొటో జోడించండి (Add Photo)",
+    addPujaQuick: "పూజ / ఉత్సవం జోడించండి (Add Puja)",
+    addPrasadamQuick: "ప్రసాదం జోడించండి (Add Prasadam)",
+    cardGalleryTitle: "గ్యాలరీ ఫొటోలు (Photos)",
+    cardGalleryDesc: "అధిక నాణ్యత గల ఆలయ దివ్య దర్శనాలు",
+    cardPujasTitle: "పూజలు & ఉత్సవాలు (Pujas)",
+    cardPujasDesc: "నిత్య సేవలు, ఉత్సవాలు మరియు విశేష పూజలు",
+    cardPrasadamTitle: "అన్న ప్రసాదాలు (Prasadam)",
+    cardPrasadamDesc: "మహా అన్నదానం మరియు ఆలయ ప్రసాదాలు",
+    cardSystemTitle: "సిస్టమ్ స్టేటస్ (System)",
+    cardSystemDesc: "లైవ్ వెబ్‌సైట్‌తో రియల్-టైమ్ సింక్",
+    activeSyncedBadge: "సింక్ అయి ఉంది (Active & Synced)",
+    resetFactoryBtn: "ప్రారంభ సెట్టింగులకు రీసెట్ చేయండి (Reset Defaults)",
+    resetFactoryConfirm: "మీరు నిజంగానే అన్ని డేటాను ఆలయ ప్రారంభ సెట్టింగులకు రీసెట్ చేయాలనుకుంటున్నారా?",
+    resetSuccessToast: "అన్ని రికార్డులు డీఫాల్ట్‌కి రీసెట్ చేయబడ్డాయి.",
+    galleryHeading: "ఆలయ ఫొటో గ్యాలరీ నిర్వహణ (Gallery Images)",
+    galleryCountText: "ఫొటోలు ఉన్నాయి. కొత్త చిత్రాలను జోడించవచ్చు లేదా మార్చవచ్చు.",
+    addNewPhotoBtn: "కొత్త ఫొటో జోడించండి (Add Image)",
+    deletePhotoConfirm: "ఈ ఫొటోను ఖచ్చితంగా తొలగించాలనుకుంటున్నారా?",
+    photoDeletedToast: "ఫొటో విజయవంతంగా తొలగించబడింది.",
+    pujasHeading: "పూజలు, సేవలు & విశేష ఉత్సవాలు (Pujas & Events)",
+    pujasCountText: "పూజలు మరియు ఉత్సవాలు ఉన్నాయి. సమయాలు, దక్షిణ వివరాలు నిర్వహించండి.",
+    addNewPujaBtn: "కొత్త పూజ / ఉత్సవం జోడించండి (Add Puja)",
+    deletePujaConfirm: "ఈ పూజను ఖచ్చితంగా తొలగించాలనుకుంటున్నారా?",
+    pujaDeletedToast: "పూజా రికార్డు తొలగించబడింది.",
+    activeOnWebsite: "వెబ్‌సైట్‌లో కనిపిస్తుంది (Active)",
+    hiddenOnWebsite: "దాచబడింది (Hidden)",
+    prasadamHeading: "అన్న ప్రసాదం & సేవా విభాగం (Anna Prasadam)",
+    prasadamCountText: "ప్రసాద రకాలు ఉన్నాయి. నిత్య అన్నదాన వివరాలు నిర్వహించండి.",
+    addNewPrasadamBtn: "కొత్త ప్రసాదం జోడించండి (Add Prasadam)",
+    deletePrasadamConfirm: "ఈ ప్రసాదాన్ని ఖచ్చితంగా తొలగించాలనుకుంటున్నారా?",
+    prasadamDeletedToast: "ప్రసాదం తొలగించబడింది.",
+    dailyAnnadanamHeading: "నిత్య మహా అన్నదాన పథకం (Daily Maha Annadanam)",
+    dailyAnnadanamSub: "పిసిని క్షేత్రానికి వచ్చే భక్తులందరికీ నిత్యం అన్నప్రసాద వితరణ జరుగుతుంది.",
+    devoteesPerDay: "ప్రతిరోజూ భక్తుల సంఖ్య",
+    annadanamTiming: "అన్నదాన సమయం",
+    specialOccasions: "విశేష పర్వదినాలు",
+    dailyFreeMeals: "నిత్య ఉచిత భోజనం",
+    editSchemeBtn: "వివరాలు మార్చండి (Edit)",
+    saveSchemeBtn: "సేవ్ చేయండి (Save)",
+    cancelBtn: "రద్దు చేయండి (Cancel)",
+  },
+};
+
+function AdminLanguageSwitcher({ className = "", variant = "dark" }: { className?: string; variant?: "dark" | "card" }) {
+  const { lang, setLang } = useLang();
+
+  if (variant === "card") {
+    return (
+      <div
+        className={`inline-flex items-center rounded-full border border-primary/30 bg-primary/5 p-1 shadow-xs select-none transition-all ${className}`}
+        role="group"
+        aria-label="Admin Language Selector"
+      >
+        <div className="flex items-center pl-2 pr-1.5 text-primary shrink-0" title="Language / భాష">
+          <Languages className="h-4 w-4 text-gold" />
+        </div>
+        <button
+          type="button"
+          onClick={() => setLang("en")}
+          aria-pressed={lang === "en"}
+          className={`rounded-full px-3 py-1 text-xs font-bold transition-all cursor-pointer ${
+            lang === "en"
+              ? "bg-primary text-primary-foreground font-extrabold shadow-xs scale-102"
+              : "text-foreground/75 hover:text-primary hover:bg-primary/10"
+          }`}
+          title="Switch language to English"
+        >
+          English
+        </button>
+        <button
+          type="button"
+          onClick={() => setLang("te")}
+          aria-pressed={lang === "te"}
+          className={`rounded-full px-3 py-1 text-xs font-bold transition-all cursor-pointer ${
+            lang === "te"
+              ? "bg-primary text-primary-foreground font-extrabold shadow-xs scale-102"
+              : "text-foreground/75 hover:text-primary hover:bg-primary/10"
+          }`}
+          title="తెలుగు భాషకు మార్చండి"
+        >
+          తెలుగు
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className={`inline-flex items-center rounded-full border border-gold/50 bg-black/45 p-1 shadow-inner backdrop-blur-md select-none transition-all ${className}`}
+      role="group"
+      aria-label="Admin Language Selector"
+    >
+      <div className="flex items-center pl-2 pr-1.5 text-gold shrink-0" title="Language / భాష">
+        <Languages className="h-4 w-4" />
+      </div>
+      <button
+        type="button"
+        onClick={() => setLang("en")}
+        aria-pressed={lang === "en"}
+        className={`rounded-full px-3 py-1 text-xs font-bold transition-all cursor-pointer ${
+          lang === "en"
+            ? "bg-gold text-maroon font-black shadow-md scale-102"
+            : "text-gold/80 hover:text-gold hover:bg-gold/15"
+        }`}
+        title="Switch language to English"
+      >
+        English
+      </button>
+      <button
+        type="button"
+        onClick={() => setLang("te")}
+        aria-pressed={lang === "te"}
+        className={`rounded-full px-3 py-1 text-xs font-bold transition-all cursor-pointer ${
+          lang === "te"
+            ? "bg-gold text-maroon font-black shadow-md scale-102"
+            : "text-gold/80 hover:text-gold hover:bg-gold/15"
+        }`}
+        title="తెలుగు భాషకు మార్చండి"
+      >
+        తెలుగు
+      </button>
+    </div>
+  );
+}
+
 function AdminPage() {
-  const { lang, toggle } = useLang();
+  const { lang, setLang } = useLang();
+  const tAdmin = adminI18n[lang] || adminI18n.en;
   const {
     gallery,
     addGalleryItem,
@@ -245,14 +466,17 @@ function AdminPage() {
     return (
       <div className="min-h-screen bg-linear-to-b from-maroon via-maroon/90 to-black text-primary-foreground flex flex-col justify-between p-4 sm:p-6">
         {/* Header bar */}
-        <div className="flex items-center justify-between max-w-5xl mx-auto w-full pt-4">
+        <div className="flex flex-wrap items-center justify-between max-w-5xl mx-auto w-full pt-4 gap-3 px-2">
           <Link to="/" className="flex items-center gap-2 text-gold hover:underline text-sm font-medium">
             <ChevronRight className="h-4 w-4 rotate-180" />
-            <span>భక్తుల పోర్టల్‌కి తిరిగి వెళ్ళండి (Back to Public Site)</span>
+            <span>{tAdmin.backToSite}</span>
           </Link>
-          <span className="text-xs text-gold/70 bg-gold/10 px-3 py-1 rounded-full border border-gold/30">
-            Secure Admin Portal v2.0
-          </span>
+          <div className="flex items-center gap-2.5">
+            <AdminLanguageSwitcher />
+            <span className="hidden sm:inline-block text-xs text-gold/80 bg-gold/15 px-3 py-1 rounded-full border border-gold/40 font-medium">
+              {tAdmin.securePortalBadge}
+            </span>
+          </div>
         </div>
 
         {/* Login Box */}
@@ -262,22 +486,26 @@ function AdminPage() {
               ॐ
             </span>
             <p className="mt-4 font-serif text-xs font-bold uppercase tracking-[0.18em] text-primary">
-              Sri Durga Varahi Amma Devalayam
+              {tAdmin.templeTitle}
             </p>
             <h1 className="mt-1 font-display text-2xl font-black tracking-wide text-foreground">
-              ADMIN DASHBOARD
+              {tAdmin.adminDashboardTitle}
             </h1>
             <p className="text-xs text-muted-foreground mt-1">
-              పిసిని శ్రీ దుర్గా వారాహి ఆలయ నిర్వహణ పోర్టల్
+              {tAdmin.adminSubtitle}
             </p>
+            {/* Center Language Switcher in Card Header */}
+            <div className="mt-4 flex justify-center">
+              <AdminLanguageSwitcher variant="card" />
+            </div>
           </div>
 
-          <form onSubmit={handleLogin} className="mt-6 space-y-4">
+          <form onSubmit={handleLogin} className="mt-5 space-y-4">
             {/* Quick credentials hint */}
             <div className="rounded-xl border border-gold/40 bg-gold/10 p-3 text-xs text-amber-950 dark:text-gold flex items-start gap-2.5">
               <Sparkles className="h-4 w-4 text-gold shrink-0 mt-0.5" />
               <div className="flex-1">
-                <span className="font-bold block text-primary">అడ్మిన్ లాగిన్ వివరాలు (Admin Credentials):</span>
+                <span className="font-bold block text-primary">{tAdmin.credsTitle}</span>
                 <p className="mt-1 text-[11.5px] font-mono leading-relaxed">
                   Email: <b className="text-foreground">admin@varahiammatemple.org</b><br />
                   Password: <b className="text-foreground">Varahi@2026</b>
@@ -290,7 +518,7 @@ function AdminPage() {
                   }}
                   className="mt-1.5 text-[11px] font-bold text-primary hover:underline flex items-center gap-1 cursor-pointer"
                 >
-                  <span>⚡ ఆటోమేటిక్‌గా నింపండి (Click to Auto-fill)</span>
+                  <span>{tAdmin.autoFillBtn}</span>
                 </button>
               </div>
             </div>
@@ -298,7 +526,7 @@ function AdminPage() {
             {/* Email Field */}
             <div>
               <label className="block text-xs font-semibold text-foreground mb-1.5">
-                ఈమెయిల్ అడ్రస్ (Admin Email) *
+                {tAdmin.emailLabel}
               </label>
               <div className="relative">
                 <input
@@ -316,7 +544,7 @@ function AdminPage() {
             {/* Password Field */}
             <div>
               <label className="block text-xs font-semibold text-foreground mb-1.5">
-                పాస్‌వర్డ్ (Admin Password) *
+                {tAdmin.passwordLabel}
               </label>
               <div className="relative">
                 <input
@@ -324,7 +552,7 @@ function AdminPage() {
                   required
                   value={adminPassword}
                   onChange={(e) => setAdminPassword(e.target.value)}
-                  placeholder="Enter admin password..."
+                  placeholder={tAdmin.passwordPlaceholder}
                   className="w-full rounded-xl border border-input bg-background px-4 py-3 pl-11 pr-11 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20 font-medium"
                 />
                 <Lock className="absolute left-3.5 top-3.5 h-4 w-4 text-muted-foreground" />
@@ -352,7 +580,7 @@ function AdminPage() {
               className="w-full rounded-xl bg-primary hover:brightness-110 text-primary-foreground py-3 text-sm font-bold shadow-temple transition-all flex items-center justify-center gap-2 cursor-pointer mt-2"
             >
               <ShieldCheck className="h-4 w-4" />
-              <span>లాగిన్ అవ్వండి (Login to Admin Dashboard)</span>
+              <span>{tAdmin.loginButton}</span>
             </button>
           </form>
 
@@ -398,16 +626,19 @@ function AdminPage() {
                 </span>
               </div>
               <p className="text-[11px] text-gold/80 mt-0.5 hidden sm:block">
-                పిసిని దేవస్థానం – అడ్మినిస్ట్రేటివ్ మేనేజ్‌మెంట్ కన్సోల్
+                {lang === "te" ? "పిసిని దేవస్థానం – అడ్మినిస్ట్రేటివ్ మేనేజ్‌మెంట్ కన్సోల్" : "Pisini Devasthanam – Administrative Management Console"}
               </p>
             </div>
           </div>
 
           {/* Quick Actions */}
           <div className="flex items-center gap-2 sm:gap-3">
-            <div className="hidden lg:flex items-center gap-1.5 bg-gold/15 border border-gold/40 rounded-full px-3 py-1 text-xs text-gold font-medium">
+            {/* Dual Language Switcher */}
+            <AdminLanguageSwitcher />
+
+            <div className="hidden xl:flex items-center gap-1.5 bg-gold/15 border border-gold/40 rounded-full px-3 py-1 text-xs text-gold font-medium">
               <Mail className="h-3 w-3 text-gold" />
-              <span className="truncate max-w-[200px]">{adminEmail || "admin@varahiammatemple.org"}</span>
+              <span className="truncate max-w-[180px]">{adminEmail || "admin@varahiammatemple.org"}</span>
             </div>
 
             <Link
@@ -416,8 +647,8 @@ function AdminPage() {
               className="flex items-center gap-1.5 rounded-full border border-gold/60 bg-gold/10 hover:bg-gold hover:text-maroon px-3 py-1.5 text-xs font-semibold text-gold transition-colors shadow-2xs"
             >
               <ExternalLink className="h-3.5 w-3.5" />
-              <span className="hidden sm:inline">భక్తుల వెబ్‌సైట్ చూడండి (View Live Site)</span>
-              <span className="sm:hidden">Live Site</span>
+              <span className="hidden sm:inline">{tAdmin.viewLiveSite}</span>
+              <span className="sm:hidden">Live</span>
             </Link>
 
             <button
@@ -426,7 +657,7 @@ function AdminPage() {
               title="Logout"
             >
               <LogOut className="h-3.5 w-3.5" />
-              <span className="hidden sm:inline">లాగౌట్ (Logout)</span>
+              <span className="hidden sm:inline">{tAdmin.logoutBtn}</span>
             </button>
           </div>
         </div>
@@ -442,7 +673,7 @@ function AdminPage() {
             }`}
           >
             <Layers className="h-4 w-4" />
-            <span>ఓవర్‌వ్యూ (Dashboard Overview)</span>
+            <span>{tAdmin.overviewTab}</span>
           </button>
 
           <button
@@ -454,7 +685,7 @@ function AdminPage() {
             }`}
           >
             <ImageIcon className="h-4 w-4" />
-            <span>గ్యాలరీ ఫొటోస్ (Gallery Manager - {gallery.length})</span>
+            <span>{tAdmin.galleryTab} ({gallery.length})</span>
           </button>
 
           <button
@@ -466,7 +697,7 @@ function AdminPage() {
             }`}
           >
             <CalendarDays className="h-4 w-4" />
-            <span>పూజలు & ఉత్సవాలు (Pujas & Events - {pujas.length})</span>
+            <span>{tAdmin.pujasTab} ({pujas.length})</span>
           </button>
 
           <button
@@ -478,7 +709,7 @@ function AdminPage() {
             }`}
           >
             <UtensilsCrossed className="h-4 w-4" />
-            <span>అన్న ప్రసాదం (Anna Prasadam - {prasadams.length})</span>
+            <span>{tAdmin.prasadamTab} ({prasadams.length})</span>
           </button>
         </div>
       </header>
@@ -493,13 +724,13 @@ function AdminPage() {
               <div className="relative z-10">
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-saffron/20 border border-gold/40 px-3 py-1 text-xs font-bold text-primary mb-3">
                   <Sparkles className="h-3.5 w-3.5 text-gold" />
-                  ఆలయ పరిపాలనా విభాగం (Temple Administration)
+                  {tAdmin.badgeAdministration}
                 </span>
                 <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-foreground">
-                  శ్రీ దుర్గా వారాహి అమ్మవారి దేవస్థానం డాష్‌బోర్డ్
+                  {tAdmin.bannerHeading}
                 </h2>
                 <p className="mt-2 text-sm text-muted-foreground max-w-2xl leading-relaxed">
-                  Manage temple gallery photos, daily pujas, Navaratri and festival events, and daily Anna Prasadam distributions. Changes made here will automatically reflect on the public devotee website in real time.
+                  {tAdmin.bannerDesc}
                 </p>
                 <div className="mt-5 flex flex-wrap gap-3">
                   <button
@@ -510,7 +741,7 @@ function AdminPage() {
                     className="rounded-xl bg-primary text-primary-foreground px-4 py-2 text-xs sm:text-sm font-bold shadow-temple hover:brightness-110 flex items-center gap-2 cursor-pointer"
                   >
                     <Plus className="h-4 w-4" />
-                    <span>ఫొటో జోడించండి (Add Gallery Photo)</span>
+                    <span>{tAdmin.addPhotoQuick}</span>
                   </button>
                   <button
                     onClick={() => {
@@ -520,7 +751,7 @@ function AdminPage() {
                     className="rounded-xl border border-primary text-primary px-4 py-2 text-xs sm:text-sm font-bold hover:bg-primary/10 flex items-center gap-2 cursor-pointer"
                   >
                     <Plus className="h-4 w-4" />
-                    <span>పూజ / ఉత్సవం జోడించండి (Add Puja)</span>
+                    <span>{tAdmin.addPujaQuick}</span>
                   </button>
                   <button
                     onClick={() => {
@@ -530,7 +761,7 @@ function AdminPage() {
                     className="rounded-xl border border-gold/70 text-amber-800 dark:text-gold px-4 py-2 text-xs sm:text-sm font-bold hover:bg-gold/15 flex items-center gap-2 cursor-pointer"
                   >
                     <Plus className="h-4 w-4" />
-                    <span>ప్రసాదం జోడించండి (Add Prasadam)</span>
+                    <span>{tAdmin.addPrasadamQuick}</span>
                   </button>
                 </div>
               </div>
@@ -548,8 +779,8 @@ function AdminPage() {
                   </span>
                   <span className="text-2xl font-black font-display text-primary">{gallery.length}</span>
                 </div>
-                <h3 className="mt-3 font-bold text-sm text-foreground">గ్యాలరీ ఫొటోలు (Photos)</h3>
-                <p className="text-xs text-muted-foreground mt-0.5">High-resolution holy temple images</p>
+                <h3 className="mt-3 font-bold text-sm text-foreground">{tAdmin.cardGalleryTitle}</h3>
+                <p className="text-xs text-muted-foreground mt-0.5">{tAdmin.cardGalleryDesc}</p>
               </div>
 
               <div
@@ -562,8 +793,8 @@ function AdminPage() {
                   </span>
                   <span className="text-2xl font-black font-display text-primary">{pujas.length}</span>
                 </div>
-                <h3 className="mt-3 font-bold text-sm text-foreground">పూజలు & ఉత్సవాలు (Pujas)</h3>
-                <p className="text-xs text-muted-foreground mt-0.5">Daily sevas, festivals and special homams</p>
+                <h3 className="mt-3 font-bold text-sm text-foreground">{tAdmin.cardPujasTitle}</h3>
+                <p className="text-xs text-muted-foreground mt-0.5">{tAdmin.cardPujasDesc}</p>
               </div>
 
               <div
@@ -576,8 +807,8 @@ function AdminPage() {
                   </span>
                   <span className="text-2xl font-black font-display text-primary">{prasadams.length}</span>
                 </div>
-                <h3 className="mt-3 font-bold text-sm text-foreground">అన్న ప్రసాదాలు (Prasadam)</h3>
-                <p className="text-xs text-muted-foreground mt-0.5">Maha Annadanam and sacred recipes</p>
+                <h3 className="mt-3 font-bold text-sm text-foreground">{tAdmin.cardPrasadamTitle}</h3>
+                <p className="text-xs text-muted-foreground mt-0.5">{tAdmin.cardPrasadamDesc}</p>
               </div>
 
               <div className="rounded-xl border border-border bg-card p-5 shadow-xs">
@@ -586,11 +817,11 @@ function AdminPage() {
                     <CheckCircle2 className="h-5 w-5" />
                   </span>
                   <span className="text-xs font-bold bg-green-500/20 text-green-700 dark:text-green-400 px-2.5 py-0.5 rounded-full">
-                    Active & Synced
+                    {tAdmin.activeSyncedBadge}
                   </span>
                 </div>
-                <h3 className="mt-3 font-bold text-sm text-foreground">సిస్టమ్ స్టేటస్ (System)</h3>
-                <p className="text-xs text-muted-foreground mt-0.5">Real-time sync to public devotee site</p>
+                <h3 className="mt-3 font-bold text-sm text-foreground">{tAdmin.cardSystemTitle}</h3>
+                <p className="text-xs text-muted-foreground mt-0.5">{tAdmin.cardSystemDesc}</p>
               </div>
             </div>
 
@@ -601,15 +832,15 @@ function AdminPage() {
               </p>
               <button
                 onClick={() => {
-                  if (confirm("మీరు నిజంగానే అన్ని డేటాను ఆలయ ప్రారంభ సెట్టింగులకు రీసెట్ చేయాలనుకుంటున్నారా? Reset all to default temple data?")) {
+                  if (confirm(tAdmin.resetFactoryConfirm)) {
                     resetAll();
-                    showToast("అన్ని రికార్డులు డీఫాల్ట్‌కి రీసెట్ చేయబడ్డాయి (All reset to defaults)");
+                    showToast(tAdmin.resetSuccessToast);
                   }
                 }}
                 className="text-xs text-muted-foreground hover:text-destructive flex items-center gap-1.5 cursor-pointer"
               >
                 <RefreshCw className="h-3.5 w-3.5" />
-                <span>Reset to Factory Defaults</span>
+                <span>{tAdmin.resetFactoryBtn}</span>
               </button>
             </div>
           </div>
@@ -621,10 +852,10 @@ function AdminPage() {
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div>
                 <h2 className="font-display text-xl sm:text-2xl font-bold text-primary">
-                  ఆలయ ఫొటో గ్యాలరీ (Gallery Images Management)
+                  {tAdmin.galleryHeading}
                 </h2>
                 <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
-                  మొత్తం {gallery.length} ఫొటోలు ఉన్నాయి. ఇక్కడి నుండి కొత్త ఫొటోలు జోడించవచ్చు లేదా తొలగించవచ్చు.
+                  {gallery.length} {tAdmin.galleryCountText}
                 </p>
               </div>
               <button
@@ -632,7 +863,7 @@ function AdminPage() {
                 className="rounded-xl bg-primary text-primary-foreground px-4 py-2.5 text-xs sm:text-sm font-bold shadow-temple hover:brightness-110 flex items-center gap-2 shrink-0 cursor-pointer"
               >
                 <Plus className="h-4 w-4" />
-                <span>కొత్త ఫొటో జోడించండి (Add Image)</span>
+                <span>{tAdmin.addNewPhotoBtn}</span>
               </button>
             </div>
 
@@ -660,13 +891,13 @@ function AdminPage() {
                   <div className="p-3.5 flex-1 flex flex-col justify-between">
                     <div>
                       <h4 className="font-display text-sm font-bold text-primary line-clamp-1">
-                        {item.title}
+                        {lang === "te" ? (item.titleTe || item.title) : item.title}
                       </h4>
                       <p className="font-serif text-xs text-foreground/80 font-medium line-clamp-1 mt-0.5">
-                        {item.titleTe}
+                        {lang === "te" ? item.title : (item.titleTe || item.title)}
                       </p>
                       <p className="text-[11px] text-muted-foreground line-clamp-2 mt-1 leading-relaxed">
-                        {item.desc}
+                        {lang === "te" ? (item.descTe || item.desc) : item.desc}
                       </p>
                     </div>
 
@@ -674,9 +905,9 @@ function AdminPage() {
                       <span className="text-[10px] text-muted-foreground">{item.dateAdded}</span>
                       <button
                         onClick={() => {
-                          if (confirm(`ఈ ఫొటోను తొలగించాలా? Delete photo "${item.title}"?`)) {
+                          if (confirm(`${tAdmin.deletePhotoConfirm} "${item.title}"?`)) {
                             deleteGalleryItem(item.id);
-                            showToast("ఫొటో తొలగించబడింది! Image deleted.");
+                            showToast(tAdmin.photoDeletedToast);
                           }
                         }}
                         className="text-destructive hover:bg-destructive/10 p-1.5 rounded-md transition-colors cursor-pointer"
@@ -698,10 +929,10 @@ function AdminPage() {
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div>
                 <h2 className="font-display text-xl sm:text-2xl font-bold text-primary">
-                  పూజలు & ఉత్సవాల నిర్వహణ (Pujas & Events Management)
+                  {tAdmin.pujasHeading}
                 </h2>
                 <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
-                  నిత్య పూజలు, విశేష అర్చనలు, మరియు వార్షిక నవరాత్రి మహోత్సవాల వివరాలను నిర్వహించండి.
+                  {pujas.length} {tAdmin.pujasCountText}
                 </p>
               </div>
               <button
@@ -709,7 +940,7 @@ function AdminPage() {
                 className="rounded-xl bg-primary text-primary-foreground px-4 py-2.5 text-xs sm:text-sm font-bold shadow-temple hover:brightness-110 flex items-center gap-2 shrink-0 cursor-pointer"
               >
                 <Plus className="h-4 w-4" />
-                <span>కొత్త పూజ / ఉత్సవం జోడించండి (Add Puja)</span>
+                <span>{tAdmin.addNewPujaBtn}</span>
               </button>
             </div>
 
@@ -731,8 +962,12 @@ function AdminPage() {
                       </span>
                     </div>
 
-                    <h3 className="font-display text-base font-bold text-primary">{p.name}</h3>
-                    <p className="text-xs font-semibold text-foreground/80 mt-0.5">{p.nameTe}</p>
+                    <h3 className="font-display text-base font-bold text-primary">
+                      {lang === "te" ? (p.nameTe || p.name) : p.name}
+                    </h3>
+                    <p className="text-xs font-semibold text-foreground/80 mt-0.5">
+                      {lang === "te" ? p.name : (p.nameTe || p.name)}
+                    </p>
 
                     <div className="mt-2.5 flex items-center gap-1.5 text-xs font-semibold text-muted-foreground">
                       <Clock className="h-3.5 w-3.5 text-gold shrink-0" />
@@ -740,7 +975,7 @@ function AdminPage() {
                     </div>
 
                     <p className="mt-2 text-xs leading-relaxed text-muted-foreground line-clamp-3">
-                      {p.desc}
+                      {lang === "te" ? (p.descTe || p.desc) : p.desc}
                     </p>
                   </div>
 
@@ -756,14 +991,14 @@ function AdminPage() {
                           : "bg-muted text-muted-foreground border-border"
                       }`}
                     >
-                      {p.active ? "Active on Website" : "Hidden"}
+                      {p.active ? tAdmin.activeOnWebsite : tAdmin.hiddenOnWebsite}
                     </button>
 
                     <button
                       onClick={() => {
-                        if (confirm(`ఈ పూజను తొలగించాలా? Delete puja "${p.name}"?`)) {
+                        if (confirm(`${tAdmin.deletePujaConfirm} "${p.name}"?`)) {
                           deletePuja(p.id);
-                          showToast("పూజ రికార్డు తొలగించబడింది! Puja deleted.");
+                          showToast(tAdmin.pujaDeletedToast);
                         }
                       }}
                       className="text-destructive hover:bg-destructive/10 p-1.5 rounded-md transition-colors cursor-pointer"
@@ -784,10 +1019,10 @@ function AdminPage() {
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div>
                 <h2 className="font-display text-xl sm:text-2xl font-bold text-primary">
-                  అన్న ప్రసాదాల నిర్వహణ (Anna Prasadam Management)
+                  {tAdmin.prasadamHeading}
                 </h2>
                 <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
-                  నిత్య అన్నదానం మరియు ఆలయ కౌంటర్ ప్రసాదాల వివరాలను అప్‌డేట్ చేయండి.
+                  {prasadams.length} {tAdmin.prasadamCountText}
                 </p>
               </div>
               <button
@@ -795,7 +1030,7 @@ function AdminPage() {
                 className="rounded-xl bg-primary text-primary-foreground px-4 py-2.5 text-xs sm:text-sm font-bold shadow-temple hover:brightness-110 flex items-center gap-2 shrink-0 cursor-pointer"
               >
                 <Plus className="h-4 w-4" />
-                <span>కొత్త ప్రసాదం జోడించండి (Add Prasadam)</span>
+                <span>{tAdmin.addNewPrasadamBtn}</span>
               </button>
             </div>
 
@@ -808,10 +1043,10 @@ function AdminPage() {
                   </span>
                   <div>
                     <h3 className="font-display text-base font-bold text-primary">
-                      {annadanamInfo.title}
+                      {lang === "te" ? annadanamInfo.titleTe : annadanamInfo.title}
                     </h3>
                     <p className="text-xs text-muted-foreground font-medium">
-                      {annadanamInfo.titleTe}
+                      {lang === "te" ? annadanamInfo.title : annadanamInfo.titleTe}
                     </p>
                   </div>
                 </div>
@@ -821,14 +1056,14 @@ function AdminPage() {
                   className="rounded-lg border border-primary/40 px-3 py-1.5 text-xs font-bold text-primary hover:bg-primary/10 transition-colors flex items-center gap-1.5 cursor-pointer"
                 >
                   <Edit3 className="h-3.5 w-3.5" />
-                  <span>{isEditingAnnadanam ? "Cancel" : "Edit Scheme Details"}</span>
+                  <span>{isEditingAnnadanam ? tAdmin.cancelBtn : tAdmin.editSchemeBtn}</span>
                 </button>
               </div>
 
               {isEditingAnnadanam ? (
                 <div className="mt-4 pt-4 border-t border-border grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold mb-1">Daily Devotee Serving Count</label>
+                    <label className="block text-xs font-semibold mb-1">{tAdmin.devoteesPerDay}</label>
                     <input
                       value={annaCount}
                       onChange={(e) => setAnnaCount(e.target.value)}
@@ -836,7 +1071,7 @@ function AdminPage() {
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold mb-1">Annadanam Serving Timing</label>
+                    <label className="block text-xs font-semibold mb-1">{tAdmin.annadanamTiming}</label>
                     <input
                       value={annaTime}
                       onChange={(e) => setAnnaTime(e.target.value)}
@@ -852,22 +1087,22 @@ function AdminPage() {
                       }}
                       className="rounded-lg bg-primary text-primary-foreground px-4 py-2 text-xs font-bold shadow-sm hover:brightness-110 cursor-pointer"
                     >
-                      సేవ్ చేయండి (Save Scheme Info)
+                      {tAdmin.saveSchemeBtn}
                     </button>
                   </div>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-3 pt-3 border-t border-border/80 text-xs">
                   <div>
-                    <span className="text-muted-foreground block text-[11px]">Daily Devotee Count:</span>
+                    <span className="text-muted-foreground block text-[11px]">{tAdmin.devoteesPerDay}:</span>
                     <span className="font-bold text-foreground text-sm">{annadanamInfo.dailyCount}</span>
                   </div>
                   <div>
-                    <span className="text-muted-foreground block text-[11px]">Distribution Timing:</span>
+                    <span className="text-muted-foreground block text-[11px]">{tAdmin.annadanamTiming}:</span>
                     <span className="font-bold text-foreground text-sm">{annadanamInfo.timing}</span>
                   </div>
                   <div>
-                    <span className="text-muted-foreground block text-[11px]">Sponsorship Status:</span>
+                    <span className="text-muted-foreground block text-[11px]">{tAdmin.dailyFreeMeals}:</span>
                     <span className="font-bold text-green-700 dark:text-green-400 text-sm">Open for Devotees</span>
                   </div>
                 </div>
@@ -893,8 +1128,12 @@ function AdminPage() {
                       )}
                     </div>
 
-                    <h3 className="font-display text-base font-bold text-primary">{p.name}</h3>
-                    <p className="text-xs font-semibold text-foreground/80 mt-0.5">{p.nameTe}</p>
+                    <h3 className="font-display text-base font-bold text-primary">
+                      {lang === "te" ? (p.nameTe || p.name) : p.name}
+                    </h3>
+                    <p className="text-xs font-semibold text-foreground/80 mt-0.5">
+                      {lang === "te" ? p.name : (p.nameTe || p.name)}
+                    </p>
 
                     <div className="mt-2.5 flex items-center gap-1.5 text-xs text-muted-foreground">
                       <Clock className="h-3.5 w-3.5 text-gold shrink-0" />
@@ -902,7 +1141,7 @@ function AdminPage() {
                     </div>
 
                     <p className="mt-2 text-xs leading-relaxed text-muted-foreground line-clamp-3">
-                      {p.desc}
+                      {lang === "te" ? (p.descTe || p.desc) : p.desc}
                     </p>
                   </div>
 
@@ -918,14 +1157,14 @@ function AdminPage() {
                           : "bg-destructive/10 text-destructive border-destructive/30"
                       }`}
                     >
-                      {p.isAvailable ? "Available Today" : "Not Available"}
+                      {p.isAvailable ? tAdmin.activeOnWebsite : tAdmin.hiddenOnWebsite}
                     </button>
 
                     <button
                       onClick={() => {
-                        if (confirm(`ఈ ప్రసాదాన్ని తొలగించాలా? Delete prasadam "${p.name}"?`)) {
+                        if (confirm(`${tAdmin.deletePrasadamConfirm} "${p.name}"?`)) {
                           deletePrasadam(p.id);
-                          showToast("ప్రసాదం తొలగించబడింది! Prasadam item deleted.");
+                          showToast(tAdmin.prasadamDeletedToast);
                         }
                       }}
                       className="text-destructive hover:bg-destructive/10 p-1.5 rounded-md transition-colors cursor-pointer"

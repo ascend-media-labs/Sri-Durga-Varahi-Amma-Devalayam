@@ -10,6 +10,7 @@ import {
 } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { TempleStoreProvider } from "@/lib/templeStore";
+import { LangProvider } from "@/lib/i18n";
 
 import appCss from "../styles.css?url";
 
@@ -125,10 +126,12 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <TempleStoreProvider>
-        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-        <Outlet />
-      </TempleStoreProvider>
+      <LangProvider>
+        <TempleStoreProvider>
+          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+          <Outlet />
+        </TempleStoreProvider>
+      </LangProvider>
     </QueryClientProvider>
   );
 }

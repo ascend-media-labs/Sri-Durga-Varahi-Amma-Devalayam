@@ -35,7 +35,7 @@ const navIcons = {
 };
 
 export function Navbar() {
-  const { t, toggle } = useLang();
+  const { t, lang, setLang } = useLang();
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<string>("home");
 
@@ -128,15 +128,43 @@ export function Navbar() {
           })}
         </nav>
 
-        {/* Right CTA / Language Toggle */}
+        {/* Right CTA / Dual Language Selector */}
         <div className="hidden items-center lg:flex shrink-0">
-          <button
-            onClick={toggle}
-            className="flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/5 px-3 py-1.5 text-xs xl:px-4 xl:py-1.5 xl:text-sm font-semibold text-primary transition-all hover:bg-primary/10 hover:border-primary/50 shadow-xs"
+          <div
+            className="inline-flex items-center rounded-full border border-primary/30 bg-primary/5 p-1 shadow-xs select-none"
+            role="group"
+            aria-label="Language selection"
           >
-            <Languages className="h-3.5 w-3.5 text-gold" />
-            <span>{t.langLabel}</span>
-          </button>
+            <span className="pl-2 pr-1.5 text-gold flex items-center">
+              <Languages className="h-4 w-4" />
+            </span>
+            <button
+              type="button"
+              onClick={() => setLang("en")}
+              aria-pressed={lang === "en"}
+              className={`rounded-full px-3 py-1 text-xs font-bold transition-all cursor-pointer ${
+                lang === "en"
+                  ? "bg-primary text-primary-foreground shadow-xs font-extrabold"
+                  : "text-foreground/75 hover:text-primary hover:bg-primary/10"
+              }`}
+              title="Switch to English"
+            >
+              English
+            </button>
+            <button
+              type="button"
+              onClick={() => setLang("te")}
+              aria-pressed={lang === "te"}
+              className={`rounded-full px-3 py-1 text-xs font-bold transition-all cursor-pointer ${
+                lang === "te"
+                  ? "bg-primary text-primary-foreground shadow-xs font-extrabold"
+                  : "text-foreground/75 hover:text-primary hover:bg-primary/10"
+              }`}
+              title="తెలుగు భాషలోకి మార్చండి"
+            >
+              తెలుగు
+            </button>
+          </div>
         </div>
 
         {/* Mobile Hamburger Button */}
@@ -177,13 +205,32 @@ export function Navbar() {
           </div>
 
           <div className="mt-4 border-t border-border pt-3">
-            <button
-              onClick={toggle}
-              className="flex w-full items-center justify-center gap-2 rounded-full border border-primary/40 bg-primary/5 py-2.5 text-sm font-semibold text-primary hover:bg-primary/10"
-            >
-              <Languages className="h-4 w-4 text-gold" />
-              <span>{t.langLabel}</span>
-            </button>
+            <div className="flex items-center justify-between rounded-full border border-primary/30 bg-primary/5 p-1">
+              <div className="flex items-center gap-2 pl-3 text-gold">
+                <Languages className="h-4 w-4" />
+                <span className="text-xs font-semibold text-foreground/80">భాష / Lang:</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <button
+                  type="button"
+                  onClick={() => setLang("en")}
+                  className={`rounded-full px-3 py-1.5 text-xs font-bold transition-all cursor-pointer ${
+                    lang === "en" ? "bg-primary text-primary-foreground shadow-xs font-extrabold" : "text-foreground/70"
+                  }`}
+                >
+                  English
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setLang("te")}
+                  className={`rounded-full px-3 py-1.5 text-xs font-bold transition-all cursor-pointer ${
+                    lang === "te" ? "bg-primary text-primary-foreground shadow-xs font-extrabold" : "text-foreground/70"
+                  }`}
+                >
+                  తెలుగు
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}
