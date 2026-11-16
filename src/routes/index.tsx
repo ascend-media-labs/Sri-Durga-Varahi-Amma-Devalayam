@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useLang } from "@/lib/i18n";
 import { Navbar } from "@/components/temple/Navbar";
@@ -23,6 +24,10 @@ export const Route = createFileRoute("/")({
 
 function Page() {
   const { lang } = useLang();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  }, []);
 
   return (
     <div lang={lang} className="min-h-screen bg-background flex flex-col justify-between">

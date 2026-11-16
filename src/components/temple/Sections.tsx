@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from "react";
-import { CalendarDays, Clock, Flower2, HeartHandshake, Mail, MapPin, MessageSquare, Phone, Send, Sparkles, X } from "lucide-react";
+import { CalendarDays, Clock, Flower2, HeartHandshake, MapPin, MessageSquare, Phone, Send, Sparkles, X } from "lucide-react";
 import { useLang } from "@/lib/i18n";
 import { useNav } from "@/lib/navContext";
 import { useTempleStore } from "@/lib/templeStore";
@@ -554,8 +554,6 @@ export function Contact() {
                         {TEMPLE_CONFIG.PHONE_SECONDARY}
                       </a>
                     </p>
-                    <p className="text-muted-foreground mt-0.5 font-medium">{c.fax}</p>
-                    <p className="font-bold text-primary mt-0.5">{c.tollFree}</p>
                   </div>
                 </div>
 
@@ -588,22 +586,6 @@ export function Contact() {
                   <p className="text-xs sm:text-sm text-muted-foreground pt-1.5 leading-relaxed text-justify">
                     {c.friendlyTeam}
                   </p>
-                </div>
-
-                {/* Email */}
-                <div className="flex items-start gap-3.5">
-                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-secondary text-primary border border-gold/30 shadow-xs">
-                    <Mail className="h-4.5 w-4.5 text-primary" />
-                  </span>
-                  <div className="text-xs sm:text-sm pt-0.5">
-                    <p className="text-muted-foreground">{c.dropLine}</p>
-                    <a
-                      href={`mailto:${c.email}`}
-                      className="font-semibold text-primary hover:underline mt-0.5 block"
-                    >
-                      {c.email}
-                    </a>
-                  </div>
                 </div>
               </div>
             </div>
@@ -667,15 +649,13 @@ export function Contact() {
                     />
                   </div>
 
-                  {/* Email */}
+                  {/* City / Village */}
                   <div>
                     <label className="block text-xs font-semibold text-foreground mb-1">
-                      {c.emailLabel} <span className="text-destructive">*</span>
+                      {c.city}
                     </label>
                     <input
-                      required
-                      type="email"
-                      placeholder={c.emailPh}
+                      placeholder={c.cityPh}
                       className="w-full rounded-lg border border-input bg-background/50 px-3.5 py-2.5 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
                     />
                   </div>

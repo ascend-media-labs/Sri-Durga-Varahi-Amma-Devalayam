@@ -23,12 +23,8 @@ const NavContext = createContext<NavContextType>({
 });
 
 export function NavProvider({ children }: { children: ReactNode }) {
-  const [activeTab, setActiveTabState] = useState<NavSection>(() => {
-    if (typeof window === "undefined") return "home";
-    const initialHash = window.location.hash.replace("#", "") as NavSection;
-    return VALID_TABS.includes(initialHash) ? initialHash : "home";
-  });
-
+  // Always start at "home" so the site opens from the sacred top banner & hero
+  const [activeTab, setActiveTabState] = useState<NavSection>("home");
   const [donationOpen, setDonationOpen] = useState(false);
   const [presetAmount, setPresetAmount] = useState<string>("501");
 
@@ -50,19 +46,16 @@ export function NavProvider({ children }: { children: ReactNode }) {
       if (clickTimeoutRef.current) clearTimeout(clickTimeoutRef.current);
 
       if (tab === "home") {
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
       } else {
         const el = document.getElementById(tab);
         if (el) {
           const navEl = document.querySelector("header");
-          const headerHeight = navEl ? navEl.offsetHeight + 16 : 96;
-          const targetY = Math.max(0, el.getBoundingClientRect().top + window.scrollY - headerHeight);
+          const headerHeight = navEl ? navEl.offsetHeight : 72;
+          const offset = headerHeight + 16;
+          const targetY = Math.max(0, el.getBoundingClientRect().top + window.scrollY - offset);
           window.scrollTo({ top: targetY, behavior: "smooth" });
         }
-      }
-
-      if (window.history?.replaceState) {
-        window.history.replaceState(null, "", tab === "home" ? window.location.pathname : `#${tab}`);
       }
 
       // Re-enable scrollspy only after smooth scrolling has settled
@@ -75,22 +68,28 @@ export function NavProvider({ children }: { children: ReactNode }) {
       }
       clickTimeoutRef.current = setTimeout(() => {
         isClickScrollingRef.current = false;
-      }, 1200);
+      }, 1000);
     }
   };
 
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    // Handle deep linking hash change (browser back/forward)
-    const handleHashChange = () => {
-      const currentHash = window.location.hash.replace("#", "") as NavSection;
-      if (VALID_TABS.includes(currentHash)) {
-        setActiveTab(currentHash);
-      } else if (!window.location.hash || window.location.hash === "#") {
-        setActiveTab("home");
-      }
-    };
+    // Disable browser's automatic middle-of-page scroll restoration
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+
+    // Clean up any stale hash from previous visits so page always opens from top
+    if (window.location.hash) {
+      window.history.replaceState(null, "", window.location.pathname);
+    }
+
+    // Strictly ensure site opens from the very top
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    const topTimer = setTimeout(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    }, 60);
 
     // Scrollspy to move the active navbar bubble as user scrolls the website
     let ticking = false;
@@ -110,7 +109,7 @@ export function NavProvider({ children }: { children: ReactNode }) {
           // If scrolled near bottom of page
           const scrollBottom = window.innerHeight + window.scrollY;
           const docHeight = document.documentElement.scrollHeight;
-          if (docHeight - scrollBottom < 120) {
+          if (docHeight - scrollBottom < 140) {
             setActiveTabState("contact");
             ticking = false;
             return;
@@ -119,7 +118,7 @@ export function NavProvider({ children }: { children: ReactNode }) {
           // Check sections in top-to-bottom reading order
           const orderedSections: NavSection[] = ["history", "puja", "gallery", "prasadam", "info", "contact"];
           const navEl = document.querySelector("header");
-          const triggerLine = (navEl ? navEl.offsetHeight : 80) + 60; // Just below the sticky header
+          const triggerLine = (navEl ? navEl.offsetHeight : 72) + 60; // Just below sticky header
 
           let activeSection: NavSection = "home";
 
@@ -143,29 +142,10 @@ export function NavProvider({ children }: { children: ReactNode }) {
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    window.addEventListener("hashchange", handleHashChange);
-
-    // Initial check on page load if hash exists
-    if (window.location.hash) {
-      const initial = window.location.hash.replace("#", "") as NavSection;
-      if (VALID_TABS.includes(initial) && initial !== "home") {
-        const scrollToInitial = () => {
-          const el = document.getElementById(initial);
-          if (el) {
-            const navEl = document.querySelector("header");
-            const headerHeight = navEl ? navEl.offsetHeight + 16 : 96;
-            const targetY = Math.max(0, el.getBoundingClientRect().top + window.scrollY - headerHeight);
-            window.scrollTo({ top: targetY, behavior: "smooth" });
-          }
-        };
-        setTimeout(scrollToInitial, 150);
-        setTimeout(scrollToInitial, 600);
-      }
-    }
 
     return () => {
+      clearTimeout(topTimer);
       window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("hashchange", handleHashChange);
       if (clickTimeoutRef.current) clearTimeout(clickTimeoutRef.current);
     };
   }, []);

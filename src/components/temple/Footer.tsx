@@ -1,4 +1,4 @@
-import { Clock, Mail, MapPin, Phone, ShieldCheck, Sparkles } from "lucide-react";
+import { Clock, MapPin, Phone, ShieldCheck, Sparkles } from "lucide-react";
 import { useLang } from "@/lib/i18n";
 import { useNav, type NavSection } from "@/lib/navContext";
 import { TEMPLE_CONFIG } from "@/lib/constants/templeConfig";
@@ -202,13 +202,6 @@ export function Footer() {
                 >
                   <span className="text-[#25D366]">WhatsApp:</span>
                   <span className="text-white underline decoration-[#25D366] underline-offset-2">{TEMPLE_CONFIG.PHONE_PRIMARY}</span>
-                </a>
-              </div>
-
-              <div className="flex items-center gap-2.5">
-                <Mail className="h-4 w-4 shrink-0 text-gold" />
-                <a href={`mailto:${TEMPLE_CONFIG.TEMPLE_EMAIL}`} className="hover:text-gold transition-colors font-medium">
-                  {TEMPLE_CONFIG.TEMPLE_EMAIL}
                 </a>
               </div>
             </div>
