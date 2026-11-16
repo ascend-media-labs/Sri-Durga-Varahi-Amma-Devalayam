@@ -131,7 +131,7 @@ export function Navbar() {
         <button
           type="button"
           onClick={() => setActiveTab("home")}
-          className="group flex items-center gap-1.5 sm:gap-2 lg:gap-1.5 xl:gap-2.5 2xl:gap-3 shrink min-w-0 transition-all duration-200 hover:scale-[1.01] active:scale-95 text-left cursor-pointer"
+          className="group flex items-center gap-1.5 sm:gap-2 lg:gap-1.5 xl:gap-2.5 2xl:gap-3 shrink-0 transition-all duration-200 hover:scale-[1.01] active:scale-95 text-left cursor-pointer"
         >
           <span className="grid h-9 w-9 sm:h-10 sm:w-10 lg:h-8.5 lg:w-8.5 xl:h-11 xl:w-11 2xl:h-12 2xl:w-12 place-items-center rounded-full bg-saffron font-display text-base sm:text-lg lg:text-base xl:text-xl 2xl:text-2xl text-primary-foreground shadow-temple ring-2 ring-gold/70 shrink-0 transition-all duration-300 group-hover:rotate-6 group-hover:shadow-[0_0_20px_rgba(234,179,8,0.4)]">
             ॐ
@@ -154,7 +154,7 @@ export function Navbar() {
         {/* Desktop Navigation Links - Responsive with Animated Sliding Pill Bubble */}
         <nav
           ref={navRef}
-          className="relative hidden items-center gap-0.5 lg:flex xl:gap-1 2xl:gap-1.5 shrink min-w-0"
+          className="relative hidden items-center gap-0.5 lg:flex xl:gap-1 2xl:gap-1.5 shrink-0"
         >
           {/* Animated Moving Bubble */}
           <div
@@ -177,7 +177,7 @@ export function Navbar() {
                 }}
                 type="button"
                 onClick={() => setActiveTab(id as NavSection)}
-                className={`relative z-10 rounded-full px-2 py-1 text-xs lg:px-1.5 lg:py-1 lg:text-[10px] xl:px-3 xl:py-1.5 xl:text-xs 2xl:px-4 2xl:py-1.5 2xl:text-sm font-semibold transition-colors duration-200 whitespace-nowrap cursor-pointer active:scale-95 ${
+                className={`relative z-10 rounded-full px-2 py-1 text-xs lg:px-2 lg:py-1 lg:text-[11px] xl:px-3 xl:py-1.5 xl:text-xs 2xl:px-4 2xl:py-1.5 2xl:text-sm font-semibold transition-colors duration-200 whitespace-nowrap cursor-pointer active:scale-95 ${
                   isActive
                     ? "text-primary-foreground font-bold"
                     : "text-foreground/80 hover:text-primary"
@@ -190,62 +190,56 @@ export function Navbar() {
         </nav>
 
         {/* Right CTA / Dual Language Selector & Premium Devotional Donate */}
-        <div className="hidden items-center gap-2 xl:gap-3 lg:flex shrink-0">
+        <div className="hidden items-center gap-1.5 xl:gap-3 lg:flex shrink-0">
           {/* Royal Golden Temple Donation CTA Button */}
           <button
             type="button"
             onClick={() => openDonation()}
-            className="relative group overflow-hidden flex items-center gap-2 rounded-full bg-gradient-to-r from-amber-600 via-saffron to-amber-700 px-3 py-1.5 xl:px-4 xl:py-2 shadow-[0_2px_14px_rgba(217,119,6,0.4)] ring-2 ring-gold hover:ring-amber-300 hover:shadow-[0_0_24px_rgba(234,179,8,0.7)] hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
+            className="relative group overflow-hidden flex items-center gap-1.5 rounded-full bg-gradient-to-r from-amber-600 via-saffron to-amber-700 px-2.5 py-1.5 xl:px-3.5 xl:py-2 shadow-[0_2px_12px_rgba(217,119,6,0.35)] ring-2 ring-gold hover:ring-amber-300 hover:shadow-[0_0_20px_rgba(234,179,8,0.7)] hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer shrink-0"
             title={lang === "te" ? "శ్రీ దుర్గా వారాహి అమ్మవారి ఆలయ విరాళ సమర్పణ (PhonePe / Google Pay / UPI)" : "Donate to Sri Durga Varahi Temple via PhonePe / GPay / Any UPI"}
           >
             {/* Shimmer Sheen Reflection Effect */}
             <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12 pointer-events-none" />
 
             {/* Glowing Golden Emblem */}
-            <span className="grid h-6 w-6 xl:h-7 xl:w-7 place-items-center rounded-full bg-black/25 ring-1 ring-gold/90 text-gold shadow-inner group-hover:rotate-12 transition-transform">
-              <HeartHandshake className="h-3.5 w-3.5 xl:h-4 xl:w-4 text-gold animate-pulse" />
+            <span className="grid h-5 w-5 xl:h-6 xl:w-6 place-items-center rounded-full bg-black/25 ring-1 ring-gold/90 text-gold shadow-inner group-hover:rotate-12 transition-transform shrink-0">
+              <HeartHandshake className="h-3 w-3 xl:h-3.5 xl:w-3.5 text-gold animate-pulse" />
             </span>
 
-            {/* Dual Line Royal Devotional Typography */}
-            <div className="flex flex-col text-left leading-none pr-0.5">
-              <span className="text-[8px] xl:text-[9.5px] font-bold text-amber-100 uppercase tracking-widest flex items-center gap-1">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-ping inline-block" />
-                <span>{lang === "te" ? "అన్నదానం • కానుకలు" : "OFFERINGS • UPI"}</span>
-              </span>
-              <span className="text-xs xl:text-[13.5px] font-black tracking-wide text-white drop-shadow-sm mt-0.5 whitespace-nowrap">
-                {lang === "te" ? "విరాళం (Donate)" : "Donate (విరాళాలు)"}
-              </span>
-            </div>
+            {/* Devotional Typography */}
+            <span className="text-xs xl:text-sm font-black tracking-wide text-white drop-shadow-sm whitespace-nowrap">
+              {lang === "te" ? "విరాళం (Donate)" : "Donate"}
+            </span>
 
-            <Sparkles className="h-3.5 w-3.5 text-gold/90 group-hover:scale-125 transition-transform shrink-0" />
+            <Sparkles className="h-3 w-3 xl:h-3.5 xl:w-3.5 text-gold/90 group-hover:scale-125 transition-transform shrink-0" />
           </button>
 
           <div
-            className="inline-flex items-center rounded-full border border-primary/30 bg-primary/5 p-0.5 xl:p-1 shadow-xs select-none"
+            className="inline-flex items-center rounded-full border border-primary/30 bg-primary/5 p-0.5 xl:p-1 shadow-xs select-none shrink-0"
             role="group"
             aria-label="Language selection"
           >
-            <span className="pl-1 pr-0.5 xl:pl-2 xl:pr-1.5 text-gold flex items-center">
-              <Languages className="h-3 w-3 xl:h-4 xl:w-4" />
+            <span className="pl-1 pr-0.5 xl:pl-1.5 xl:pr-1 text-gold flex items-center">
+              <Languages className="h-3 w-3 xl:h-3.5 xl:w-3.5" />
             </span>
             <button
               type="button"
               onClick={() => setLang("en")}
               aria-pressed={lang === "en"}
-              className={`rounded-full px-1.5 py-0.5 xl:px-3 xl:py-1 text-[10px] xl:text-xs font-bold transition-all duration-200 active:scale-95 cursor-pointer ${
+              className={`rounded-full px-1.5 py-0.5 xl:px-2.5 xl:py-1 text-[10px] xl:text-xs font-bold transition-all duration-200 active:scale-95 cursor-pointer ${
                 lang === "en"
                   ? "bg-primary text-primary-foreground shadow-xs font-extrabold scale-102"
                   : "text-foreground/75 hover:text-primary hover:bg-primary/10"
               }`}
               title="Switch to English"
             >
-              English
+              EN<span className="hidden xl:inline">glish</span>
             </button>
             <button
               type="button"
               onClick={() => setLang("te")}
               aria-pressed={lang === "te"}
-              className={`rounded-full px-1.5 py-0.5 xl:px-3 xl:py-1 text-[10px] xl:text-xs font-bold transition-all duration-200 active:scale-95 cursor-pointer ${
+              className={`rounded-full px-1.5 py-0.5 xl:px-2.5 xl:py-1 text-[10px] xl:text-xs font-bold transition-all duration-200 active:scale-95 cursor-pointer ${
                 lang === "te"
                   ? "bg-primary text-primary-foreground shadow-xs font-extrabold scale-102"
                   : "text-foreground/75 hover:text-primary hover:bg-primary/10"
