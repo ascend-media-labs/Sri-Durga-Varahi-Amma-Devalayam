@@ -20,7 +20,7 @@ export function Hero() {
   }, [n]);
 
   return (
-    <section id="home" className="relative h-[76vh] sm:h-[80vh] md:h-[84vh] lg:h-[88vh] min-h-[480px] sm:min-h-[520px] max-h-[840px] overflow-hidden">
+    <section className="relative h-[76vh] sm:h-[80vh] md:h-[84vh] lg:h-[88vh] min-h-[480px] sm:min-h-[520px] max-h-[840px] overflow-hidden">
       {images.map((src, idx) => (
         <img
           key={src}

@@ -423,7 +423,7 @@ function AdminPage() {
       name: newPujaName,
       nameTe: newPujaNameTe || newPujaName,
       time: newPujaTime || "Daily 07:00 AM - 08:30 AM",
-      dakshina: newPujaDakshina || "₹250",
+      dakshina: newPujaDakshina || "",
       desc: newPujaDesc,
       descTe: newPujaDescTe || newPujaDesc,
       type: newPujaType,
@@ -443,7 +443,7 @@ function AdminPage() {
   const [newPrasName, setNewPrasName] = useState("");
   const [newPrasNameTe, setNewPrasNameTe] = useState("");
   const [newPrasTiming, setNewPrasTiming] = useState("");
-  const [newPrasPrice, setNewPrasPrice] = useState("Free (ఉచితం)");
+  const [newPrasPrice, setNewPrasPrice] = useState("");
   const [newPrasDesc, setNewPrasDesc] = useState("");
   const [newPrasDescTe, setNewPrasDescTe] = useState("");
   const [newPrasCategory, setNewPrasCategory] = useState<"daily" | "special_prasadam" | "annadanam">("daily");
@@ -464,7 +464,7 @@ function AdminPage() {
     setNewPrasName("");
     setNewPrasNameTe("");
     setNewPrasTiming("");
-    setNewPrasPrice("Free (ఉచితం)");
+    setNewPrasPrice("");
     setNewPrasDesc("");
     setNewPrasDescTe("");
     showToast("ప్రసాదం విజయవంతంగా జోడించబడింది! Prasadam item saved.");
@@ -1105,9 +1105,6 @@ function AdminPage() {
                       }`}>
                         {p.type === "event" ? "Grand Festival" : "Daily Puja"}
                       </span>
-                      <span className="text-xs font-bold text-gold bg-maroon/10 px-2 py-0.5 rounded border border-gold/40">
-                        {p.dakshina}
-                      </span>
                     </div>
 
                     <h3 className="font-display text-base font-bold text-primary">
@@ -1278,11 +1275,6 @@ function AdminPage() {
                       <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">
                         {p.category.replace("_", " ")}
                       </span>
-                      {p.price && (
-                        <span className="text-xs font-bold text-gold bg-maroon/10 px-2 py-0.5 rounded border border-gold/40">
-                          {p.price}
-                        </span>
-                      )}
                     </div>
 
                     <h3 className="font-display text-base font-bold text-primary">
@@ -1576,7 +1568,7 @@ function AdminPage() {
                 <div>
                   <label className="block text-xs font-semibold mb-1">దక్షిణ / రుసుము (Dakshina)</label>
                   <input
-                    placeholder="e.g. ₹516 or Free"
+                    placeholder="Optional"
                     value={newPujaDakshina}
                     onChange={(e) => setNewPujaDakshina(e.target.value)}
                     className="w-full rounded-lg border border-input bg-background px-3 py-2 text-xs"
@@ -1682,7 +1674,7 @@ function AdminPage() {
                 <div>
                   <label className="block text-xs font-semibold mb-1">ధర / Contribution (Price)</label>
                   <input
-                    placeholder="e.g. Free or ₹20"
+                    placeholder="Optional"
                     value={newPrasPrice}
                     onChange={(e) => setNewPrasPrice(e.target.value)}
                     className="w-full rounded-lg border border-input bg-background px-3 py-2 text-xs"

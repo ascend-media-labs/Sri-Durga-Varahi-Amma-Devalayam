@@ -31,7 +31,7 @@ export interface PujaEventItem {
   time: string;
   desc: string;
   descTe: string;
-  dakshina: string;
+  dakshina?: string;
   type: "puja" | "event";
   category?: string;
   bannerUrl?: string;
@@ -194,7 +194,6 @@ const defaultPujas: PujaEventItem[] = [
     time: "07:00 AM - 08:30 AM",
     desc: "Auspicious archana with consecrated vermilion for harmony, good health and family prosperity.",
     descTe: "సౌభాగ్యం, ఆయురారోగ్యాల కొరకు పవిత్ర కుంకుమతో అమ్మవారికి నిర్వహించే అర్చన.",
-    dakshina: "₹150",
     type: "puja",
     active: true,
   },
@@ -205,7 +204,6 @@ const defaultPujas: PujaEventItem[] = [
     time: "08:30 AM - 10:00 AM",
     desc: "Sacred milk, honey, sandalwood and panchamrita bath offered to Goddess Varahi.",
     descTe: "పాలు, తేనె, గంధం, పంచామృతాలతో శ్రీ దుర్గా వారాహి అమ్మవారికి పవిత్ర అభిషేకం.",
-    dakshina: "₹250",
     type: "puja",
     active: true,
   },
@@ -216,7 +214,6 @@ const defaultPujas: PujaEventItem[] = [
     time: "11:00 AM - 12:30 PM",
     desc: "Chanting 1000 sacred names of Mother Varahi with fragrant bilva and lotus flowers.",
     descTe: "1008 పవిత్ర దివ్య నామాలతో బిల్వదళాలు, కమలాలతో నిర్వహించే సహస్రనామార్చన.",
-    dakshina: "₹300",
     type: "puja",
     active: true,
   },
@@ -227,7 +224,6 @@ const defaultPujas: PujaEventItem[] = [
     time: "04:30 PM - 06:00 PM",
     desc: "Special evening worship to remove evil eye, planetary doshas and negative forces.",
     descTe: "దృష్టి దోషాలు, నవగ్రహ బాధలు తొలగించి విజయం చేకూర్చే సాయంత్రం రాహుకాల పూజ.",
-    dakshina: "₹500",
     type: "puja",
     active: true,
   },
@@ -238,7 +234,6 @@ const defaultPujas: PujaEventItem[] = [
     time: "Panchami Tithi (All Day)",
     desc: "Exclusive monthly festival puja on Shukla & Krishna Panchami with special homam.",
     descTe: "వారాహి అమ్మవారికి అత్యంత ప్రీతిపాత్రమైన పంచమి తిథి రోజున జరిగే విశేష హోమం, పూజలు.",
-    dakshina: "₹516",
     type: "puja",
     active: true,
   },
@@ -249,7 +244,6 @@ const defaultPujas: PujaEventItem[] = [
     time: "11.10.2026 to 20.10.2026",
     desc: "Grand 9-day annual festival featuring daily Kumkumarchana, Sahasranama rituals and continuous Annadanam.",
     descTe: "తొమ్మిది రోజులు అత్యంత ఘనంగా జరిగే వార్షిక నవరాత్రి మహోత్సవాలు, నిత్య కుంకుమార్చన మరియు భారీ అన్నదానం.",
-    dakshina: "Sarva Darshan Free",
     type: "event",
     category: "Grand Festival",
     bannerUrl: navaratriBanner,
@@ -269,7 +263,6 @@ const defaultPrasadams: PrasadamItem[] = [
     timing: "12:30 PM - 03:00 PM Daily",
     category: "annadanam",
     isAvailable: true,
-    price: "Free (ఉచితం)",
   },
   {
     id: "pras-2",
@@ -280,7 +273,6 @@ const defaultPrasadams: PrasadamItem[] = [
     timing: "Available Daily at Counter",
     category: "daily",
     isAvailable: true,
-    price: "₹20 / Packet",
   },
   {
     id: "pras-3",
@@ -291,7 +283,6 @@ const defaultPrasadams: PrasadamItem[] = [
     timing: "Available on Festival Days & Friday",
     category: "special_prasadam",
     isAvailable: true,
-    price: "₹30 / Bowl",
   },
   {
     id: "pras-4",
@@ -302,7 +293,6 @@ const defaultPrasadams: PrasadamItem[] = [
     timing: "Morning & Afternoon Sevas",
     category: "daily",
     isAvailable: true,
-    price: "₹20 / Bowl",
   },
   {
     id: "pras-5",
@@ -313,7 +303,6 @@ const defaultPrasadams: PrasadamItem[] = [
     timing: "All Day at Prasadam Counter",
     category: "special_prasadam",
     isAvailable: true,
-    price: "₹25 / Laddu",
   },
 ];
 

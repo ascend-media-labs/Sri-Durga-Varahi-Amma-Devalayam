@@ -36,7 +36,10 @@ export function NavProvider({ children }: { children: ReactNode }) {
       } else {
         const el = document.getElementById(tab);
         if (el) {
-          el.scrollIntoView({ behavior: "smooth" });
+          const navEl = document.querySelector("header");
+          const headerHeight = navEl ? navEl.offsetHeight + 16 : 96;
+          const targetY = Math.max(0, el.getBoundingClientRect().top + window.scrollY - headerHeight);
+          window.scrollTo({ top: targetY, behavior: "smooth" });
         }
       }
 
@@ -44,9 +47,17 @@ export function NavProvider({ children }: { children: ReactNode }) {
         window.history.replaceState(null, "", tab === "home" ? window.location.pathname : `#${tab}`);
       }
 
+      // Re-enable scrollspy only after smooth scrolling has settled
+      const onScrollEnd = () => {
+        isClickScrollingRef.current = false;
+        window.removeEventListener("scrollend", onScrollEnd);
+      };
+      if ("onscrollend" in window) {
+        window.addEventListener("scrollend", onScrollEnd, { once: true });
+      }
       clickTimeoutRef.current = setTimeout(() => {
         isClickScrollingRef.current = false;
-      }, 850);
+      }, 1200);
     }
   };
 
@@ -71,22 +82,14 @@ export function NavProvider({ children }: { children: ReactNode }) {
 
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          const sections: { id: NavSection; el: HTMLElement }[] = [
-            { id: "contact" as const, el: document.getElementById("contact")! },
-            { id: "info" as const, el: document.getElementById("info")! },
-            { id: "prasadam" as const, el: document.getElementById("prasadam")! },
-            { id: "gallery" as const, el: document.getElementById("gallery")! },
-            { id: "puja" as const, el: document.getElementById("puja")! },
-            { id: "history" as const, el: document.getElementById("history")! },
-          ].filter((s) => s.el !== null);
-
-          // If sections are not present on the current page (e.g. /admin), do not alter activeTab
-          if (sections.length === 0) {
+          // If at the very top of page
+          if (window.scrollY < 120) {
+            setActiveTabState("home");
             ticking = false;
             return;
           }
 
-          // Check if scrolled near the bottom of page
+          // If scrolled near bottom of page
           const scrollBottom = window.innerHeight + window.scrollY;
           const docHeight = document.documentElement.scrollHeight;
           if (docHeight - scrollBottom < 120) {
@@ -95,18 +98,25 @@ export function NavProvider({ children }: { children: ReactNode }) {
             return;
           }
 
-          // Check sections top-to-bottom offset with navbar compensation
-          const scrollPos = window.scrollY + 180;
-          let current: NavSection = "home";
+          // Check sections in top-to-bottom reading order
+          const orderedSections: NavSection[] = ["history", "puja", "gallery", "prasadam", "info", "contact"];
+          const navEl = document.querySelector("header");
+          const triggerLine = (navEl ? navEl.offsetHeight : 80) + 60; // Just below the sticky header
 
-          for (const s of sections) {
-            if (scrollPos >= s.el.offsetTop) {
-              current = s.id;
+          let activeSection: NavSection = "home";
+
+          for (const id of orderedSections) {
+            const el = document.getElementById(id);
+            if (!el) continue;
+            const rect = el.getBoundingClientRect();
+            // A section is active if its top is above or near the trigger line, and its bottom is still below it
+            if (rect.top <= triggerLine && rect.bottom > triggerLine) {
+              activeSection = id;
               break;
             }
           }
 
-          setActiveTabState((prev) => (prev !== current ? current : prev));
+          setActiveTabState((prev) => (prev !== activeSection ? activeSection : prev));
           ticking = false;
         });
 
@@ -121,9 +131,17 @@ export function NavProvider({ children }: { children: ReactNode }) {
     if (window.location.hash) {
       const initial = window.location.hash.replace("#", "") as NavSection;
       if (VALID_TABS.includes(initial) && initial !== "home") {
-        setTimeout(() => {
-          document.getElementById(initial)?.scrollIntoView({ behavior: "smooth" });
-        }, 150);
+        const scrollToInitial = () => {
+          const el = document.getElementById(initial);
+          if (el) {
+            const navEl = document.querySelector("header");
+            const headerHeight = navEl ? navEl.offsetHeight + 16 : 96;
+            const targetY = Math.max(0, el.getBoundingClientRect().top + window.scrollY - headerHeight);
+            window.scrollTo({ top: targetY, behavior: "smooth" });
+          }
+        };
+        setTimeout(scrollToInitial, 150);
+        setTimeout(scrollToInitial, 600);
       }
     }
 

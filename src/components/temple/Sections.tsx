@@ -2,6 +2,7 @@ import { useState, type ReactNode } from "react";
 import { CalendarDays, Clock, Flower2, Mail, MapPin, MessageSquare, Phone, Send, Sparkles, X } from "lucide-react";
 import { useLang } from "@/lib/i18n";
 import { useTempleStore } from "@/lib/templeStore";
+import { WhatsAppIcon } from "./Footer";
 import temple from "@/assets/hero-temple.jpg";
 import goddess from "@/assets/hero-goddess.jpg";
 import aarti from "@/assets/hero-aarti.jpg";
@@ -102,7 +103,7 @@ export function About() {
 export function History() {
   const { t } = useLang();
   return (
-    <section id="history" className="bg-secondary py-5 md:py-6">
+    <section id="history" className="bg-secondary py-5 md:py-6 scroll-mt-24 sm:scroll-mt-28">
       <div className="mx-auto max-w-7xl xl:max-w-[1360px] 2xl:max-w-[1520px] px-4 sm:px-6 md:px-8 lg:px-10">
         <SectionTitle className="mb-3 sm:mb-4">{t.historyTitle}</SectionTitle>
         <div className="grid gap-3 sm:gap-4 md:gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
@@ -125,7 +126,7 @@ export function Pujas() {
   const regularPujas = pujas.filter((p) => p.type === "puja" && p.active);
 
   return (
-    <section id="puja" className="py-5 md:py-7">
+    <section id="puja" className="py-5 md:py-7 scroll-mt-24 sm:scroll-mt-28">
       <div className="mx-auto max-w-7xl xl:max-w-[1360px] 2xl:max-w-[1520px] px-4 sm:px-6 md:px-8 lg:px-10">
         <SectionTitle size="sm" className="mb-3 sm:mb-4">{t.pujaTitle}</SectionTitle>
 
@@ -282,11 +283,6 @@ export function Pujas() {
                   <span className="grid h-8 w-8 place-items-center rounded-full bg-saffron text-primary-foreground shadow-xs">
                     <CalendarDays className="h-3.5 w-3.5" />
                   </span>
-                  {p.dakshina && (
-                    <span className="rounded-full bg-primary/10 border border-primary/30 px-2 py-0.5 text-[11px] font-bold text-primary">
-                      {p.dakshina}
-                    </span>
-                  )}
                 </div>
                 <h3 className="mt-2 font-display text-sm sm:text-base font-bold text-primary">{displayName}</h3>
                 <p className="mt-1 flex items-center gap-1 text-[11px] sm:text-xs font-semibold text-accent-foreground">
@@ -321,7 +317,7 @@ export function Gallery() {
   }));
 
   return (
-    <section id="gallery" className="bg-maroon py-6 md:py-8 text-primary-foreground">
+    <section id="gallery" className="bg-maroon py-6 md:py-8 text-primary-foreground scroll-mt-24 sm:scroll-mt-28">
       <div className="mx-auto max-w-7xl xl:max-w-[1360px] 2xl:max-w-[1520px] px-4 sm:px-6 md:px-8 lg:px-10">
         <div className="mb-4 sm:mb-5 text-center">
           <Flower2 className="mx-auto h-5 w-5 text-gold" />
@@ -421,7 +417,7 @@ export function Prasadam() {
   const mainPrasadamText = lang === "te" ? (annadanamInfo.descTe || t.prasadamText) : (annadanamInfo.desc || t.prasadamText);
 
   return (
-    <section id="prasadam" className="kolam-bg py-5 md:py-7">
+    <section id="prasadam" className="kolam-bg py-5 md:py-7 scroll-mt-24 sm:scroll-mt-28">
       <div className="mx-auto max-w-7xl xl:max-w-[1360px] 2xl:max-w-[1520px] px-4 sm:px-6 md:px-8 lg:px-10">
         <SectionTitle size="sm" className="mb-3 sm:mb-4">{t.prasadamTitle}</SectionTitle>
         <div className="grid items-center gap-6 md:grid-cols-2 md:gap-8 lg:gap-10">
@@ -444,12 +440,7 @@ export function Prasadam() {
                 return (
                   <div key={p.id} className="rounded-lg border-l-4 border-primary bg-card p-3 shadow-xs transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md hover:border-gold">
                     <p className="font-display text-xs sm:text-sm font-bold text-primary">{displayName}</p>
-                    <p className="mt-0.5 text-[11px] text-muted-foreground">{displayDesc}</p>
-                    {p.price && (
-                      <span className="mt-1 inline-block text-[10px] font-bold text-gold">
-                        {p.price}
-                      </span>
-                    )}
+                    <p className="mt-0.5 text-[11px] text-muted-foreground leading-relaxed">{displayDesc}</p>
                   </div>
                 );
               })}
@@ -464,7 +455,7 @@ export function Prasadam() {
 export function Slokhas() {
   const { t } = useLang();
   return (
-    <section id="info" className="bg-secondary py-5 md:py-7">
+    <section id="info" className="bg-secondary py-5 md:py-7 scroll-mt-24 sm:scroll-mt-28">
       <div className="mx-auto max-w-7xl xl:max-w-[1360px] 2xl:max-w-[1520px] px-4 sm:px-6 md:px-8 lg:px-10">
         <SectionTitle className="mb-3 sm:mb-4">{t.slokhaTitle}</SectionTitle>
         <div className="grid gap-3.5 sm:gap-4 lg:gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
@@ -482,12 +473,12 @@ export function Slokhas() {
 }
 
 export function Contact() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const c = t.contactSection;
   const [sent, setSent] = useState(false);
 
   return (
-    <section id="contact" className="py-6 md:py-8 kolam-bg">
+    <section id="contact" className="py-6 md:py-8 kolam-bg scroll-mt-24 sm:scroll-mt-28">
       <div className="mx-auto max-w-7xl xl:max-w-[1360px] 2xl:max-w-[1520px] px-4 sm:px-6 md:px-8 lg:px-10">
         <div className="grid gap-6 lg:gap-8 lg:grid-cols-12 items-stretch">
           {/* Left Card: Get in touch */}
@@ -542,6 +533,27 @@ export function Contact() {
                     </p>
                     <p className="text-muted-foreground mt-0.5 font-medium">{c.fax}</p>
                     <p className="font-bold text-primary mt-0.5">{c.tollFree}</p>
+                  </div>
+                </div>
+
+                {/* WhatsApp Chat Support */}
+                <div className="flex items-start gap-3.5">
+                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-emerald-500/10 text-emerald-600 border border-emerald-500/30 shadow-xs">
+                    <WhatsAppIcon className="h-4.5 w-4.5" />
+                  </span>
+                  <div className="text-xs sm:text-sm pt-0.5">
+                    <p className="text-muted-foreground">{lang === "te" ? "వాట్సాప్ ద్వారా సంప్రదించండి" : "WhatsApp Inquiry / Support"}</p>
+                    <a
+                      href="https://wa.me/918919418447"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-1 inline-flex items-center gap-2 font-bold text-emerald-700 dark:text-emerald-400 hover:underline"
+                    >
+                      <span className="underline decoration-emerald-500/50 underline-offset-2">+91 89194 18447</span>
+                      <span className="text-[10.5px] bg-[#25D366] text-white px-2.5 py-0.5 rounded-full font-bold shadow-2xs hover:brightness-110 flex items-center gap-1">
+                        Chat on WhatsApp
+                      </span>
+                    </a>
                   </div>
                 </div>
 

@@ -172,6 +172,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 6.5rem;
   overflow-x: clip;
   max-width: 100%;
 }
@@ -181,7 +182,9 @@ body {
   max-width: 100%;
   min-height: 100vh;
 }
-section[id] { scroll-margin-top: 5rem; }
+section[id], div[id] {
+  scroll-margin-top: 6.5rem;
+}
 
 @utility bg-saffron { background-image: var(--gradient-saffron); }
 @utility text-justify { text-align: justify; text-justify: inter-word; }
