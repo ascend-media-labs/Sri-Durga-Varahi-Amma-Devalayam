@@ -81,7 +81,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Sri Durga Varahi Amma Devalayam – Pisini, Srikakulam" },
-      { name: "description", content: "Official devotional portal of Sri Durga Varahi Amma Devalayam, Pisini Village, Ranasthalam Mandal, Srikakulam District, Andhra Pradesh. Darshan timings, puja bookings, navaratri celebrations, and annadanam." },
+      { name: "description", content: "Official devotional portal of Sri Durga Varahi Amma Devalayam, Pisini Village, Ranasthalam Mandal, Srikakulam District, Andhra Pradesh. Darshan timings, daily sevas, navaratri celebrations, and annadanam." },
       { name: "author", content: "Sri Durga Varahi Amma Devalayam" },
       { property: "og:title", content: "Sri Durga Varahi Amma Devalayam" },
       { property: "og:description", content: "Official devotional portal of Sri Durga Varahi Amma Devalayam, Pisini, Srikakulam." },

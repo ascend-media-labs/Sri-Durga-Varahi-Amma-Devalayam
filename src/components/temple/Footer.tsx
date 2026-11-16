@@ -1,6 +1,7 @@
 import { Clock, Mail, MapPin, Phone, ShieldCheck, Sparkles } from "lucide-react";
 import { useLang } from "@/lib/i18n";
 import { useNav, type NavSection } from "@/lib/navContext";
+import { TEMPLE_CONFIG } from "@/lib/constants/templeConfig";
 import { navItems } from "./Navbar";
 
 function FacebookIcon({ className = "h-5 w-5" }: { className?: string }) {
@@ -179,12 +180,12 @@ export function Footer() {
               <div className="flex items-start gap-2.5">
                 <Phone className="h-4 w-4 shrink-0 text-gold mt-0.5" />
                 <div className="flex flex-wrap items-center gap-1.5 font-bold">
-                  <a href="tel:8919418447" className="hover:text-gold transition-colors underline decoration-gold/50 underline-offset-2">
-                    +91 89194 18447
+                  <a href={`tel:${TEMPLE_CONFIG.WHATSAPP_NUMBER}`} className="hover:text-gold transition-colors underline decoration-gold/50 underline-offset-2">
+                    {TEMPLE_CONFIG.PHONE_PRIMARY}
                   </a>
                   <span className="text-gold/60 font-normal">/</span>
-                  <a href="tel:9642749187" className="hover:text-gold transition-colors underline decoration-gold/50 underline-offset-2">
-                    +91 96427 49187
+                  <a href={`tel:${TEMPLE_CONFIG.PHONE_SECONDARY.replace(/[^0-9]/g, "").slice(-10)}`} className="hover:text-gold transition-colors underline decoration-gold/50 underline-offset-2">
+                    {TEMPLE_CONFIG.PHONE_SECONDARY}
                   </a>
                 </div>
               </div>
@@ -193,21 +194,21 @@ export function Footer() {
               <div className="flex items-center gap-2.5">
                 <WhatsAppIcon className="h-4 w-4 shrink-0 text-[#25D366]" />
                 <a
-                  href="https://wa.me/918919418447"
+                  href={`https://wa.me/91${TEMPLE_CONFIG.WHATSAPP_NUMBER}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-gold transition-colors font-bold flex items-center gap-1.5"
-                  title="WhatsApp: +91 89194 18447"
+                  title={`WhatsApp: ${TEMPLE_CONFIG.PHONE_PRIMARY}`}
                 >
                   <span className="text-[#25D366]">WhatsApp:</span>
-                  <span className="text-white underline decoration-[#25D366] underline-offset-2">+91 89194 18447</span>
+                  <span className="text-white underline decoration-[#25D366] underline-offset-2">{TEMPLE_CONFIG.PHONE_PRIMARY}</span>
                 </a>
               </div>
 
               <div className="flex items-center gap-2.5">
                 <Mail className="h-4 w-4 shrink-0 text-gold" />
-                <a href="mailto:info@varahiammatemple.org" className="hover:text-gold transition-colors font-medium">
-                  info@varahiammatemple.org
+                <a href={`mailto:${TEMPLE_CONFIG.TEMPLE_EMAIL}`} className="hover:text-gold transition-colors font-medium">
+                  {TEMPLE_CONFIG.TEMPLE_EMAIL}
                 </a>
               </div>
             </div>
@@ -220,11 +221,11 @@ export function Footer() {
               <div className="flex items-center gap-2.5 sm:gap-3">
                 {/* WhatsApp */}
                 <a
-                  href="https://wa.me/918919418447"
+                  href={`https://wa.me/91${TEMPLE_CONFIG.WHATSAPP_NUMBER}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="WhatsApp"
-                  title="WhatsApp: +91 89194 18447"
+                  title={`WhatsApp: ${TEMPLE_CONFIG.PHONE_PRIMARY}`}
                   className="grid h-9 w-9 sm:h-10 sm:w-10 place-items-center rounded-full bg-[#25D366] text-white shadow-md transition-all duration-300 hover:scale-110 hover:shadow-lg hover:brightness-110 cursor-pointer"
                 >
                   <WhatsAppIcon className="h-4.5 w-4.5 sm:h-5 sm:w-5" />
@@ -232,7 +233,7 @@ export function Footer() {
 
                 {/* Facebook */}
                 <a
-                  href="https://www.facebook.com/profile.php?id=61596476287591"
+                  href={TEMPLE_CONFIG.FACEBOOK_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Facebook"
@@ -244,7 +245,7 @@ export function Footer() {
 
                 {/* Instagram */}
                 <a
-                  href="https://www.instagram.com/sridurgavarahiammapisini/?hl=en"
+                  href={TEMPLE_CONFIG.INSTAGRAM_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Instagram"

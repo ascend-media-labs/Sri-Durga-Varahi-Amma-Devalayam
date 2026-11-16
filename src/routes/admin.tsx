@@ -29,6 +29,7 @@ import {
 } from "lucide-react";
 import { useTempleStore, type GalleryItem, type PujaEventItem, type PrasadamItem } from "@/lib/templeStore";
 import { useLang, type Lang } from "@/lib/i18n";
+import { TEMPLE_CONFIG } from "@/lib/constants/templeConfig";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -960,6 +961,87 @@ function AdminPage() {
                 </div>
                 <h3 className="mt-3 font-bold text-sm text-foreground">{tAdmin.cardSystemTitle}</h3>
                 <p className="text-xs text-muted-foreground mt-0.5">{tAdmin.cardSystemDesc}</p>
+              </div>
+            </div>
+
+            {/* Immutable Temple Contact & Financial Security Lock */}
+            <div className="rounded-2xl border-2 border-emerald-500/40 bg-gradient-to-r from-emerald-950/20 via-card to-emerald-950/20 p-5 sm:p-6 shadow-sm">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border pb-4">
+                <div className="flex items-center gap-3">
+                  <span className="grid h-10 w-10 place-items-center rounded-xl bg-emerald-500/20 text-emerald-500 ring-2 ring-emerald-500/30">
+                    <ShieldCheck className="h-6 w-6" />
+                  </span>
+                  <div>
+                    <h3 className="font-display text-base sm:text-lg font-bold text-foreground flex items-center gap-2">
+                      <span>Temple Security & Financial Lock (ఆలయ భద్రతా ఆంక్షలు)</span>
+                      <span className="rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/40 text-[10px] font-black px-2 py-0.5 uppercase tracking-wider">
+                        HARD-LOCKED & IMMUTABLE
+                      </span>
+                    </h3>
+                    <p className="text-xs text-muted-foreground mt-0.5">
+                      ఆలయ PhonePe పేమెంట్ నంబర్ మరియు అధికారిక సంప్రదింపు నంబర్లు కోడ్‌బేస్‌లో శాశ్వతంగా లాక్ చేయబడ్డాయి. ఎవరూ వీటిని సవరించలేరు.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-lg border border-emerald-500/30 self-start sm:self-auto">
+                  <Lock className="h-3.5 w-3.5" />
+                  <span>Tamper-Proof Protection Active</span>
+                </div>
+              </div>
+
+              {/* Locked Information Cards */}
+              <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                <div className="rounded-xl border border-border bg-background/60 p-3.5 flex flex-col justify-between">
+                  <div>
+                    <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block flex items-center gap-1">
+                      <Lock className="h-2.5 w-2.5 text-gold" />
+                      PhonePe Donation Number:
+                    </span>
+                    <p className="mt-1 font-mono text-sm font-black text-foreground">{TEMPLE_CONFIG.PHONEPE_NUMBER}</p>
+                  </div>
+                  <span className="mt-2 text-[10px] font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+                    <CheckCircle2 className="h-3 w-3" /> శాశ్వతంగా లాక్ చేయబడింది
+                  </span>
+                </div>
+
+                <div className="rounded-xl border border-border bg-background/60 p-3.5 flex flex-col justify-between">
+                  <div>
+                    <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block flex items-center gap-1">
+                      <Lock className="h-2.5 w-2.5 text-gold" />
+                      UPI ID (VPA):
+                    </span>
+                    <p className="mt-1 font-mono text-sm font-bold text-foreground">{TEMPLE_CONFIG.UPI_ID}</p>
+                  </div>
+                  <span className="mt-2 text-[10px] font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+                    <CheckCircle2 className="h-3 w-3" /> డైరెక్ట్ ట్రస్ట్ బ్యాంక్ ఖాతా
+                  </span>
+                </div>
+
+                <div className="rounded-xl border border-border bg-background/60 p-3.5 flex flex-col justify-between">
+                  <div>
+                    <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block flex items-center gap-1">
+                      <Lock className="h-2.5 w-2.5 text-gold" />
+                      Primary WhatsApp:
+                    </span>
+                    <p className="mt-1 font-mono text-sm font-bold text-foreground">{TEMPLE_CONFIG.PHONE_PRIMARY}</p>
+                  </div>
+                  <span className="mt-2 text-[10px] font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+                    <CheckCircle2 className="h-3 w-3" /> రసీదులు & సంప్రదింపులు
+                  </span>
+                </div>
+
+                <div className="rounded-xl border border-border bg-background/60 p-3.5 flex flex-col justify-between">
+                  <div>
+                    <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block flex items-center gap-1">
+                      <Lock className="h-2.5 w-2.5 text-gold" />
+                      Secondary Phone:
+                    </span>
+                    <p className="mt-1 font-mono text-sm font-bold text-foreground">{TEMPLE_CONFIG.PHONE_SECONDARY}</p>
+                  </div>
+                  <span className="mt-2 text-[10px] font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+                    <CheckCircle2 className="h-3 w-3" /> ఆలయ అర్చకులు & పాలన
+                  </span>
+                </div>
               </div>
             </div>
 

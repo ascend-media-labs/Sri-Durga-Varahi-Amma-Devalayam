@@ -1,7 +1,9 @@
 import { useState, type ReactNode } from "react";
-import { CalendarDays, Clock, Flower2, Mail, MapPin, MessageSquare, Phone, Send, Sparkles, X } from "lucide-react";
+import { CalendarDays, Clock, Flower2, HeartHandshake, Mail, MapPin, MessageSquare, Phone, Send, Sparkles, X } from "lucide-react";
 import { useLang } from "@/lib/i18n";
+import { useNav } from "@/lib/navContext";
 import { useTempleStore } from "@/lib/templeStore";
+import { TEMPLE_CONFIG } from "@/lib/constants/templeConfig";
 import { WhatsAppIcon } from "./Footer";
 import temple from "@/assets/hero-temple.jpg";
 import goddess from "@/assets/hero-goddess.jpg";
@@ -80,7 +82,7 @@ export function About() {
               <span className="h-1.5 w-1.5 rotate-45 bg-primary" />
               <span className="h-0.5 w-6 bg-gold/60" />
             </div>
-            <p className="font-serif text-sm sm:text-base lg:text-lg leading-relaxed text-foreground/90 text-justify">
+            <p className="font-serif text-sm sm:text-base lg:text-lg leading-relaxed text-foreground/90 text-left sm:text-justify">
               {t.aboutText}
             </p>
             <ul className="mt-3.5 space-y-2 text-xs sm:text-sm lg:text-base font-medium text-foreground/85">
@@ -110,7 +112,7 @@ export function History() {
           {t.history.map((h) => (
             <div key={h.year} className="temple-border rounded-xl bg-card p-3.5 sm:p-4 text-center shadow-temple">
               <p className="font-display text-base sm:text-lg font-bold text-primary">{h.year}</p>
-              <p className="mt-1.5 text-xs sm:text-sm text-muted-foreground leading-relaxed text-justify">{h.text}</p>
+              <p className="mt-1.5 text-xs sm:text-sm text-muted-foreground leading-relaxed text-left sm:text-justify">{h.text}</p>
             </div>
           ))}
         </div>
@@ -224,9 +226,9 @@ export function Pujas() {
                     <p className="mt-0.5 text-xs sm:text-sm font-bold text-foreground">{ev.organizer}</p>
                     <p className="text-xs text-primary font-semibold mt-0.5 flex flex-wrap items-center gap-1">
                       <span>సెల్ / Phone:</span>
-                      <a href="tel:8919418447" className="hover:underline font-bold">+91 89194 18447</a>
+                      <a href={`tel:${TEMPLE_CONFIG.WHATSAPP_NUMBER}`} className="hover:underline font-bold">{TEMPLE_CONFIG.PHONE_PRIMARY}</a>
                       <span className="text-muted-foreground">,</span>
-                      <a href="tel:9642749187" className="hover:underline font-bold">+91 96427 49187</a>
+                      <a href={`tel:${TEMPLE_CONFIG.PHONE_SECONDARY.replace(/[^0-9]/g, "").slice(-10)}`} className="hover:underline font-bold">{TEMPLE_CONFIG.PHONE_SECONDARY}</a>
                     </p>
                   </div>
                 </div>
@@ -234,17 +236,17 @@ export function Pujas() {
                 {/* Call & Book Buttons */}
                 <div className="pt-1 flex flex-wrap gap-2">
                   <a
-                    href="tel:8919418447"
+                    href={`tel:${TEMPLE_CONFIG.WHATSAPP_NUMBER}`}
                     className="flex-1 min-w-[110px] inline-flex items-center justify-center gap-1.5 rounded-full bg-primary py-1.5 px-3 text-center text-xs font-semibold text-primary-foreground transition hover:opacity-95 shadow-xs"
-                    title="Call 8919418447"
+                    title={`Call ${TEMPLE_CONFIG.PHONE_PRIMARY}`}
                   >
                     <Phone className="h-3.5 w-3.5" />
                     <span>89194 18447</span>
                   </a>
                   <a
-                    href="tel:9642749187"
+                    href={`tel:${TEMPLE_CONFIG.PHONE_SECONDARY.replace(/[^0-9]/g, "").slice(-10)}`}
                     className="flex-1 min-w-[110px] inline-flex items-center justify-center gap-1.5 rounded-full bg-primary py-1.5 px-3 text-center text-xs font-semibold text-primary-foreground transition hover:opacity-95 shadow-xs"
-                    title="Call 9642749187"
+                    title={`Call ${TEMPLE_CONFIG.PHONE_SECONDARY}`}
                   >
                     <Phone className="h-3.5 w-3.5" />
                     <span>96427 49187</span>
@@ -289,13 +291,7 @@ export function Pujas() {
                   <Clock className="h-3 w-3 text-gold" />
                   {p.time}
                 </p>
-                <p className="mt-1 flex-1 text-xs leading-relaxed text-muted-foreground text-justify">{displayDesc}</p>
-                <a
-                  href="#contact"
-                  className="mt-3 rounded-full border border-primary py-1 text-center text-xs font-bold text-primary transition-all duration-200 group-hover:bg-primary group-hover:text-primary-foreground group-hover:shadow-sm active:scale-95 cursor-pointer"
-                >
-                  {t.bookNow}
-                </a>
+                <p className="mt-1 flex-1 text-xs leading-relaxed text-muted-foreground text-left sm:text-justify">{displayDesc}</p>
               </div>
             );
           })}
@@ -378,28 +374,28 @@ export function Gallery() {
       {/* Lightbox Modal with Premium Open Transition */}
       {activeImg && (
         <div
-          className="fixed inset-0 z-50 grid place-items-center bg-black/85 p-4 backdrop-blur-md animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 grid place-items-center bg-black/85 p-3 sm:p-4 backdrop-blur-md animate-in fade-in duration-200 overflow-y-auto"
           onClick={() => setActiveImg(null)}
         >
           <div
-            className="relative max-w-2xl w-full rounded-2xl border-2 border-gold/80 bg-maroon p-4 text-center shadow-2xl animate-modal-in"
+            className="relative max-w-2xl w-full max-h-[92vh] overflow-y-auto rounded-2xl border-2 border-gold/80 bg-maroon p-3.5 sm:p-5 text-center shadow-2xl animate-modal-in my-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <button
               onClick={() => setActiveImg(null)}
-              className="absolute top-3 right-3 grid h-9 w-9 place-items-center rounded-full bg-black/60 text-gold hover:bg-gold hover:text-maroon transition-all duration-200 hover:scale-110 active:scale-90 cursor-pointer shadow-md"
+              className="absolute top-3 right-3 grid h-9 w-9 place-items-center rounded-full bg-black/60 text-gold hover:bg-gold hover:text-maroon transition-all duration-200 hover:scale-110 active:scale-90 cursor-pointer shadow-md z-10"
             >
               <X className="h-5 w-5" />
             </button>
-            <div className="overflow-hidden rounded-xl border border-gold/40 max-h-[75vh] flex items-center justify-center bg-black/40 shadow-inner">
+            <div className="overflow-hidden rounded-xl border border-gold/40 max-h-[65vh] sm:max-h-[75vh] flex items-center justify-center bg-black/40 shadow-inner">
               <img
                 src={activeImg.src}
                 alt={activeImg.title}
-                className="max-h-[75vh] w-auto object-contain mx-auto"
+                className="max-h-[65vh] sm:max-h-[75vh] w-auto object-contain mx-auto"
               />
             </div>
-            <div className="mt-4">
-              <h4 className="font-display text-lg font-bold text-gold">{activeImg.title}</h4>
+            <div className="mt-3.5 sm:mt-4">
+              <h4 className="font-display text-base sm:text-lg font-bold text-gold">{activeImg.title}</h4>
               <p className="text-xs sm:text-sm text-primary-foreground/80 mt-1">{activeImg.desc}</p>
             </div>
           </div>
@@ -411,6 +407,7 @@ export function Gallery() {
 
 export function Prasadam() {
   const { t, lang } = useLang();
+  const { openDonation } = useNav();
   const { prasadams, annadanamInfo } = useTempleStore();
   const availablePrasadams = prasadams.filter((p) => p.isAvailable);
 
@@ -432,8 +429,8 @@ export function Prasadam() {
             />
           </div>
           <div>
-            <p className="font-serif text-sm sm:text-base lg:text-lg leading-relaxed text-foreground text-justify">{mainPrasadamText}</p>
-            <div className="mt-4 grid grid-cols-2 gap-2.5">
+            <p className="font-serif text-sm sm:text-base lg:text-lg leading-relaxed text-foreground text-left sm:text-justify">{mainPrasadamText}</p>
+            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               {availablePrasadams.map((p) => {
                 const displayName = lang === "te" ? (p.nameTe || p.name) : p.name;
                 const displayDesc = lang === "te" ? (p.descTe || p.desc) : p.desc;
@@ -444,6 +441,32 @@ export function Prasadam() {
                   </div>
                 );
               })}
+            </div>
+
+            {/* Quick Annadanam Donation Banner */}
+            <div className="mt-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 rounded-xl border border-gold/40 bg-card/80 p-3.5 shadow-xs">
+              <div className="flex items-center gap-2.5">
+                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-saffron text-white shadow-xs">
+                  <HeartHandshake className="h-5 w-5" />
+                </span>
+                <div>
+                  <p className="text-xs sm:text-sm font-bold text-primary">
+                    {lang === "te" ? "నిత్య అన్నదాన కైంకర్య విరాళం" : "Support Daily Annadanam (Donations)"}
+                  </p>
+                  <p className="text-[10px] sm:text-[11px] text-muted-foreground">
+                    {lang === "te"
+                      ? "PhonePe, Google Pay, లేదా Paytm ద్వారా విరాళం సమర్పించండి."
+                      : "Donate directly via PhonePe, Google Pay, Paytm, or UPI."}
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => openDonation("501")}
+                className="shrink-0 self-stretch sm:self-auto rounded-full bg-saffron px-4 py-2 text-xs font-bold text-white shadow-md ring-1 ring-gold/70 hover:scale-105 active:scale-95 transition cursor-pointer text-center"
+              >
+                {lang === "te" ? "విరాళం ఇవ్వండి" : "Donate Now"}
+              </button>
             </div>
           </div>
         </div>
@@ -523,12 +546,12 @@ export function Contact() {
                   <div className="text-xs sm:text-sm">
                     <p className="text-muted-foreground">{c.queriesText}</p>
                     <p className="mt-1 font-bold text-foreground tracking-wide flex flex-wrap items-center gap-1.5">
-                      <a href="tel:8919418447" className="hover:text-primary transition-colors underline decoration-gold/50 underline-offset-2">
-                        +91 89194 18447
+                      <a href={`tel:${TEMPLE_CONFIG.WHATSAPP_NUMBER}`} className="hover:text-primary transition-colors underline decoration-gold/50 underline-offset-2">
+                        {TEMPLE_CONFIG.PHONE_PRIMARY}
                       </a>
                       <span className="text-muted-foreground font-normal">/</span>
-                      <a href="tel:9642749187" className="hover:text-primary transition-colors underline decoration-gold/50 underline-offset-2">
-                        +91 96427 49187
+                      <a href={`tel:${TEMPLE_CONFIG.PHONE_SECONDARY.replace(/[^0-9]/g, "").slice(-10)}`} className="hover:text-primary transition-colors underline decoration-gold/50 underline-offset-2">
+                        {TEMPLE_CONFIG.PHONE_SECONDARY}
                       </a>
                     </p>
                     <p className="text-muted-foreground mt-0.5 font-medium">{c.fax}</p>
@@ -544,12 +567,12 @@ export function Contact() {
                   <div className="text-xs sm:text-sm pt-0.5">
                     <p className="text-muted-foreground">{lang === "te" ? "వాట్సాప్ ద్వారా సంప్రదించండి" : "WhatsApp Inquiry / Support"}</p>
                     <a
-                      href="https://wa.me/918919418447"
+                      href={`https://wa.me/91${TEMPLE_CONFIG.WHATSAPP_NUMBER}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="mt-1 inline-flex items-center gap-2 font-bold text-emerald-700 dark:text-emerald-400 hover:underline"
                     >
-                      <span className="underline decoration-emerald-500/50 underline-offset-2">+91 89194 18447</span>
+                      <span className="underline decoration-emerald-500/50 underline-offset-2">{TEMPLE_CONFIG.PHONE_PRIMARY}</span>
                       <span className="text-[10.5px] bg-[#25D366] text-white px-2.5 py-0.5 rounded-full font-bold shadow-2xs hover:brightness-110 flex items-center gap-1">
                         Chat on WhatsApp
                       </span>

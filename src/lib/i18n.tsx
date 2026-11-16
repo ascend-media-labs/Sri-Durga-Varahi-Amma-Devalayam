@@ -30,7 +30,7 @@ const dict = {
       { title: "Sanctum Sanctorum – Pisini", tag: "Divine abode of blessings, spiritual strength and peace in Srikakulam" },
       { title: "Navaratri & Nitya Deeparadhana", tag: "Grand Navaratri celebrations, kumkuma archana and daily annadanam" },
     ],
-    bookPuja: "Book Puja",
+    bookPuja: "Daily Sevas",
     explore: "Explore Temple",
     aboutTitle: "About Sri Durga Varahi Amma",
     aboutText:
@@ -66,7 +66,7 @@ const dict = {
       organizer: "S. Krishnaveni",
       phone: "+91 89194 18447, +91 96427 49187",
       callButton: "Call Now",
-      enquireButton: "Enquire / Book Puja",
+      enquireButton: "Contact for Inquiries",
     },
     regularPujasTitle: "Daily & Monthly Sevas",
     pujas: [
@@ -75,7 +75,7 @@ const dict = {
       { name: "Kumkum Archana", time: "Daily · 10:00 AM", desc: "Recitation of 108 names with kumkum offerings." },
       { name: "Ashada Navaratri", time: "Annual · June–July", desc: "Nine-day grand festival dedicated to Varahi Amma." },
     ],
-    bookNow: "Book Now",
+    bookNow: "Seva Details",
     templeTitle: "Temple Gallery",
     gallerySub: "Divine alankarams and sacred moments of Sri Varahi Devi at Pisini Temple",
     galleryItems: [
@@ -104,7 +104,7 @@ const dict = {
       { title: "Moola Mantra", text: "Om Hreem Varahi Namaha", meaning: "Simple daily chant for protection and strength." },
     ],
     contactTitle: "Visit & Contact",
-    contactText: "Reach out for puja bookings, donations or any devotional assistance.",
+    contactText: "Reach out for donations, seva timings or any devotional assistance.",
     contactSection: {
       getInTouch: "Get in touch",
       officerTitle: "The Executive Officer,",
@@ -131,7 +131,7 @@ const dict = {
       contactType: "Contact Type",
       selectContactType: "Select",
       contactTypeHelper: "Please select a contact type.",
-      contactTypes: ["Devotee / General", "Puja Booking", "Donation / Annadanam", "Seva Inquiry", "Other"],
+      contactTypes: ["Devotee / General", "Donation / Annadanam", "Seva Timings & Inquiry", "Other"],
       service: "Service",
       selectService: "Select Service",
       serviceHelper: "Please select a service.",
@@ -186,7 +186,7 @@ const dict = {
       { title: "పిసిని పవిత్ర గర్భాలయ దర్శనం", tag: "శ్రీకాకుళం జిల్లా రణస్థలం మండలంలో భక్తి, ప్రశాంతత నిలయం" },
       { title: "నవరాత్రి వేడుకలు & నిత్య దీపారాధన", tag: "ఘనంగా నవరాత్రి ఉత్సవాలు, కుంకుమార్చనలు మరియు నిత్య అన్నదానం" },
     ],
-    bookPuja: "పూజ బుక్ చేయండి",
+    bookPuja: "నిత్య సేవలు",
     explore: "ఆలయాన్ని చూడండి",
     aboutTitle: "శ్రీ దుర్గా వారాహి అమ్మవారి విశిష్టత",
     aboutText:
@@ -231,7 +231,7 @@ const dict = {
       { name: "కుంకుమ అర్చన", time: "ప్రతిరోజు · ఉదయం 10:00", desc: "కుంకుమతో అష్టోత్తర శతనామ అర్చన." },
       { name: "ఆషాఢ నవరాత్రులు", time: "వార్షికం · జూన్–జూలై", desc: "వారాహి అమ్మకు తొమ్మిది రోజుల మహోత్సవం." },
     ],
-    bookNow: "బుక్ చేయండి",
+    bookNow: "సేవా వివరాలు",
     templeTitle: "ఆలయ చిత్రమాల",
     gallerySub: "పిసిని ఆలయంలో శ్రీ వారాహి అమ్మవారి వివిధ దివ్యాలంకారాలు & దర్శనాలు",
     galleryItems: [

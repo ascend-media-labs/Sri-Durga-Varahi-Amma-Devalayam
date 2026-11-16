@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import {
   BookOpen,
   CalendarDays,
+  HeartHandshake,
   Home,
   Image,
   Landmark,
@@ -37,7 +38,7 @@ const navIcons = {
 
 export function Navbar() {
   const { t, lang, setLang } = useLang();
-  const { activeTab, setActiveTab } = useNav();
+  const { activeTab, setActiveTab, openDonation } = useNav();
   const [open, setOpen] = useState(false);
 
   const navRef = useRef<HTMLElement>(null);
@@ -96,15 +97,28 @@ export function Navbar() {
               <span>{t.noticeText}</span>
             </span>
             <span className="text-gold/50">✦</span>
-            <span className="flex items-center gap-2">
-              <span className="text-gold font-bold">✨</span>
-              <span>{t.noticeText}</span>
-            </span>
+            <button
+              type="button"
+              onClick={() => openDonation()}
+              className="inline-flex items-center gap-1 text-amber-200 hover:text-white font-bold cursor-pointer transition-colors underline decoration-gold/60 underline-offset-2"
+            >
+              <span>🙏</span>
+              <span>{lang === "te" ? "నిత్య అన్నదాన కైంకర్య విరాళాలు (PhonePe / UPI: 7569386212) ➔" : "Support Temple Annadanam (PhonePe / UPI: 7569386212) ➔"}</span>
+            </button>
             <span className="text-gold/50">✦</span>
             <span className="flex items-center gap-2">
               <span className="text-gold font-bold">✨</span>
               <span>{t.noticeText}</span>
             </span>
+            <span className="text-gold/50">✦</span>
+            <button
+              type="button"
+              onClick={() => openDonation()}
+              className="inline-flex items-center gap-1 text-amber-200 hover:text-white font-bold cursor-pointer transition-colors underline decoration-gold/60 underline-offset-2"
+            >
+              <span>🙏</span>
+              <span>{lang === "te" ? "నిత్య అన్నదాన కైంకర్య విరాళాలు (PhonePe / UPI: 7569386212) ➔" : "Support Temple Annadanam (PhonePe / UPI: 7569386212) ➔"}</span>
+            </button>
             <span className="text-gold/50">✦</span>
           </div>
         </div>
@@ -117,22 +131,22 @@ export function Navbar() {
         <button
           type="button"
           onClick={() => setActiveTab("home")}
-          className="group flex items-center gap-1.5 sm:gap-2 lg:gap-1.5 xl:gap-2.5 2xl:gap-3 shrink-0 transition-all duration-200 hover:scale-[1.01] active:scale-95 text-left cursor-pointer"
+          className="group flex items-center gap-1.5 sm:gap-2 lg:gap-1.5 xl:gap-2.5 2xl:gap-3 shrink min-w-0 transition-all duration-200 hover:scale-[1.01] active:scale-95 text-left cursor-pointer"
         >
           <span className="grid h-9 w-9 sm:h-10 sm:w-10 lg:h-8.5 lg:w-8.5 xl:h-11 xl:w-11 2xl:h-12 2xl:w-12 place-items-center rounded-full bg-saffron font-display text-base sm:text-lg lg:text-base xl:text-xl 2xl:text-2xl text-primary-foreground shadow-temple ring-2 ring-gold/70 shrink-0 transition-all duration-300 group-hover:rotate-6 group-hover:shadow-[0_0_20px_rgba(234,179,8,0.4)]">
             ॐ
           </span>
-          <div className="flex flex-col text-left">
-            <span className="font-serif text-[8px] sm:text-[9px] lg:text-[7.5px] xl:text-[9.5px] 2xl:text-[11px] font-bold tracking-[0.05em] xl:tracking-[0.14em] text-amber-700 dark:text-gold uppercase leading-tight">
+          <div className="flex flex-col text-left min-w-0">
+            <span className="font-serif text-[7.5px] sm:text-[9px] lg:text-[7.5px] xl:text-[9.5px] 2xl:text-[11px] font-bold tracking-[0.04em] xl:tracking-[0.14em] text-amber-700 dark:text-gold uppercase leading-tight truncate">
               {t.templeLine1}
             </span>
-            <span className="font-display text-[11px] sm:text-xs lg:text-[10.5px] xl:text-sm 2xl:text-base font-extrabold tracking-tight xl:tracking-wider text-primary uppercase leading-tight mt-0.5 whitespace-nowrap">
+            <span className="font-display text-[10.5px] sm:text-xs lg:text-[10.5px] xl:text-sm 2xl:text-base font-extrabold tracking-tight xl:tracking-wider text-primary uppercase leading-tight mt-0.5 whitespace-nowrap">
               {t.templeLine2}
             </span>
-            <div className="flex items-center gap-1 text-[7px] sm:text-[7.5px] lg:text-[6.5px] xl:text-[8.5px] 2xl:text-[9.5px] font-semibold tracking-[0.05em] xl:tracking-[0.14em] text-amber-800/80 dark:text-gold/90 uppercase leading-none mt-0.5">
-              <span className="h-px w-2 sm:w-2.5 bg-gold/80" />
-              <span>{t.templeLocation}</span>
-              <span className="h-px w-2 sm:w-2.5 bg-gold/80" />
+            <div className="flex items-center gap-1 text-[6.5px] sm:text-[7.5px] lg:text-[6.5px] xl:text-[8.5px] 2xl:text-[9.5px] font-semibold tracking-[0.04em] xl:tracking-[0.14em] text-amber-800/80 dark:text-gold/90 uppercase leading-none mt-0.5">
+              <span className="h-px w-2 sm:w-2.5 bg-gold/80 shrink-0" />
+              <span className="truncate">{t.templeLocation}</span>
+              <span className="h-px w-2 sm:w-2.5 bg-gold/80 shrink-0" />
             </div>
           </div>
         </button>
@@ -175,8 +189,37 @@ export function Navbar() {
           })}
         </nav>
 
-        {/* Right CTA / Dual Language Selector */}
-        <div className="hidden items-center lg:flex shrink-0">
+        {/* Right CTA / Dual Language Selector & Premium Devotional Donate */}
+        <div className="hidden items-center gap-2 xl:gap-3 lg:flex shrink-0">
+          {/* Royal Golden Temple Donation CTA Button */}
+          <button
+            type="button"
+            onClick={() => openDonation()}
+            className="relative group overflow-hidden flex items-center gap-2 rounded-full bg-gradient-to-r from-amber-600 via-saffron to-amber-700 px-3 py-1.5 xl:px-4 xl:py-2 shadow-[0_2px_14px_rgba(217,119,6,0.4)] ring-2 ring-gold hover:ring-amber-300 hover:shadow-[0_0_24px_rgba(234,179,8,0.7)] hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
+            title={lang === "te" ? "శ్రీ దుర్గా వారాహి అమ్మవారి ఆలయ విరాళ సమర్పణ (PhonePe / Google Pay / UPI)" : "Donate to Sri Durga Varahi Temple via PhonePe / GPay / Any UPI"}
+          >
+            {/* Shimmer Sheen Reflection Effect */}
+            <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12 pointer-events-none" />
+
+            {/* Glowing Golden Emblem */}
+            <span className="grid h-6 w-6 xl:h-7 xl:w-7 place-items-center rounded-full bg-black/25 ring-1 ring-gold/90 text-gold shadow-inner group-hover:rotate-12 transition-transform">
+              <HeartHandshake className="h-3.5 w-3.5 xl:h-4 xl:w-4 text-gold animate-pulse" />
+            </span>
+
+            {/* Dual Line Royal Devotional Typography */}
+            <div className="flex flex-col text-left leading-none pr-0.5">
+              <span className="text-[8px] xl:text-[9.5px] font-bold text-amber-100 uppercase tracking-widest flex items-center gap-1">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-ping inline-block" />
+                <span>{lang === "te" ? "అన్నదానం • కానుకలు" : "OFFERINGS • UPI"}</span>
+              </span>
+              <span className="text-xs xl:text-[13.5px] font-black tracking-wide text-white drop-shadow-sm mt-0.5 whitespace-nowrap">
+                {lang === "te" ? "విరాళం (Donate)" : "Donate (విరాళాలు)"}
+              </span>
+            </div>
+
+            <Sparkles className="h-3.5 w-3.5 text-gold/90 group-hover:scale-125 transition-transform shrink-0" />
+          </button>
+
           <div
             className="inline-flex items-center rounded-full border border-primary/30 bg-primary/5 p-0.5 xl:p-1 shadow-xs select-none"
             role="group"
@@ -214,14 +257,40 @@ export function Navbar() {
           </div>
         </div>
 
-        {/* Mobile Hamburger Button */}
-        <button
-          className="grid h-10 w-10 place-items-center rounded-lg border border-border text-primary transition-all duration-200 hover:bg-secondary active:scale-90 lg:hidden cursor-pointer"
-          onClick={() => setOpen(!open)}
-          aria-label="Menu"
-        >
-          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
+        {/* Mobile Header Right Actions: Premium Devotional Donate + Hamburger */}
+        <div className="flex items-center gap-1.5 sm:gap-2 lg:hidden">
+          <button
+            type="button"
+            onClick={() => openDonation()}
+            className="relative group overflow-hidden flex items-center gap-1.5 rounded-full bg-gradient-to-r from-amber-600 via-saffron to-amber-700 px-2.5 py-1.5 sm:px-3 sm:py-1.5 text-xs font-black text-white shadow-[0_2px_10px_rgba(217,119,6,0.45)] ring-2 ring-gold hover:ring-amber-300 active:scale-95 transition-all cursor-pointer"
+            title={lang === "te" ? "ఆలయ విరాళ సమర్పణ (PhonePe / UPI)" : "Donate to Temple via PhonePe / UPI"}
+          >
+            {/* Shimmer sweep */}
+            <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12 pointer-events-none" />
+
+            <span className="grid h-5 w-5 place-items-center rounded-full bg-black/25 text-gold ring-1 ring-gold/80 shadow-inner">
+              <HeartHandshake className="h-3 w-3 text-gold animate-pulse" />
+            </span>
+            <div className="flex flex-col text-left leading-none">
+              <span className="text-[7px] font-bold text-amber-100 uppercase tracking-widest flex items-center gap-0.5">
+                <span className="h-1 w-1 rounded-full bg-emerald-400 inline-block" />
+                <span>UPI</span>
+              </span>
+              <span className="text-[11.5px] font-black tracking-tight text-white whitespace-nowrap">
+                {lang === "te" ? "విరాళం" : "Donate"}
+              </span>
+            </div>
+            <Sparkles className="h-3 w-3 text-gold shrink-0" />
+          </button>
+
+          <button
+            className="grid h-10 w-10 place-items-center rounded-lg border border-border text-primary transition-all duration-200 hover:bg-secondary active:scale-90 cursor-pointer"
+            onClick={() => setOpen(!open)}
+            aria-label="Menu"
+          >
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Dropdown Menu */}
@@ -256,7 +325,39 @@ export function Navbar() {
             })}
           </div>
 
-          <div className="mt-4 border-t border-border pt-3">
+          {/* Mobile Menu Premium Devotional Donate */}
+          <div className="mt-3">
+            <button
+              type="button"
+              onClick={() => {
+                setOpen(false);
+                openDonation();
+              }}
+              className="relative group overflow-hidden w-full flex items-center justify-between gap-3 rounded-2xl bg-gradient-to-r from-amber-600 via-saffron to-amber-700 p-3.5 text-sm font-black text-white shadow-xl ring-2 ring-gold hover:brightness-110 active:scale-98 transition-all cursor-pointer"
+            >
+              {/* Shimmer sweep */}
+              <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12 pointer-events-none" />
+
+              <div className="flex items-center gap-3">
+                <span className="grid h-10 w-10 place-items-center rounded-xl bg-black/25 text-gold ring-1 ring-gold/90 shadow-inner shrink-0">
+                  <HeartHandshake className="h-5 w-5 text-gold animate-pulse" />
+                </span>
+                <div className="text-left leading-tight">
+                  <span className="text-[10px] font-bold text-amber-100 uppercase tracking-widest flex items-center gap-1.5">
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-ping inline-block" />
+                    <span>PhonePe • Google Pay • Paytm • UPI</span>
+                  </span>
+                  <span className="text-sm font-black text-white mt-1 block">
+                    {lang === "te" ? "శ్రీ దుర్గా వారాహి ఆలయ విరాళ సమర్పణ" : "Devotional Offerings & Donations"}
+                  </span>
+                </div>
+              </div>
+
+              <Sparkles className="h-5 w-5 text-gold shrink-0" />
+            </button>
+          </div>
+
+          <div className="mt-3 border-t border-border pt-3">
             <div className="flex items-center justify-between rounded-full border border-primary/30 bg-primary/5 p-1">
               <div className="flex items-center gap-2 pl-3 text-gold">
                 <Languages className="h-4 w-4" />

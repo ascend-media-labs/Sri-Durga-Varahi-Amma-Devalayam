@@ -5,6 +5,10 @@ export type NavSection = "home" | "history" | "puja" | "gallery" | "prasadam" | 
 interface NavContextType {
   activeTab: NavSection;
   setActiveTab: (tab: NavSection) => void;
+  donationOpen: boolean;
+  setDonationOpen: (open: boolean) => void;
+  presetAmount: string;
+  openDonation: (amount?: string) => void;
 }
 
 const VALID_TABS: NavSection[] = ["home", "history", "puja", "gallery", "prasadam", "info", "contact"];
@@ -12,6 +16,10 @@ const VALID_TABS: NavSection[] = ["home", "history", "puja", "gallery", "prasada
 const NavContext = createContext<NavContextType>({
   activeTab: "home",
   setActiveTab: () => {},
+  donationOpen: false,
+  setDonationOpen: () => {},
+  presetAmount: "501",
+  openDonation: () => {},
 });
 
 export function NavProvider({ children }: { children: ReactNode }) {
@@ -20,6 +28,16 @@ export function NavProvider({ children }: { children: ReactNode }) {
     const initialHash = window.location.hash.replace("#", "") as NavSection;
     return VALID_TABS.includes(initialHash) ? initialHash : "home";
   });
+
+  const [donationOpen, setDonationOpen] = useState(false);
+  const [presetAmount, setPresetAmount] = useState<string>("501");
+
+  const openDonation = (amount?: string) => {
+    if (amount) {
+      setPresetAmount(amount);
+    }
+    setDonationOpen(true);
+  };
 
   const isClickScrollingRef = useRef(false);
   const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -153,7 +171,16 @@ export function NavProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <NavContext.Provider value={{ activeTab, setActiveTab }}>
+    <NavContext.Provider
+      value={{
+        activeTab,
+        setActiveTab,
+        donationOpen,
+        setDonationOpen,
+        presetAmount,
+        openDonation,
+      }}
+    >
       {children}
     </NavContext.Provider>
   );
